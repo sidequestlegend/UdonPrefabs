@@ -250,7 +250,17 @@ export class Ball extends Behaviour {
   private ThrowStrengthCheck(): void {
     if (!this._charging) return;
     this._throwStrengthPercent = (this.Time.time - this._keyDownStart) / MAX_MOUSE_DOWN_THROW_TIME;
-    this._strengthIndicatorDesktop?.SetFloat("_Strength", this._throwStrengthPercent);
+    this.ShowStrength(this._throwStrengthPercent);
+  }
+
+  /**
+   * The desktop charge bar (upstream: a screen-space quad with its own shader, StrengthIndicator.shader). Here a small
+   * bar by the ball, drawn with URP's Unlit shader and alpha clipping: its texture's alpha falls from 1 to 0 left to
+   * right, so a clip threshold of 1 - charge shows the left `charge` of it. Hidden below 1 %, as upstream (:27-35).
+   */
+  private ShowStrength(strength: number): void {
+    const cutoff = strength < 0.01 ? 1.01 : 1 - Math.min(1, strength);
+    this._strengthIndicatorDesktop?.SetFloat("_Cutoff", cutoff);
   }
 
   override OnKeyPressed(key: string): void {
@@ -479,7 +489,7 @@ export class Ball extends Behaviour {
       this._start_velocity = this._releaseVelocity.scale(this._throwVelocityMultiplierVR);
     } else {
       const strength = Math.min(MAX_THROW_STRENGTH, this._throwStrengthPercent * MAX_THROW_STRENGTH);
-      this._strengthIndicatorDesktop?.SetFloat("_Strength", 0);
+      this.ShowStrength(0);
       this._start_velocity = this.transform.rotation.rotate(Vector3.forward).scale(strength * this._throwVelocityMultiplierDekstop);
     }
     this._throwStrengthPercent = 0;

@@ -2,14 +2,15 @@
 //
 // Upstream sets a few things in editor post-processes that the prefab relies on: `UdonBehaviours` for inputs that
 // name a script type (singletons), `LinkedInputs` (lines 431-445) and `_clickSound`. Here `UdonBehaviours` comes from
-// bindings.json and `LinkedInputs` is worked out on first use with the same rule. The click sound and its haptic
-// pulse are left out (PORT.md item 93).
+// bindings.json and `LinkedInputs` is worked out on first use with the same rule. The click sound (a CC0 click in
+// place of upstream's click.mp3, whose origin is unknown) plays through the panel's own audio source, and in a headset
+// the hand that last clicked gets upstream's pulse (UI/ClickSound.cs:26-42, PORT.md item 93).
 //
 // A uGUI control's value reaches the page through the relay graph (`uiToggle` / `uiSlider`, bound in bindings.json
 // to OnValueChanged); the page sets a control with the kit's ops `uiSetToggle` / `uiSetSlider` (SetIsOnWithoutNotify,
 // SetValueWithoutNotify: nothing comes back).
 
-import { Behaviour, type AnimatorRef, type BehaviourClass } from "../portkit/src/index.ts";
+import { Behaviour, type AnimatorRef, type AudioClipRef, type AudioSourceRef, type BehaviourClass } from "../portkit/src/index.ts";
 import type { SimpleUISetterExtension } from "./SimpleUISetterExtension.ts";
 
 /** The bindings types of every SimpleUIInput subclass, for the editor-time searches done at run time. */
@@ -54,6 +55,9 @@ export abstract class SimpleUIInput extends Behaviour {
   EventName = "";
   /** The control's own Animator, when it has one ("isOn" for toggles). */
   animator: AnimatorRef | null = null;
+  /** The panel's click (upstream: the [Thry]ClickSound dependency's source and clip). */
+  clickSource: AudioSourceRef | null = null;
+  clickClip: AudioClipRef | null = null;
 
   private _linkedInputs: SimpleUIInput[] | null = null;
   private _isUdonTargetAvailable = false;
@@ -151,9 +155,18 @@ export abstract class SimpleUIInput extends Behaviour {
     }
 
     this.UpdateOptionals(true, true);
-    // PlayClick(): left out (item 93).
+    this.PlayClick();
 
     if (this._isEventTargetAvailable) for (const b of this.UdonBehaviours) b.SendCustomEvent(this.EventName);
+  }
+
+  /** SimpleUIInput.cs:176-182 and UI/ClickSound.cs:26-42: the click, and in a headset a pulse in the clicking hand. */
+  private PlayClick(): void {
+    if (this.clickSource && this.clickClip) this.clickSource.PlayOneShot(this.clickClip);
+    if (this._vibrationFeedback && this.Input.IsVR === true) {
+      const side = this.Input.LastClickSide;
+      if (side !== null) this.Input.Haptic(side, 0.8, 0.5);
+    }
   }
 
   /** SimpleUIInput.cs:162-174 */

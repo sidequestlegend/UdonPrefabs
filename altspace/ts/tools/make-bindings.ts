@@ -47,8 +47,10 @@ obj("beerPong", "", { ref: false });
 obj("table", "table");
 for (const n of [2, 3, 4]) obj(`table${n}`, `table/[ThryBP]${n}Players`);
 obj("splash", "SplashParticles");
-obj("strength", "Strength Indicator/Quad");
-for (let i = 0; i < 4; i++) obj(`ball${i}`, BALL_NAMES[i]!, { sync: "transform", grab: true });
+for (let i = 0; i < 4; i++) {
+  obj(`ball${i}`, BALL_NAMES[i]!, { sync: "transform", grab: true });
+  obj(`ball${i}Bar`, `${BALL_NAMES[i]}/StrengthBar`);
+}
 
 // ---- one side ----
 function side(s: number): void {
@@ -196,7 +198,7 @@ for (let i = 0; i < 4; i++) {
       _renderer: comp(`ball${i}`, "Renderer"),
       _splashParticles: comp("splash", "ParticleSystem"),
       _audioSource: comp(`ball${i}`, "AudioSource"),
-      _strengthIndicatorDesktop: comp("strength", "Renderer"),
+      _strengthIndicatorDesktop: comp(`ball${i}Bar`, "Renderer"),
       _audio_collision_table: { $clip: 0 },
       _audio_collision_glass: { $clip: 1 },
       _audio_water_splash: { $clip: 2 },

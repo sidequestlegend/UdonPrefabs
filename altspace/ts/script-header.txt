@@ -1,0 +1,4 @@
+Beer Pong for Altspace: a port of the beer pong table of Thryrallo's UdonPrefabs
+(https://github.com/Thryrallo/UdonPrefabs, MIT, Copyright (c) 2022 Thryrallo; table and cup art by TsunaMoo).
+Port source: https://github.com/sidequestlegend/UdonPrefabs (branch altspace). Includes the portkit runtime (MIT).
+Third-party notices: altspace/THIRD-PARTY-NOTICES.md in the port source.

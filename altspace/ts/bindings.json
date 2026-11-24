@@ -50,17 +50,17 @@
       "click": false,
       "seat": false
     },
-    "strength": {
-      "path": "BeerPong/Strength Indicator/Quad",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
     "ball0": {
       "path": "BeerPong/Ball",
       "sync": "transform",
       "grab": true,
+      "click": false,
+      "seat": false
+    },
+    "ball0Bar": {
+      "path": "BeerPong/Ball/StrengthBar",
+      "sync": "none",
+      "grab": false,
       "click": false,
       "seat": false
     },
@@ -71,6 +71,13 @@
       "click": false,
       "seat": false
     },
+    "ball1Bar": {
+      "path": "BeerPong/Ball (1)/StrengthBar",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
     "ball2": {
       "path": "BeerPong/Ball (2)",
       "sync": "transform",
@@ -78,10 +85,24 @@
       "click": false,
       "seat": false
     },
+    "ball2Bar": {
+      "path": "BeerPong/Ball (2)/StrengthBar",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
     "ball3": {
       "path": "BeerPong/Ball (3)",
       "sync": "transform",
       "grab": true,
+      "click": false,
+      "seat": false
+    },
+    "ball3Bar": {
+      "path": "BeerPong/Ball (3)/StrengthBar",
+      "sync": "none",
+      "grab": false,
       "click": false,
       "seat": false
     },
@@ -1744,11 +1765,14 @@
     "table3",
     "table4",
     "splash",
-    "strength",
     "ball0",
+    "ball0Bar",
     "ball1",
+    "ball1Bar",
     "ball2",
+    "ball2Bar",
     "ball3",
+    "ball3Bar",
     "p0",
     "p0score",
     "p0uiButton",
@@ -4157,7 +4181,7 @@
           "kind": "AudioSource"
         },
         "_strengthIndicatorDesktop": {
-          "$comp": "strength",
+          "$comp": "ball0Bar",
           "kind": "Renderer"
         },
         "_audio_collision_table": {
@@ -4195,7 +4219,7 @@
           "kind": "AudioSource"
         },
         "_strengthIndicatorDesktop": {
-          "$comp": "strength",
+          "$comp": "ball1Bar",
           "kind": "Renderer"
         },
         "_audio_collision_table": {
@@ -4233,7 +4257,7 @@
           "kind": "AudioSource"
         },
         "_strengthIndicatorDesktop": {
-          "$comp": "strength",
+          "$comp": "ball2Bar",
           "kind": "Renderer"
         },
         "_audio_collision_table": {
@@ -4271,7 +4295,7 @@
           "kind": "AudioSource"
         },
         "_strengthIndicatorDesktop": {
-          "$comp": "strength",
+          "$comp": "ball3Bar",
           "kind": "Renderer"
         },
         "_audio_collision_table": {

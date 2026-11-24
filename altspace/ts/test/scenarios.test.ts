@@ -461,7 +461,7 @@ test("desktop: holding the throw key charges the throw, letting go throws along 
   const bobs = bob.graph(SLUG).records.filter((r) => r.target === bindings.refs.indexOf("ball0").toString() && r.op.startsWith("rb"));
   assert.ok(bobs.length > 0 && bobs.every((r) => r.op === "rbVelocity" ? r.args.every((a) => Number(a) === 0) : r.args[0] === "1"),
     "other pages only ever keep the ball kinematic");
-  assert.ok(ann.graph(SLUG).floats.get("strength/_Strength") === "0", "the charge bar is cleared");
+  assert.equal(ann.graph(SLUG).floats.get("ball0Bar/_Cutoff"), "1.01", "the charge bar is cleared");
   assert.deepEqual(problems(world), []);
 });
 
