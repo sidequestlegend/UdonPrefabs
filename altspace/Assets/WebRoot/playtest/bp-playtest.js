@@ -396,12 +396,13 @@
         const v = debug().aimShoot(0);
         say("INFO", "round " + round + ": the AI's aimed throw from side " + side, v);
         let r = await settleThrow("round " + round, t.cups.slice(), 20000);
-        if (!r.hit) {
+        for (let fall = 0; fall < 3 && !r.hit; fall++) {
           // the aimed throw met a rim (physics): the ball let fall onto a cup instead, so the round has its hit
           await passTo(side);
           say("INFO", "round " + round + ": the ball held above a cup and let fall", await placeAboveAndWait());
           debug().dropThrow(0);
-          r = await settleThrow("round " + round + " (fall)", t.cups.slice(), 20000);
+          r = await settleThrow("round " + round + " (fall " + (fall + 1) + ")", t.cups.slice(), 20000);
+          if (!r.hit) say("INFO", "round " + round + ": the fall did not count; cup contacts", debug().contactTrace(0).slice(-3).join(" ; ") + "; body " + (await ballInUnity(0)).text);
         }
         const afterNames = (await cupNames(target)).split(",").filter(Boolean);
         const gone = beforeNames.filter((n) => afterNames.indexOf(n) < 0);

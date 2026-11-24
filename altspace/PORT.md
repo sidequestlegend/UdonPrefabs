@@ -98,7 +98,7 @@ while charging, which only a desktop throw does).
   is not portable) is a small URP Unlit bar above each ball, alpha-clipped by `_Cutoff`. The splash: one burst of 20
   (Ball.cs:186-189), particles living 1 s instead of 2 (they are under the table by then; the kit's bounds stay tight).
 - Removed from the kit: the reflection probe, the throw indicator, localisation objects, the screen-space strength bar.
-- **Bundles**: Android 4,459 KiB, Windows 5,154 KiB, both PASS the app's kit check; graphs use 51 (relay) and 28 (ball)
+- **Bundles**: Android 4,462 KiB, Windows 5,165 KiB, both PASS the app's kit check; graphs use 51 (relay) and 28 (ball)
   members, all on the allow list.
 
 ### 0.4 Checklist status (101 items of section 2)
@@ -188,10 +188,13 @@ Kit gaps found (portkit not edited; each worked around here):
   haptics, sounds, frame time with 176 cups (each with its own material instances on three renderers), and whether the
   app's synced-object handoff behaves as the editor's mirror of it (the `bpLaunch` second step relies on it).
 - Whether the platform's `drop` comes before or after the graph's `bpRelease` in the app (both orders are handled).
-- Measured in Play mode: a moving physics ball's pose reaches the page about every frame (641 reports in 1.99 s,
-  longest gap 6.3 ms), but a ball at rest sends none (gaps of 0.7 to 4.3 s), so the page's own "still for 1 s" rule
+- Measured in Play mode: a moving physics ball's pose reaches the page about every frame (585 reports in 2.00 s,
+  longest gap 7.4 ms), but a ball at rest sends none (gaps of 0.7 to 4.3 s), so the page's own "still for 1 s" rule
   cannot see it: the ball graph reports `bpStill` and `bpLow` (both seen in the runs), and the page keeps its own checks
   too (the first to fire ends the throw).
+- In Local Multiplayer a let-fall twice ended as a still ball that never flew, right after the page took the ball over
+  (TESTS.md, rung 4): whether the SDK can keep a just-claimed synced body kinematic for a moment (its rest hold wakes on
+  the grant, not the request) and so swallow a throw made at once is open; the thrower's next attempt worked each time.
 - Aimed throws (the AI's, skill 1) often meet the rim of the cup in front of the target with a real 3 cm ball: upstream's
   aim maths assumes the ball's centre reaches the opening. Left as upstream; the AI may miss more than it did in VRChat.
 - Play mode covered Normal mode with 2 sides only; King of the Hill, Big Pong, Mayhem, 3 and 4 sides, teams, AI turns,

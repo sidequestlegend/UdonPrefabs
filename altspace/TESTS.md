@@ -1,6 +1,6 @@
 # beer-pong: test evidence
 
-Everything here ran on 2026-11-24 on Windows, Unity 6000.3.21f1, Creator SDK 4.0.29, in the Unity editor. Nothing ran
+Everything here ran on 2026-11-24 on Windows (the rung 3 and 4 runs quoted are the last ones, on the exported bundles), Unity 6000.3.21f1, Creator SDK 4.0.29, in the Unity editor. Nothing ran
 in the Altspace app, on a Quest, or with controllers (rung 5: not run; worlds stay Private).
 
 How to run each rung again:
@@ -75,7 +75,7 @@ DONE
 Kit: 868 objects, 254 bound (4 synced, 4 grabbable, 4 clickable), 245 refs, 93 behaviours, 124 events. Graphs: the
 relay (2,395 units, 51 distinct members; ops: the standard set plus `cupPlace`, `cupInside`, `bpLaunch`) and one ball
 graph per ball (`beer-pong_ball0..3`, 483 units, 28 distinct members), all members on the SDK allow list of 29,061.
-Bundles: Android 4,459 KiB, Windows 5,154 KiB, each with the third-party notices inside.
+Bundles: Android 4,462 KiB, Windows 5,165 KiB, each with the third-party notices inside.
 
 Artifacts (`PortKit/Kit/Export Artifacts`, `altspace/dist/`, not committed): `android/beer-pong`, `windows/beer-pong`,
 `pk-beer-pong.js` (MIT header), `beer-pong.jpg`, `beer-pong.snippet.html` (the game's 19 settings, `position="0 0 0"`),
@@ -98,24 +98,25 @@ PASS every cup the page made exists in Unity (spawned from the anchor's template
 PASS a cup of side 1 has side 1's colour on its LOD renderers (cupPlace): [ThryBP]Cup 1 7 0.745 0.000 0.218
 PASS the ball rests kinematic at side 0's spawn: True 0.000 0.000 0.000 0.552 0.852 0.339
 PASS the desktop key throw: grab the ball, hold F to charge (the bar fills), let go of F: the ball is thrown by its owner's physics:
-     held true, state Flying, charge bar cutoff while charging 0.363, body False -0.827 -1.177 3...
+     held true, state Flying, charge bar cutoff while charging 0.362, body False -0.807 -1.373 3.232 ...
 PASS the key throw ends (a hit, or a miss that passes the turn): a miss
 PASS a hit in a cup (the thrower's physics; the contact reported by the ball graph) removes that cup, in the page and in Unity:
-     the AI's aimed throw: side 1: 15 -> 14 cups; Unity lost [ThryBP]Cup 1 99; scores 2,0,0,0
-PASS the thrower's side scores, and its score plate shows it in Unity: scores 2,0,0,0, plate 0002
-PASS the table-edge button opens the side's settings panel (click on the UI layer): [false,true,false,false]
+     the ball let fall onto a cup: side 0: 15 -> 14 cups; Unity lost [ThryBP]Cup 0 99; scores 0,1,0,0
+PASS the thrower's side scores, and its score plate shows it in Unity: scores 0,1,0,0, plate 0001
+PASS the table-edge button opens the side's settings panel (click on the UI layer): [true,false,false,false]
 PASS the Player tab opens (uGUI toggle through the relay graph; the page switches the content): tab 2, content True
-PASS Rerack from the panel re-lays the side's remaining cups (Unity's copies follow): after the re-rack: page 15,13,0,0, Unity 15,13,0,0,0
-PASS a setting changed on the panel (Rows slider) reaches the rules and the kit: rows 5 -> 10; after the rows change: page 15,55,0,0, Unity 15,55,0,0,0
+PASS Rerack from the panel re-lays the side's remaining cups (Unity's copies follow): after the re-rack: page 13,15,0,0, Unity 13,15,0,0,0
+PASS a setting changed on the panel (Rows slider) reaches the rules and the kit: rows 5 -> 10; after the rows change: page 55,15,0,0, Unity 55,15,0,0,0
 PASS Barrier on the panel raises the divider (synced setting, animator in Unity): barrier true, divider collider active True
 ```
 
 How the run goes, and what to know about it:
 
-- **The throw's hit.** In the final run the key throw (aim assist 1) met the front cup's rim and missed, and the first
-  AI-aimed throw (`Player.AI_Aim` / `AI_Shoot` with skill 1, through a debug hook) went in as a rim shot (2 points:
-  `[ThryBP]Cup 1 99: ball y 1.003 top 0.952 d 0.81`). In earlier runs the key throw went in (score 1, `Cup 1 99` gone)
-  and the aimed throws met rims. Real physics decides: a 3 cm ball on a flat arc clips the rim of the cup in front of
+- **The throw's hit.** In the final run the key throw (aim assist 1) met the front cup's rim and missed, both AI-aimed
+  throws (`Player.AI_Aim` / `AI_Shoot` with skill 1, through a debug hook) met rims too (`d 1.29`, `d 1.39` cup radii
+  from the centre), and the ball let fall onto a cup went in. In the run before, the first AI-aimed throw went in as a
+  rim shot (2 points: `[ThryBP]Cup 1 99: ball y 1.003 top 0.952 d 0.81`); in earlier runs the key throw went in (score
+  1, `Cup 1 99` gone). Real physics decides: a 3 cm ball on a flat arc clips the rim of the cup in front of
   the one aimed at (the contacts the thrower judged are in the log, `cup contacts ...`). The test therefore tries the
   key throw, then up to two AI throws, then lets the ball fall onto a cup from 35 cm above (no aim involved), and checks
   whichever lands first. Hit -> removal -> score is always the real path: the ball graph's `collisionEnter`, the owner's
@@ -126,8 +127,8 @@ How the run goes, and what to know about it:
   table stands 1.65 m in front of the test's player; the opened panel then reaches back past the table's end, and the
   test steps the player back (`scene.TeleportTo`) to use it, or to the other end for side 1's panel.
 - **Transform reports of a physics ball** (how often its position reaches the page; PORT.md 0.7): while it moves, about
-  every frame (641 reports in 1.99 s, longest gap 6.3 ms; 718 in 2.32 s during the key throw). While it lies still,
-  none: gaps of 0.7 to 4.3 s were seen. The page's own "still for 1 s" check (from reported positions) therefore cannot
+  every frame (585 reports in 2.00 s, longest gap 7.4 ms; 689 in 2.34 s during the key throw). While it lies still,
+  none: gaps of 0.7 to 4.3 s were seen (1.27 s in the final run). The page's own "still for 1 s" check (from reported positions) therefore cannot
   see a ball at rest, so the ball graph reports `bpStill` and `bpLow` from the physics step; both were seen in the runs
   (`collisionEnter ... ; bpStill 0`, `bpLow 0`). Both checks stay; whichever fires first ends the throw once.
 - The first grab of a Play session let go at once in some runs and held in others (spikes/RESULTS.md S6); the test makes
@@ -150,25 +151,28 @@ flight), then, if that missed, the ball let fall onto a cup; then the watcher re
 0 failed** on the exported bundles (`playtest/evidence_multi.txt`).
 
 ```
-[main] PASS two players in the room: Main Editor, Player 2
-[main] PASS round 0: the thrower's throw removes one cup of side 1: [ThryBP]Cup 1 99
-[vp-..] PASS round 0: the watcher sees the ball fly (its synced transform in this page's Unity): 36 samples, 24 distinct positions, height 0.89..1.51, 2.29 m across
-[vp-..] PASS round 0: the same cup is removed on the watcher's page and in its Unity: here [ThryBP]Cup 1 99 / thrower [ThryBP]Cup 1 99; cups 15,14,0,0
-[main] PASS round 1: the thrower's throw removes one cup of side 1: [ThryBP]Cup 1 78
-[vp-..] PASS round 1: the watcher sees the ball fly ...: 36 samples, 22 distinct positions, height 0.91..1.50, 2.25 m across
-[vp-..] PASS round 1: the same cup is removed on the watcher's page and in its Unity: here [ThryBP]Cup 1 78 / thrower [ThryBP]Cup 1 78; cups 15,13,0,0
-[main] PASS the watcher reached the same state digest after each throw
-[vp-..] INFO the watcher reloads its page
-[vp-..] PASS after reloading its page the watcher sees the remaining cups and the scores (late join), in the page and in Unity:
+(In this run Player 2's session sorted first: it threw; the main editor watched and reloaded.)
+[main]  PASS two players in the room: Main Editor, Player 2
+[vp-..] PASS round 0: the thrower's throw removes one cup of side 1: [ThryBP]Cup 1 99
+[main]  PASS round 0: the watcher sees the ball fly (its synced transform in this page's Unity): 38 samples, 22 distinct positions, height 0.86..1.50, 2.49 m across
+[main]  PASS round 0: the same cup is removed on the watcher's page and in its Unity: here [ThryBP]Cup 1 99 / thrower [ThryBP]Cup 1 99; cups 15,14,0,0
+[vp-..] PASS round 1: the thrower's throw removes one cup of side 1: [ThryBP]Cup 1 78
+[main]  PASS round 1: the watcher sees the ball fly ...: 37 samples, 23 distinct positions, height 0.47..1.50, 2.75 m across
+[main]  PASS round 1: the same cup is removed on the watcher's page and in its Unity: here [ThryBP]Cup 1 78 / thrower [ThryBP]Cup 1 78; cups 15,13,0,0
+[vp-..] PASS the watcher reached the same state digest after each throw
+[main]  (the watcher reloads its page)
+[main]  PASS after reloading its page the watcher sees the remaining cups and the scores (late join), in the page and in Unity:
      after the reload: page 15,13,0,0, Unity 15,13,0,0,0; scores 2,0,0,0; thrower said cups 15,13,0,0, scores 2,0,0,0
-[vp-..] PASS the reloaded page holds the same state as the thrower's (digest): 7b31322e / 7b31322e
-[main] PASS after the reload both pages hold the same state (digest): 7b31322e / 7b31322e
+[main]  PASS the reloaded page holds the same state as the thrower's (digest): 5b6d1611 / 5b6d1611
+[vp-..] PASS after the reload both pages hold the same state (digest): 5b6d1611 / 5b6d1611
 ```
 
 In this run both rounds' hits came from the let-fall (the aimed throws met rims); the flights the watcher saw are the
-aimed throws. One earlier run failed round 0 when the clone was the thrower: the page placed the ball above a cup just
-after taking the ball over, and Unity still had it where the last owner's sync put it, so it fell elsewhere. The test
-now waits until Unity has the ball where the page put it.
+aimed throws. Two earlier runs failed one round each (18 and 17 of 19): a let-fall that did not count, once with the
+ball still where the last owner's sync had put it, once with no cause in the log (the ball hung still and the page's own
+"still for 1 s" rule called the miss, consistent with the body not yet released to this player's physics). The test now
+waits until Unity has the ball where the page put it and lets it fall up to three times. Whether a thrower who has just
+taken the ball over can be left with a body that does not fly is open (PORT.md 0.7).
 
 ## What remains unverified
 
