@@ -26,9 +26,7 @@ import type { Ball } from "./Ball.ts";
 import type { Cup } from "./Cup.ts";
 import { CupsShape } from "./CupsManager.ts";
 import type { Player } from "./Player.ts";
-import { SendValueOp } from "./PortOps.ts";
 import { SimpleUISetterExtension } from "./SimpleUISetterExtension.ts";
-import { Angle } from "./Unity.ts";
 
 /** Game.cs:10-16 */
 export const GameMode = { Normal: 0, KingOfTheHill: 1, BigPong: 2, Mayham: 3 } as const;
@@ -72,6 +70,8 @@ export class Game extends SimpleUISetterExtension {
   };
   /** [FieldChangeCallback] on a field that is not synced (`_volume`, :62). */
   static localChangeCallbacks = { _volume: "Volume" };
+  /** Nothing here is run by another client: every change travels as synced state (upstream has no network events). */
+  static override networkCallable: readonly string[] = [];
 
   // ---- bindings.json (:21-47) ----
   _initialPlayerColors: Color[] = [Color.red, Color.blue, Color.green, Color.yellow];
@@ -131,7 +131,7 @@ export class Game extends SimpleUISetterExtension {
   }
   set Volume(value: number) {
     this._volume = value;
-    for (const b of this.Balls) if (b._audioSource) SendValueOp(this.Host, "audioVolume", b._audioSource.gameObject.key, [this._volume]);
+    for (const b of this.Balls) if (b._audioSource) b._audioSource.volume = this._volume;
   }
 
   get Gamemode(): number {
@@ -166,7 +166,8 @@ export class Game extends SimpleUISetterExtension {
   set Size(value: number) {
     this._size = value;
     this.VariableChangedFromBehaviour("_size"); // upstream passes "_aimAssist" here (bug, :119)
-    SendValueOp(this.Host, "scale", "@", [this._size]);
+    // the table root (upstream: the prefab root's uniform scale; here the Game's own object, a bound object the page moves)
+    this.transform.localScale = new Vector3(this._size, this._size, this._size);
   }
 
   get UseBarrier(): boolean {
@@ -621,7 +622,7 @@ export class Game extends SimpleUISetterExtension {
     let minAngle = 360;
     for (let i = 0; i < this.Players.length; i++) {
       if (!this.Players[i]!.gameObject.activeSelf) continue;
-      const angle = Angle(compareVec, this.Players[i]!.ForwardWorld);
+      const angle = Vector3.Angle(compareVec, this.Players[i]!.ForwardWorld);
       if (angle < minAngle) {
         minAngle = angle;
         index = i;

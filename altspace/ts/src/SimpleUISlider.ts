@@ -1,7 +1,6 @@
 // _Internal/UI/SimpleUISlider.cs (Thryrallo/UdonPrefabs, MIT). The behaviour sits on the Slider's object.
 
 import type { TextRef } from "../portkit/src/index.ts";
-import { RememberValueOp, SendValueOp } from "./PortOps.ts";
 import { SimpleUIInput } from "./SimpleUIInput.ts";
 
 export class SimpleUISlider extends SimpleUIInput {
@@ -33,7 +32,7 @@ export class SimpleUISlider extends SimpleUIInput {
   protected override set UIValue(value: unknown) {
     // _slider.SetValueWithoutNotify((float)value)
     this._value = Number(value);
-    SendValueOp(this.Host, "uiSetSlider", this.gameObject.key, [this._value]);
+    this.Host.uiSetSlider(this.gameObject.key, this._value);
   }
 
   /** SimpleUISlider.cs:84-91 */
@@ -45,7 +44,8 @@ export class SimpleUISlider extends SimpleUIInput {
   /** Slider.onValueChanged -> Execute (bindings: uiSlider on this object). */
   OnValueChanged(value: number): void {
     this._value = Number(value);
-    RememberValueOp(this.Host, "uiSetSlider", this.gameObject.key, [this._value]);
+    // the control already shows it: telling the host keeps its last-sent value true (a later set back is sent)
+    this.Host.uiSetSlider(this.gameObject.key, this._value);
     this.Execute();
   }
 

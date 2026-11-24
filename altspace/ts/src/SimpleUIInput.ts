@@ -6,7 +6,8 @@
 // pulse are left out (PORT.md item 93).
 //
 // A uGUI control's value reaches the page through the relay graph (`uiToggle` / `uiSlider`, bound in bindings.json
-// to OnValueChanged); the page sets a control with the game ops `uiSetToggle` / `uiSetSlider` (PortOps.ts).
+// to OnValueChanged); the page sets a control with the kit's ops `uiSetToggle` / `uiSetSlider` (SetIsOnWithoutNotify,
+// SetValueWithoutNotify: nothing comes back).
 
 import { Behaviour, type AnimatorRef, type BehaviourClass } from "../portkit/src/index.ts";
 import type { SimpleUISetterExtension } from "./SimpleUISetterExtension.ts";
@@ -44,6 +45,8 @@ function typeOf(value: unknown): ValueType {
 }
 
 export abstract class SimpleUIInput extends Behaviour {
+  /** Nothing here is run by another client: a networked control writes synced state (SimpleUIInput.cs:127-160). */
+  static override networkCallable: readonly string[] = [];
   // user configured (bindings.json)
   UdonBehaviours: Behaviour[] = [];
   VariableName = "";

@@ -2,17 +2,26 @@
 // in comments are upstream's.
 //
 // How the ball moves here (coordinator's decision, PORT.md "Decisions"): the ball is a real Unity rigidbody, owned
-// and simulated by the thrower's client and transform-synced to everyone (`sync: "transform"` in bindings.json),
-// as upstream lets the owner's physics decide. The page starts a throw (game op `ballPhys ... fly`) and the kit's
-// ball graph reports back what the page cannot see:
-//   bpRelease|<ball>|<vx>|<vy>|<vz>|<max angular deg/s>   on a VR release: the mean of the non-zero velocity samples
-//                                                         of the last 10 frames and the largest rotation rate in them
-//                                                         (Ball.cs:226-233, :511-527, measured by the graph)
-//   bpContact|<ball>|<other name>|<own 1/0>|<bx>|<by>|<bz>|<vx>|<vy>|<vz>|<cx>|<cy>|<cz>|<cup top y>
-//                                                         OnCollisionEnter (:982-1022): the other collider's object
-//                                                         name, whether it belongs to this kit, the ball's position and
-//                                                         velocity before the contact, and for a cup its position and
-//                                                         the top of its bounds
+// and simulated by the thrower's client and transform-synced to everyone (`sync: "transform"` in bindings.json: the
+// script gives it its network id and a BS Synced Object), as upstream lets the owner's physics decide. The owner
+// starts a throw with the kit's `rbKinematic` / `rbVelocity` ops; every other client keeps the body kinematic so the
+// synced transform alone moves it. The kit's ball graph (one per ball, BeerPongKitBuilder) reports what the page
+// cannot see, through the graph-to-page channel:
+//   bpRelease|<ball>|<vx>|<vy>|<vz>|<max angular deg/s>   On Release of a grab: Ball.cs:226-233 and :511-527 computed
+//                                                         per frame in the graph (the mean of the non-zero velocity
+//                                                         samples of the last 10 frames, its length raised by
+//                                                         min(1.5, max angular / 2000)); the page multiplies by
+//                                                         `throw-vr` (1.5) as upstream (:547)
+//   collisionEnter|<ball key>|<other name>|<px>|<py>|<pz>|<nx>|<ny>|<nz>|<own 1/0>|<bx>|<by>|<bz>|<vx>|<vy>|<vz>|<cx>|<cy>|<cz>|<cup top y>
+//                                                         OnCollisionEnter (:982-1022) as the kit's multi-argument
+//                                                         collision event (the "bpContact" report): the other
+//                                                         collider's object name, the contact point and normal, whether
+//                                                         the other belongs to this kit, the ball's position and its
+//                                                         velocity of the last physics step before the contact, and for
+//                                                         a cup its position and the top of its collider's bounds
+//   bpStill|<ball>, bpLow|<ball>                          while the body is dynamic: still (speed^2 <= 0.5) for 1 s,
+//                                                         and below the respawn height (:264-289), from the physics
+//                                                         step (PORT.md 0.8: how often transform reports arrive)
 // Every client's graph may report contacts; only the ball's owner acts on them, as upstream (:1000).
 //
 // Changes (PORT.md section 10):
@@ -28,12 +37,13 @@
 //   - The referee finishes what a thrower who left started: a ball in the hand respawns for the same side, a ball
 //     in flight is a miss, a ball on the rim or in a cup is counted once and removed as usual.
 //   - Desktop: the charge is a key (`throw-key`, default F) instead of the right mouse button, and it is cleared after
-//     each throw (upstream reuses the last charge, item 22). The release is ReleaseGrab().
+//     each throw (upstream reuses the last charge, item 22). The release is GameObject.ReleaseGrab(). A drop on a
+//     desktop page (Input.IsVR false) never waits for the graph's VR release report.
 //   - Bug fixed: a VR release with no non-zero velocity sample divided by zero (NaN velocity, :523); it is zero here.
 //   - Bug fixed: the miss checks (:264-289) could each fire in the same frame (two turn changes); the first miss ends them.
 //   - The AI is also started by the referee when an AI side's ball has waited 6 s with nobody driving it (the client
 //     that respawned it left, item 98).
-//   - Sounds play at the source's volume (PlayOneShot has no volume scale in the runtime).
+//   - Collision sounds play with upstream's volume scale clamp01(|v|^2 / 10) (relay op `audioScaled`).
 
 import {
   Behaviour,
@@ -41,14 +51,15 @@ import {
   Vector3,
   type AudioClipRef,
   type AudioSourceRef,
+  type HostEventDetail,
   type ParticleSystemRef,
   type Player as NetPlayer,
   type RendererRef,
 } from "../portkit/src/index.ts";
 import type { Cup } from "./Cup.ts";
 import { GameMode, type Game } from "./Game.ts";
-import { SendOp } from "./PortOps.ts";
-import { Angle, CastInt, Reflect } from "./Unity.ts";
+import { CastInt } from "./CSharp.ts";
+import { CupInside } from "./PortOps.ts";
 
 /** Ball.cs:11-19 */
 export const BallState = { Idle: 0, InHand: 1, Locked: 2, Flying: 3, Rimming: 4, InCup: 5 } as const;
@@ -70,6 +81,8 @@ const AI_FALLBACK_SECONDS = 6;
 const CUP_NAME = /^\[ThryBP\]Cup (\d+) (\d+)$/;
 
 export class Ball extends Behaviour {
+  /** Nothing here is run by another client: the ball travels as synced state and its synced transform. */
+  static override networkCallable: readonly string[] = [];
   static override synced = ["_state", "CurrentPlayer", "_start_position", "_start_rotation", "_start_velocity", "_stateServerTime", "_countedHit", "_holder"];
 
   // ---- bindings.json (:41-52, :94-97) ----
@@ -129,7 +142,8 @@ export class Ball extends Behaviour {
 
   override Start(): void {
     this.RegisterGraphEvent("bpRelease", "OnGraphRelease");
-    this.RegisterGraphEvent("bpContact", "OnGraphContact");
+    this.RegisterGraphEvent("bpStill", "OnGraphStill");
+    this.RegisterGraphEvent("bpLow", "OnGraphLow");
     const key = this.Settings.get("throw-key");
     if (key) this._throwKey = key;
     const vr = Number(this.Settings.get("throw-vr"));
@@ -152,9 +166,16 @@ export class Ball extends Behaviour {
     return this.Networking.GetServerTimeInSeconds();
   }
 
-  /** :126-129 (no volume scale: see the header) */
-  private PlayAudio(clip: AudioClipRef | null, _strength: number): void {
-    if (clip && this._audioSource) this._audioSource.PlayOneShot(clip);
+  /** :126-129 */
+  private PlayAudio(clip: AudioClipRef | null, strength: number): void {
+    if (clip && this._audioSource) this._audioSource.PlayOneShot(clip, Math.min(1, Math.max(0, strength)));
+  }
+
+  /** The body follows the owner's physics (false) or stands still where the page puts it (true). */
+  private SetKinematic(kinematic: boolean): void {
+    if (kinematic) this.Host.rbVelocity(this.gameObject.key, Vector3.zero);
+    // (not the cached rbKinematic: a grab changes the body behind the page's back)
+    this.Host.op("rbKinematic", this.gameObject.key, [kinematic]);
   }
 
   /** `_pickup.pickupable`: the Grabbable layer when it may be taken, the UI layer when not. */
@@ -164,6 +185,8 @@ export class Ball extends Behaviour {
 
   /** :131-191 */
   override OnDeserialization(): void {
+    // Only the owner simulates the ball; everyone else draws it where the synced transform says.
+    if (!this.Networking.IsOwner(this)) this.SetKinematic(true);
     this.SetPickupable(this._state[0] === BallState.Idle || (this._state[0] === BallState.InCup && !this._gameManager.DoAutoRespawnBalls));
     this._SetColor();
 
@@ -242,7 +265,7 @@ export class Ball extends Behaviour {
     this._charging = false;
     this._throwStrengthPercent = (this.Time.time - this._keyDownStart) / MAX_MOUSE_DOWN_THROW_TIME;
     // Letting go of the key throws: the page lets go of the ball, and the drop starts the throw.
-    this.gameObject.host?.releaseGrab();
+    this.gameObject.ReleaseGrab();
   }
 
   private HeldByMe(): boolean {
@@ -366,7 +389,7 @@ export class Ball extends Behaviour {
 
   /** :410-417 */
   SetPositionRotation(position: Vector3, rotation: Quaternion): void {
-    SendOp(this.Host, "ballPhys", this.gameObject.key, ["rest"]);
+    this.SetKinematic(true);
     this.transform.SetPositionAndRotation(position, rotation);
     this._start_position = position.clone();
     this._start_rotation = rotation.clone();
@@ -410,13 +433,27 @@ export class Ball extends Behaviour {
     this._holder = this.Networking.LocalPlayer.playerId;
   }
 
-  /** The graph's release report: the drop velocity of :511-527. */
-  OnGraphRelease(ball: string, vx: string, vy: string, vz: string, angular: string): void {
+  /** The graph's release report: the drop velocity of :511-527, angular boost included (see the header). */
+  OnGraphRelease(ball: string, vx: string, vy: string, vz: string): void {
     if (Number(ball) !== this.index) return;
-    const mean = new Vector3(Number(vx) || 0, Number(vy) || 0, Number(vz) || 0);
-    const angularAddition = Math.min(1.5, (Number(angular) || 0) / 2000);
-    this._releaseVelocity = mean.sqrMagnitude > 0 ? mean.normalized.scale(mean.magnitude + angularAddition) : Vector3.zero;
+    // all-zero samples give zero here (upstream divided by zero: NaN, :523)
+    this._releaseVelocity = new Vector3(Number(vx) || 0, Number(vy) || 0, Number(vz) || 0);
     this._releaseFresh = true;
+  }
+
+  /** The graph saw the dynamic ball still for over a second (:273-282). */
+  OnGraphStill(ball: string): void {
+    if (Number(ball) !== this.index || !this.Networking.IsOwner(this) || this._localState !== BallState.Flying) return;
+    if (this.Time.time - this._stateStartTime <= 1.0) return;
+    this.Debug.Log("[ThryBP] Ball idle for more than 1 second. Respawning for other team.");
+    this.Miss();
+  }
+
+  /** The graph saw the dynamic ball below the respawn height (:267-272). */
+  OnGraphLow(ball: string): void {
+    if (Number(ball) !== this.index || !this.Networking.IsOwner(this) || this._localState !== BallState.Flying) return;
+    this.Debug.Log("[ThryBP] Ball below respawn point. Respawning for other team.");
+    this.Miss();
   }
 
   /** :511-530 */
@@ -430,7 +467,7 @@ export class Ball extends Behaviour {
   /** :533-594 */
   OnDropDelayed(): void {
     if (!this._dropPending) return;
-    const desktop = this._keyUsedThisHold;
+    const desktop = this._keyUsedThisHold || this.Input.IsVR === false;
     if (!desktop && !this._releaseFresh && this._dropWaitFrames < RELEASE_WAIT_FRAMES) {
       this._dropWaitFrames++;
       this.SendCustomEventDelayedFrames("OnDropDelayed", 1);
@@ -486,9 +523,11 @@ export class Ball extends Behaviour {
     this.RequestSerialization();
   }
 
-  /** Hands the throw to the owner's physics: game op `ballPhys ... fly`. */
+  /** Hands the throw to the owner's physics: the body goes dynamic at `position` with `velocity`. */
   private Launch(position: Vector3, velocity: Vector3): void {
-    SendOp(this.Host, "ballPhys", this.gameObject.key, ["fly", position.x, position.y, position.z, velocity.x, velocity.y, velocity.z]);
+    this.transform.position = position;
+    this.Host.op("rbKinematic", this.gameObject.key, [false]);
+    this.Host.rbVelocity(this.gameObject.key, velocity);
   }
 
   // ========= Prediction ========== (:643-877)
@@ -517,7 +556,7 @@ export class Ball extends Behaviour {
     let cupOpening = cup.position.add(Vector3.up.scale(cup.GlobalHeight + this._radius));
     const hitOnCupPlane = this.PredictTableHit(velocity, position, cupOpening.y);
     if (Vector3.Distance(cupOpening, hitOnCupPlane) > strength) {
-      const reflectVel = Reflect(this.VelocityAtTime(velocity, predictedTableHitTime), Vector3.up).scale(BOUND_DRAG);
+      const reflectVel = Vector3.Reflect(this.VelocityAtTime(velocity, predictedTableHitTime), Vector3.up).scale(BOUND_DRAG);
       const predictedCupHeightTime2 = this.PredictTableHitTime(reflectVel, predictionTableHit, cupOpening.y);
       const predictionCupHeightPosition2 = this.GetTableHitPosition(reflectVel, predictionTableHit, cupOpening.y, predictedCupHeightTime2);
       cup = this.GetClosestGlassToPredictedTableCollision(predictionCupHeightPosition2)!;
@@ -566,7 +605,7 @@ export class Ball extends Behaviour {
     const d = horizonzalVector.magnitude;
     const y0 = position.y;
     const y = cupOpening.y;
-    const w = (Math.PI / 180) * Angle(horizonzalVelocity, velocity);
+    const w = (Math.PI / 180) * Vector3.Angle(horizonzalVelocity, velocity);
     const g = -GRAVITY;
     const v0 = d / Math.sqrt((2 * (y0 - y + Math.tan(w) * d)) / g) / Math.cos(w);
     if (Number.isNaN(v0)) return velocity;
@@ -651,7 +690,8 @@ export class Ball extends Behaviour {
 
   /** cup.ColliderForThrow.enabled = !inside; cup.ColliderInside.SetActive(inside): game op `cupInside`. */
   private SetCupInside(cup: Cup, inside: boolean): void {
-    SendOp(this.Host, "cupInside", "@" + cup.manager.CupPath(cup), [inside ? "1" : "0"]);
+    if (!cup.spawned) return;
+    CupInside(this.Host, "@" + cup.manager.CupPath(cup), inside);
   }
 
   /** :891-905, taking ownership first (fix for Game.cs:719, :727). */
@@ -660,7 +700,7 @@ export class Ball extends Behaviour {
     this._dropPending = false;
     this.SetState(BallState.Idle);
     const spawn = this._gameManager.GetBallSpawn(this.CurrentPlayer);
-    SendOp(this.Host, "ballPhys", this.gameObject.key, ["rest"]);
+    this.SetKinematic(true);
     this.transform.SetPositionAndRotation(spawn.position, spawn.rotation);
     this._start_position = spawn.position.clone();
     this._start_rotation = spawn.rotation.clone();
@@ -703,7 +743,7 @@ export class Ball extends Behaviour {
     const distanceFromCenter = Vector3.Distance(p1, p2) / hitGlass.GlobalRadius;
     if (distanceFromCenter >= COLLISION_MAXIMUM_DISTANCE_FROM_CENTER) return;
 
-    const angle = Angle(this._contactVelocity, Vector3.down);
+    const angle = Vector3.Angle(this._contactVelocity, Vector3.down);
     // C# `&&`: the second number is drawn only when the first test passes
     const tripOnEdge = distanceFromCenter > this.Random.Range(0.4, 0.7) && angle > this.Random.RangeInt(45, 80);
 
@@ -713,12 +753,12 @@ export class Ball extends Behaviour {
       this._state[2] = hitGlass.Row;
       this._state[3] = hitGlass.Column;
       const toCup = p2.sub(p1);
-      this._rimming = Angle(hitGlass.rotation.rotate(Vector3.forward), toCup);
+      this._rimming = Vector3.Angle(hitGlass.rotation.rotate(Vector3.forward), toCup);
       if (toCup.x > 0) this._rimming = 360 - this._rimming;
       this._rimming = this._rimming % 360;
       this._state[4] = CastInt(this._rimming / 2);
       this._state[5] = CastInt(distanceFromCenter * 100);
-      SendOp(this.Host, "ballPhys", this.gameObject.key, ["rest"]);
+      this.SetKinematic(true);
     } else {
       this.SetCupInside(hitGlass, true);
       this.SetPickupable(!this._gameManager.DoAutoRespawnBalls);
@@ -733,42 +773,35 @@ export class Ball extends Behaviour {
     this.RequestSerialization();
   }
 
-  /** OnCollisionEnter (:982-1022), from the graph's bpContact. */
-  OnGraphContact(
-    ball: string,
-    otherName: string,
-    own: string,
-    bx: string,
-    by: string,
-    bz: string,
-    vx: string,
-    vy: string,
-    vz: string,
-    cx?: string,
-    cy?: string,
-    cz?: string,
-    cupTop?: string,
-  ): void {
-    if (Number(ball) !== this.index) return;
-    const match = CUP_NAME.exec(otherName ?? "");
+  /**
+   * OnCollisionEnter (:982-1022), as the ball graph reports it (bindings: collisionEnter on the ball): `detail.args` is
+   * <other name>, the point and normal, then <own>|<bx>|<by>|<bz>|<vx>|<vy>|<vz>|<cx>|<cy>|<cz>|<cup top y>.
+   */
+  OnBallCollision(detail: HostEventDetail): void {
+    const extra = (detail.args ?? []).slice(7);
+    const given = (i: number) => extra[i] !== undefined && extra[i] !== "" && Number.isFinite(Number(extra[i]));
+    const num = (i: number) => (given(i) ? Number(extra[i]) : 0);
+    const otherName = detail.otherName ?? "";
+    const own = extra[0] === "1";
+    const match = CUP_NAME.exec(otherName);
     const hasHitGlass = match !== null;
-    const velocity = new Vector3(Number(vx) || 0, Number(vy) || 0, Number(vz) || 0);
+    const velocity = new Vector3(num(4), num(5), num(6));
     this.PlayAudio(hasHitGlass ? this._audio_collision_glass : this._audio_collision_table, velocity.sqrMagnitude / 10);
     if (!this.Networking.IsOwner(this) || this._state[0] !== BallState.Flying) return;
     this._contactVelocity = velocity;
-    const ballPos = new Vector3(Number(bx) || 0, Number(by) || 0, Number(bz) || 0);
+    const ballPos = [1, 2, 3].every(given) ? new Vector3(num(1), num(2), num(3)) : this.transform.position;
     if (hasHitGlass) {
-      if (own !== "1") return; // a cup of another table: AllowCollision is false (Game.cs:480)
+      if (!own) return; // a cup of another table: AllowCollision is false (Game.cs:480)
       const side = Number(match[1]);
       const player = this._gameManager.Players[side];
       const hitGlass = player ? player.CupsManager.CupAtIndex(Number(match[2])) : null;
       if (!hitGlass) return;
       if (!this._gameManager.AllowCollision(this.CurrentPlayer, hitGlass.PlayerCupOwner, hitGlass.PlayerAnchorSide)) return;
-      const reported = cx !== undefined && cy !== undefined && cz !== undefined && cupTop !== undefined && cupTop !== "";
-      const cupPos = reported ? new Vector3(Number(cx), Number(cy), Number(cz)) : hitGlass.position;
-      const top = reported ? Number(cupTop) : hitGlass.GetBounds().max.y;
+      const reported = [7, 8, 9, 10].every(given);
+      const cupPos = reported ? new Vector3(num(7), num(8), num(9)) : hitGlass.position;
+      const top = reported ? num(10) : hitGlass.GetBounds().max.y;
       this.BallGlassCollision(ballPos, cupPos, top, hitGlass);
-    } else if (!(otherName ?? "").startsWith("[ThryBP]")) {
+    } else if (!otherName.startsWith("[ThryBP]")) {
       this.Debug.Log("[ThryBP] Ball hit non game object. Respawning for other team.");
       this.Miss();
     }

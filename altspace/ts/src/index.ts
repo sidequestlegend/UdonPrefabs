@@ -12,6 +12,7 @@ import { SimpleUIOptionSelector } from "./SimpleUIOptionSelector.ts";
 import { SimpleUISlider } from "./SimpleUISlider.ts";
 import { SimpleUIToggle } from "./SimpleUIToggle.ts";
 import { SimpleUIToggleGroup } from "./SimpleUIToggleGroup.ts";
+import { ToggleActive } from "./ToggleActive.ts";
 
 const game: GameDefinition = {
   slug: "beer-pong",
@@ -26,6 +27,7 @@ const game: GameDefinition = {
     SimpleUIOptionSelector,
     SimpleUIInteract,
     SimpleUIToggleGroup,
+    ToggleActive,
   },
 };
 

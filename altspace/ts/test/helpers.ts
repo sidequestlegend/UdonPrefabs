@@ -1,5 +1,6 @@
 // Test helpers: players at a beer pong table in the fake room, doing what a player does (grab the ball, let go,
-// click panel controls), and the kit's ball graph reporting what the owner's physics saw (bpRelease, bpContact).
+// click panel controls), and the kit's ball graph reporting what the owner's physics saw (bpRelease, and contacts
+// as the kit's multi-argument collisionEnter object event).
 
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
@@ -12,14 +13,17 @@ import type { CupsManager } from "../src/CupsManager.ts";
 import type { Game } from "../src/Game.ts";
 import game from "../src/index.ts";
 import type { Player } from "../src/Player.ts";
-import { GAME_OPS } from "../src/PortOps.ts";
+import { CUP_TEMPLATE, GAME_OPS } from "../src/PortOps.ts";
 
 export const bindings = JSON.parse(readFileSync(fileURLToPath(new URL("../bindings.json", import.meta.url)), "utf8"));
 export const SLUG = game.slug;
 export { game };
 
 export function newWorld(seed = 1): TestWorld {
-  return new TestWorld(game, bindings, { seed });
+  const world = new TestWorld(game, bindings, { seed });
+  // The game's own relay ops, as BeerPongKitBuilder.RelayOps adds them to the kit's relay graph.
+  for (const op of GAME_OPS) world.room.defineRelayOp(op);
+  return world;
 }
 
 export const G = (w: TestWorld, c: FakeClient, inst = "0") => w.behaviour<Game>(c, "game", inst);
@@ -33,20 +37,31 @@ export async function settle(world: TestWorld, inst = "0"): Promise<void> {
   await world.run(2500);
 }
 
-/** Error lines and graph complaints, without the fake graph's "unknown op" notes for this game's own ops. */
+/** Error lines and graph complaints (the game's own ops are declared to the fake graph: none is unknown). */
 export function problems(world: TestWorld): string[] {
-  return world.problems().filter((line) => !GAME_OPS.some((op) => line.endsWith(`graph: unknown op ${op}`)));
+  return world.problems();
 }
 
-/** The cup copies one client's kit holds, as `<anchor path>/<name>`, from the `cup` ops its graph received. */
+/**
+ * The cup copies one client's kit holds, as `<anchor path>/<name>`, from the `spawn` and `despawn` ops its graph
+ * received; each copy must also have been placed (`cupPlace`) after it was spawned.
+ */
 export function kitCups(c: FakeClient, inst = "0"): Set<string> {
   const cups = new Set<string>();
+  const placed = new Set<string>();
   for (const record of c.graph(SLUG, inst).records) {
-    if (record.op !== "cup") continue;
-    const path = `${record.target.slice(1)}/${record.args[0]}`;
-    if (record.args[1] === "1") cups.add(path);
-    else cups.delete(path);
+    if (record.op === "spawn") {
+      assert.ok(record.target.endsWith("/" + CUP_TEMPLATE), `spawn of ${record.target}`);
+      const path = `${record.target.slice(1, -CUP_TEMPLATE.length)}${record.args[0]}`;
+      cups.add(path);
+      placed.delete(path);
+    } else if (record.op === "despawn") {
+      cups.delete(record.target.slice(1));
+    } else if (record.op === "cupPlace") {
+      placed.add(record.target.slice(1));
+    }
   }
+  for (const path of cups) assert.ok(placed.has(path), `${c.name}: ${path} was spawned but never placed`);
   return cups;
 }
 
@@ -66,18 +81,20 @@ export async function throwBall(world: TestWorld, c: FakeClient, ballIndex = 0, 
 export function contact(world: TestWorld, clients: FakeClient[], from: FakeClient, opts: { ball?: number; side?: number; index?: number; name?: string; own?: boolean; offset?: number; inst?: string }): void {
   const inst = opts.inst ?? "0";
   const ball = opts.ball ?? 0;
+  // collisionEnter|<ball key>|<other>|<point>|<normal>|<own>|<ball position>|<velocity>|<cup position>|<cup top>
   let args: string;
+  const own = opts.own === false ? 0 : 1;
   if (opts.name !== undefined) {
-    args = `${ball}|${opts.name}|${opts.own === false ? 0 : 1}|0|0.9|0|0|-2|0`;
+    args = `ball${ball}|${opts.name}|0|0.87|0|0|1|0|${own}|0|0.9|0|0|-2|0`;
   } else {
     const cup = CM(world, from, opts.side!, inst).CupAtIndex(opts.index!);
     assert.ok(cup, `${from.name}: no cup ${opts.index} on side ${opts.side}`);
     const p = cup.position;
     const top = p.y + cup.GlobalHeight;
     const off = opts.offset ?? 0;
-    args = `${ball}|${cup.name}|${opts.own === false ? 0 : 1}|${p.x + off}|${top + 0.03}|${p.z}|0|-3|0|${p.x}|${p.y}|${p.z}|${top}`;
+    args = `ball${ball}|${cup.name}|${p.x + off}|${top}|${p.z}|0|1|0|${own}|${p.x + off}|${top + 0.03}|${p.z}|0|-3|0|${p.x}|${p.y}|${p.z}|${top}`;
   }
-  for (const c of clients) c.graphEvent(SLUG, inst, "bpContact", args);
+  for (const c of clients) c.graphEvent(SLUG, inst, "collisionEnter", args);
 }
 
 /** One full turn that lands in a cup: throw, contact, and the 2 s until the cup goes and the ball respawns. */

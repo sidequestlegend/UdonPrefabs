@@ -1,6 +1,6 @@
 // Golden vectors for beer-pong: upstream's CupsManager.cs (_Internal/BeerPong/scripts, MIT), unchanged, driven through
-// its private rack methods with reflection, on portkit's stand-ins (ts/portkit/golden/UdonStubs.cs) plus the few
-// members CupsManager needs that the shared stand-ins do not have. Writes ts/vectors/upstream.json;
+// its private rack methods with reflection, on portkit's stand-ins (ts/portkit/golden/UdonStubs.cs: Mathf, Vector3 ==, Unity's
+// Random) plus VRC's Utilities.IsValid, which the shared stand-ins do not have. Writes ts/vectors/upstream.json;
 // test/racks.test.ts compares the TypeScript with it.
 //
 //   dotnet run --project golden -c Release -- vectors/upstream.json      (npm run golden)
@@ -19,16 +19,6 @@ using System.Text;
 using System.Text.Json;
 using UdonSharp;
 using UnityEngine;
-
-namespace UnityEngine
-{
-    /// <summary>UnityEngine.Random (CupsManager.cs:289 names it in full). Not used by the vectors: Mayhem is not in them.</summary>
-    public static class Random
-    {
-        static readonly System.Random rng = new System.Random(1);
-        public static int Range(int min, int max) => rng.Next(min, max);
-    }
-}
 
 namespace Thry.Udon
 {
@@ -57,29 +47,7 @@ namespace Thry.Udon.UI
 
 namespace Thry.Udon.BeerPong
 {
-    // ---- shadows of UnityEngine / VRC members the shared stand-ins lack (C# finds these before the usings) ----
-
-    public static class Mathf
-    {
-        public static float Sqrt(float v) => (float)Math.Sqrt(v);
-        public static float Pow(float a, float b) => (float)Math.Pow(a, b);
-        public static float Abs(float v) => Math.Abs(v);
-        public static int Abs(int v) => Math.Abs(v);
-    }
-
-    public struct Vector3
-    {
-        public float x, y, z;
-        public Vector3(float x, float y, float z) { this.x = x; this.y = y; this.z = z; }
-        public static Vector3 zero => new Vector3(0, 0, 0);
-        public static Vector3 one => new Vector3(1, 1, 1);
-        public static Vector3 operator +(Vector3 a, Vector3 b) => new Vector3(a.x + b.x, a.y + b.y, a.z + b.z);
-        public static Vector3 operator *(Vector3 a, float k) => new Vector3(a.x * k, a.y * k, a.z * k);
-        public static bool operator ==(Vector3 a, Vector3 b) { float dx = a.x - b.x, dy = a.y - b.y, dz = a.z - b.z; return dx * dx + dy * dy + dz * dz < 9.99999944E-11f; }
-        public static bool operator !=(Vector3 a, Vector3 b) => !(a == b);
-        public static implicit operator UnityEngine.Vector3(Vector3 v) => new UnityEngine.Vector3(v.x, v.y, v.z);
-        public static implicit operator Vector3(UnityEngine.Vector3 v) => new Vector3(v.x, v.y, v.z);
-    }
+    // ---- a shadow of the one VRC member portkit's stand-ins lack (C# finds it before the usings) ----
 
     public static class Utilities
     {

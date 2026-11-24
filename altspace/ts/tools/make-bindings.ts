@@ -21,7 +21,9 @@ const refs: string[] = [];
 const behaviours: Array<{ id: string; type: string; object: string | null; fields: Record<string, Json> }> = [];
 const events: Array<Record<string, Json>> = [];
 
+const TOP = "BeerPong";
 function obj(key: string, path: string, options: Partial<Obj> & { ref?: boolean } = {}): string {
+  path = path ? `${TOP}/${path}` : TOP;
   objects[key] = { path, sync: options.sync ?? "none", grab: options.grab ?? false, click: options.click ?? false, seat: false };
   if (options.ref !== false) refs.push(key);
   return key;
@@ -41,6 +43,7 @@ const COLORS = [
 ];
 
 // ---- table, balls, effects ----
+obj("beerPong", "", { ref: false });
 obj("table", "table");
 for (const n of [2, 3, 4]) obj(`table${n}`, `table/[ThryBP]${n}Players`);
 obj("splash", "SplashParticles");
@@ -90,13 +93,13 @@ function side(s: number): void {
       BallSpawnLocal: v3(0.552, 0.01, -1.311),
       AiBallSpawnLocal: v3(0, 0.42, -1.547),
       CupsAnchorLocal: v3(0, 0, -1.317),
-      CupsAnchorPath: `${base}/[GamemodeNormal]Cups Anchor`,
+      CupsAnchorPath: `${TOP}/${base}/[GamemodeNormal]Cups Anchor`,
     },
   });
   behaviours.push({
     id: `cm${s}`,
     type: "CupsManager",
-    object: null,
+    object: obj(k("cupsAnchor"), `${base}/[GamemodeNormal]Cups Anchor`, { ref: false }),
     // Glass_LOD0 bounds of the template from glass.dae (import scale 0.0375): radius 0.052, height 0.152 (PORT.md 3.6)
     fields: { Glass: { boundsExtents: v3(0.052, 0.076, 0.052), lossyScale: v3(1, 1, 1) }, SidePlayer: beh(`p${s}`), LogMinLevel: 1 },
   });
@@ -161,12 +164,17 @@ function side(s: number): void {
   button("sizeReset", "Main/Visual/Size/Reset", `p${s}_size`, "ResetValue");
   // Volume (local)
   slider("volume", "Volume/Container/Volume", "game", "_volume", false, false);
+  // the speaker button opens the volume slider (local)
+  const volumeToggle = obj(k("_volumeToggle"), `${ui}/Volume/Toggle`);
+  behaviours.push({ id: `p${s}_volumeOpen`, type: "ToggleActive", object: volumeToggle, fields: { Target: { $obj: obj(k("_volumeContainer"), `${ui}/Volume/Container`) } } });
+  events.push({ object: volumeToggle, kind: "uiToggle", behaviour: `p${s}_volumeOpen`, method: "OnValueChanged" });
   // Tabs
   input("nav", "SimpleUIToggleGroup", k("navbar"), {
     UdonBehaviours: [beh(`p${s}`)],
     VariableName: "_settingsNavbar",
     NetworkVariable: true,
     Toggles: tabs.map((t) => ({ $obj: k("tab" + t) })),
+    Contents: tabs.map((t) => ({ $obj: obj(k("content" + t), `${ui}/Main/${t}`) })),
   });
   tabs.forEach((t, i) => events.push({ object: k("tab" + t), kind: "uiToggle", behaviour: `p${s}_nav`, method: `_Toggle${i}` }));
   // Open Settings (click on the table edge, reach 1 m)
@@ -194,13 +202,14 @@ for (let i = 0; i < 4; i++) {
       _audio_water_splash: { $clip: 2 },
     },
   });
+  events.push({ object: `ball${i}`, kind: "collisionEnter", behaviour: `ball${i}`, method: "OnBallCollision" });
 }
 
 const pose = (yaw: number): Json => ({ position: v3(0, 0.8, 0), yaw });
 behaviours.unshift({
   id: "game",
   type: "Game",
-  object: null,
+  object: "beerPong",
   fields: {
     _initialPlayerColors: COLORS.map((c) => ({ $color: c })),
     _allowAvatarThemeColorUsage: true,
@@ -216,7 +225,7 @@ behaviours.unshift({
     _fourTeamPositions: [pose(0), pose(180), pose(90), pose(270)],
     _respawnHeightLocal: v3(0, 0.4, 0),
     _kingOfTheHillLocal: v3(0, 0.8, 0),
-    KingOfTheHillPath: "KingOfTheHillPosition",
+    KingOfTheHillPath: `${TOP}/KingOfTheHillPosition`,
     ballRadiusLocal: 0.03,
     LogMinLevel: 1,
   },
@@ -228,7 +237,6 @@ const bindings = {
   hash: "",
   provisional:
     "Written by ts/tools/make-bindings.ts from PORT.md section 5, not by the kit builder: paths, sizes and positions are unconfirmed and refs order will change.",
-  root: "BeerPong",
   bundles: { windows: "", android: "" },
   objects,
   refs,

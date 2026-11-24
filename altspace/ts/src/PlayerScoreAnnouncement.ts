@@ -2,9 +2,11 @@
 
 import { Behaviour, type AnimatorRef, type TextRef } from "../portkit/src/index.ts";
 import type { Player } from "./Player.ts";
-import { FormatD4, FormatF0 } from "./Unity.ts";
+import { FormatD4, FormatF0 } from "./CSharp.ts";
 
 export class PlayerScoreAnnouncement extends Behaviour {
+  /** Nothing here is run by another client (upstream has no network events). */
+  static override networkCallable: readonly string[] = [];
   // bindings.json
   _animator: AnimatorRef | null = null;
   _textScore: TextRef | null = null;

@@ -2,13 +2,12 @@
 //
 // Upstream a Cup is an UdonBehaviour on each instantiated copy of the `[ThryBP]glass` template. Here a cup copy is a
 // plain object the CupsManager keeps; the Unity copy is made, moved, coloured and destroyed with the game op `cup`
-// (PortOps.ts). The template's measurements (InitPrefab, Cup.cs:90-108) come from bindings.json, where the kit
+// (spawn / despawn and the game op `cupPlace`, PortOps.ts). The template's measurements (InitPrefab, Cup.cs:90-108) come from bindings.json, where the kit
 // builder writes the renderer bounds it measured.
 
-import { Color, Quaternion, Vector3 } from "../portkit/src/index.ts";
+import { Color, Quaternion, UnityRandom, Vector3 } from "../portkit/src/index.ts";
 import type { CupsManager } from "./CupsManager.ts";
 import type { Player } from "./Player.ts";
-import { UnityRandom } from "./Unity.ts";
 
 /** What the kit builder measures on the template (Glass_LOD0 renderer bounds with the cup unrotated). */
 export interface CupTemplate {
@@ -40,8 +39,10 @@ export class Cup {
   localScale = 1;
   /** Index in the rack grid (row * 22 + column). */
   index = 0;
-  /** The colour last given, for the `cup` op. */
+  /** The colour last given, for the `cupPlace` op. */
   color = Color.white;
+  /** The copy exists in the kit (spawned and not despawned since). */
+  spawned = false;
 
   constructor(manager: CupsManager) {
     this.manager = manager;

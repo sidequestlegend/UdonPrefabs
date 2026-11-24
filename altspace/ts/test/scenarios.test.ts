@@ -115,8 +115,8 @@ test("rim shot: 2 points, the rim angle travels as int(angle / 2), the cup is re
   const p = cup.position;
   const top = p.y + cup.GlobalHeight;
   const r = cup.GlobalRadius * 0.9;
-  const args = `0|${cup.name}|1|${p.x + r}|${top + 0.03}|${p.z}|-3|-0.2|0|${p.x}|${p.y}|${p.z}|${top}`;
-  ann.graphEvent(SLUG, "0", "bpContact", args);
+  const args = `ball0|${cup.name}|${p.x + r}|${top}|${p.z}|0|1|0|1|${p.x + r}|${top + 0.03}|${p.z}|-3|-0.2|0|${p.x}|${p.y}|${p.z}|${top}`;
+  ann.graphEvent(SLUG, "0", "collisionEnter", args);
   await world.run(300);
   for (const c of [ann, bob]) assert.equal(B(world, c)._state[0], BallState.Rimming, `${c.name}: on the rim`);
   const angle = B(world, bob)._state[4]!;
@@ -176,7 +176,9 @@ test("settings changed on one panel reach every client and every other panel", a
   bob.graphEvent(SLUG, "0", "uiToggle", `${bindings.refs.indexOf("p1tabRules")}|1`);
   await world.run(1000);
   assert.equal(P(world, ann, 1)._settingsNavbar, 1);
-  assert.deepEqual(lastOp(ann, "uiSetToggle", "p1tabRules"), ["1", "1"], "Ann's copy of Bob's panel shows the Rules tab");
+  assert.deepEqual(lastOp(ann, "uiSetToggle", "p1tabRules"), ["1"], "Ann's copy of Bob's panel shows the Rules tab");
+  assert.equal(ann.graph(SLUG).active.get("p1contentRules"), true, "and its Rules content");
+  assert.equal(ann.graph(SLUG).active.get("p1contentGame"), false, "not the Game content");
 
   // game-wide toggles and sliders, from Bob's panel
   await setToggle(world, bob, "p1_teams", true);
@@ -281,7 +283,7 @@ test("King of the Hill: four stacked circle racks of 176 cups, inside the room's
     const counts = [0, 1, 2, 3].map((s) => CM(world, c, s).SyncedCount);
     assert.deepEqual(counts, [76, 56, 30, 14], `${c.name}: circles of 10, 8, 6 and 4 rows`);
     assert.equal(kitCups(c).size, 176);
-    assert.ok([...kitCups(c)].every((p) => p.startsWith("KingOfTheHillPosition/")), "all at the table centre");
+    assert.ok([...kitCups(c)].every((p) => p.startsWith("BeerPong/KingOfTheHillPosition/")), "all at the table centre");
     // tiers stack one cup height apart (Game.cs:651-664)
     assert.ok(CM(world, c, 1)._position_offset.y > CM(world, c, 0)._position_offset.y);
     assert.equal(P(world, c, 0)._doRandomCupColor, true, "random cup colours");
@@ -444,16 +446,21 @@ test("desktop: holding the throw key charges the throw, letting go throws along 
   ann.input({ type: "key", key: "R", pressed: true });
   await world.run(600);
   ann.input({ type: "key", key: "R", pressed: false });
-  ann.drop(SLUG, "0", "ball0"); // ReleaseGrab() lets go; the fake host does not raise the drop by itself
+  // GameObject.ReleaseGrab() lets go: the fake host raises the drop itself
   await world.run(400);
   const ball = B(world, bob);
   assert.equal(ball._state[0], BallState.Flying);
   // charge ~0.6 s of 1 s -> speed min(5, 0.6 * 5) * 1 = 3 m/s (Ball.cs:552-563), then aim assist (strength 0.3) may bend it
   const v = ball._start_velocity;
   assert.ok(v.magnitude > 1 && v.magnitude < 8, `speed ${v.magnitude}`);
-  const launch = ann.graph(SLUG).records.filter((r) => r.op === "ballPhys" && r.args[0] === "fly");
-  assert.equal(launch.length, 1, "the thrower's page launches the physics ball once");
-  assert.equal(bob.graph(SLUG).records.filter((r) => r.op === "ballPhys").length, 0, "other pages never move the ball");
+  const launch = ann.graph(SLUG).records.filter((r) => r.op === "rbKinematic" && r.args[0] === "0");
+  assert.equal(launch.length, 1, "the thrower's page makes the ball dynamic once");
+  const velocities = ann.graph(SLUG).records.filter((r) => r.op === "rbVelocity" && r.args.some((a) => Number(a) !== 0));
+  assert.equal(velocities.length, 1, "and gives it the throw's velocity once");
+  assert.deepEqual(velocities[0]!.args.map(Number).map((n) => n.toFixed(3)), [v.x, v.y, v.z].map((n) => n.toFixed(3)));
+  const bobs = bob.graph(SLUG).records.filter((r) => r.target === bindings.refs.indexOf("ball0").toString() && r.op.startsWith("rb"));
+  assert.ok(bobs.length > 0 && bobs.every((r) => r.op === "rbVelocity" ? r.args.every((a) => Number(a) === 0) : r.args[0] === "1"),
+    "other pages only ever keep the ball kinematic");
   assert.ok(ann.graph(SLUG).floats.get("strength/_Strength") === "0", "the charge bar is cleared");
   assert.deepEqual(problems(world), []);
 });
@@ -477,7 +484,7 @@ test("AI against AI: turns pass, AI throws and hits are not counted, nothing sta
     assert.equal(P(world, c, 1)._numberOfThrows, 0);
     assert.ok(P(world, c, 0)._lastAimAssistStrength > 0, "the AI publishes its skill as the last assist");
   }
-  assert.ok(ann.graph(SLUG).records.some((r) => r.op === "ballPhys" && r.args[0] === "fly"), "the AI launched balls");
+  assert.ok(ann.graph(SLUG).records.some((r) => r.op === "rbKinematic" && r.args[0] === "0"), "the AI launched balls");
   assert.ok(world.agree());
   assert.deepEqual(problems(world), []);
 });

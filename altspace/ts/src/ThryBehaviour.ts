@@ -9,6 +9,8 @@ export type LogLevelValue = (typeof LogLevel)[keyof typeof LogLevel];
 
 /** ThryBehaviour.cs:14-29 */
 export abstract class ThryBehaviour extends Behaviour {
+  /** Nothing here is run by another client (upstream has no network events). */
+  static override networkCallable: readonly string[] = [];
   protected abstract get LogPrefix(): string;
   /** [SerializeField] LogMinLevel, default Warning (the prefab's Game has 1). */
   LogMinLevel: number = LogLevel.Warning;

@@ -1,18 +1,20 @@
 // _Internal/UI/SimpleUIToggleGroup.cs (Thryrallo/UdonPrefabs, MIT): the settings panel's tab bar.
 //
 // Each tab Toggle reports its value through the relay graph (uiToggle) to _Toggle0 .. _Toggle5. Upstream's Toggles
-// also switch their tab's content with a UnityEvent (Toggle -> GameObject.SetActive), which stays on the Unity side:
-// setting a tab from here therefore sets isOn *with* notification (uiSetToggle ... |1).
+// also switch their tab's content with a UnityEvent (Toggle -> GameObject.SetActive). The kit carries no UnityEvent
+// calls (the builder strips them), so the content objects (`Contents`, from the same UnityEvents) are switched from
+// here, on the clicking client and on every other one.
 //
 // Change: a tab Toggle turning off is ignored. In Unity the ToggleGroup turns the old tab off before the new one on,
 // so upstream briefly writes -1 ("no tab") to the synced field before the new index; here only the new index is sent.
 
 import type { GameObject } from "../portkit/src/index.ts";
-import { RememberValueOp, SendValueOp } from "./PortOps.ts";
 import { SimpleUIInput } from "./SimpleUIInput.ts";
 
 export class SimpleUIToggleGroup extends SimpleUIInput {
   Toggles: GameObject[] = [];
+  /** The tab contents each Toggle switched with its UnityEvent (`Main/Game` ... `Main/Credits`). */
+  Contents: GameObject[] = [];
   private _states: boolean[] = [];
 
   protected override get VariableType(): "int" {
@@ -28,8 +30,9 @@ export class SimpleUIToggleGroup extends SimpleUIInput {
     this._supressExecutes = true;
     for (let i = 0; i < this.Toggles.length; i++) {
       this._states[i] = i === index;
-      SendValueOp(this.Host, "uiSetToggle", this.Toggles[i]!.key, [i === index ? "1" : "0", "1"]);
+      this.Host.uiSetToggle(this.Toggles[i]!.key, i === index);
     }
+    this.ShowContent(index);
     this._supressExecutes = false;
   }
 
@@ -37,12 +40,17 @@ export class SimpleUIToggleGroup extends SimpleUIInput {
     this._states = this.Toggles.map((_, i) => i === 0);
   }
 
+  private ShowContent(index: number): void {
+    for (let i = 0; i < this.Contents.length; i++) this.Contents[i]?.SetActive(i === index);
+  }
+
   private Clicked(index: number, isOn: boolean): void {
     if (!isOn) return;
     for (let i = 0; i < this.Toggles.length; i++) {
       this._states[i] = i === index;
-      RememberValueOp(this.Host, "uiSetToggle", this.Toggles[i]!.key, [i === index ? "1" : "0", "1"]);
+      this.Host.uiSetToggle(this.Toggles[i]!.key, i === index);
     }
+    this.ShowContent(index);
     this.Execute();
   }
 

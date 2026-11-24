@@ -18,9 +18,11 @@ import type { CupsManager } from "./CupsManager.ts";
 import type { Game } from "./Game.ts";
 import type { PlayerScoreAnnouncement } from "./PlayerScoreAnnouncement.ts";
 import { SimpleUISetterExtension } from "./SimpleUISetterExtension.ts";
-import { FormatD4, FormatF0 } from "./Unity.ts";
+import { FormatD4, FormatF0 } from "./CSharp.ts";
 
 export class Player extends SimpleUISetterExtension {
+  /** Nothing here is run by another client: every change travels as synced state (upstream has no network events). */
+  static override networkCallable: readonly string[] = [];
   static override synced = [
     "_lastAimAssistStrength",
     "_numberOfThrows",

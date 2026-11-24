@@ -13,9 +13,9 @@
 import { Quaternion, Vector3 } from "../portkit/src/index.ts";
 import { Cup, type CupTemplate } from "./Cup.ts";
 import type { Player } from "./Player.ts";
-import { SendOp } from "./PortOps.ts";
+import { CUP_TEMPLATE, CupPlace } from "./PortOps.ts";
 import { SimpleUISetterExtension } from "./SimpleUISetterExtension.ts";
-import { CastInt } from "./Unity.ts";
+import { CastInt } from "./CSharp.ts";
 
 /** CupsManager.cs:11-18 */
 export const CupsShape = { None: -1, Triangle: 0, Square: 1, Circle: 2, HashTag: 3 } as const;
@@ -27,6 +27,8 @@ const MODE_NORMAL = 0;
 export class CupsManager extends SimpleUISetterExtension {
   static override synced = ["_cupOwnersAtPositions", "_scale", "_anchor_id", "_position_offset", "_hit", "_existing_glasses_count", "_shape", "_rows"];
   static override fieldChangeCallbacks = { _shape: "Shape", _rows: "Rows" };
+  /** Nothing here is run by another client (upstream has no network events). */
+  static override networkCallable: readonly string[] = [];
 
   static readonly PLAYER_VALUE_NONE = 255;
   static readonly MAX_ROWS = 11;
@@ -488,16 +490,23 @@ export class CupsManager extends SimpleUISetterExtension {
 
   // ---- the kit side of a cup copy (port) ----------------------------------------------------------------------
 
-  /** Makes, moves and colours (on) or destroys (off) the cup copy in the kit: game op `cup` (PortOps.ts). */
+  /**
+   * Makes, moves and colours (on) or destroys (off) the cup copy in the kit: the standard ops `spawn` (a copy of the
+   * anchor's inactive `CupTemplate`) and `despawn`, and the game op `cupPlace` (PortOps.ts).
+   */
   EmitCup(cup: Cup, on: boolean): void {
-    const anchor = "@" + this.SidePlayer.GameManager.AnchorPath(this.SidePlayer.PlayerIndex, cup.Anchor_id);
+    const anchor = this.SidePlayer.GameManager.AnchorPath(this.SidePlayer.PlayerIndex, cup.Anchor_id);
+    const path = "@" + anchor + "/" + cup.name;
     if (!on) {
-      SendOp(this.Host, "cup", anchor, [cup.name, "0"]);
+      if (cup.spawned) this.Host.despawn(path);
+      cup.spawned = false;
       return;
     }
-    const p = cup.localPosition;
-    const c = cup.color;
-    SendOp(this.Host, "cup", anchor, [cup.name, "1", p.x, p.y, p.z, cup.localScale, c.r, c.g, c.b]);
+    if (!cup.spawned) {
+      this.Host.spawn("@" + anchor + "/" + CUP_TEMPLATE, cup.name);
+      cup.spawned = true;
+    }
+    CupPlace(this.Host, path, cup.localPosition, cup.localScale, cup.color);
   }
 
   /** The kit path of a cup copy, for `cupInside`. */

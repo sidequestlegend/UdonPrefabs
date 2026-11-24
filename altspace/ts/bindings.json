@@ -3,1477 +3,1735 @@
   "slug": "beer-pong",
   "hash": "",
   "provisional": "Written by ts/tools/make-bindings.ts from PORT.md section 5, not by the kit builder: paths, sizes and positions are unconfirmed and refs order will change.",
-  "root": "BeerPong",
   "bundles": {
     "windows": "",
     "android": ""
   },
   "objects": {
+    "beerPong": {
+      "path": "BeerPong",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
     "table": {
-      "path": "table",
+      "path": "BeerPong/table",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "table2": {
-      "path": "table/[ThryBP]2Players",
+      "path": "BeerPong/table/[ThryBP]2Players",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "table3": {
-      "path": "table/[ThryBP]3Players",
+      "path": "BeerPong/table/[ThryBP]3Players",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "table4": {
-      "path": "table/[ThryBP]4Players",
+      "path": "BeerPong/table/[ThryBP]4Players",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "splash": {
-      "path": "SplashParticles",
+      "path": "BeerPong/SplashParticles",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "strength": {
-      "path": "Strength Indicator/Quad",
+      "path": "BeerPong/Strength Indicator/Quad",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "ball0": {
-      "path": "Ball",
+      "path": "BeerPong/Ball",
       "sync": "transform",
       "grab": true,
       "click": false,
       "seat": false
     },
     "ball1": {
-      "path": "Ball (1)",
+      "path": "BeerPong/Ball (1)",
       "sync": "transform",
       "grab": true,
       "click": false,
       "seat": false
     },
     "ball2": {
-      "path": "Ball (2)",
+      "path": "BeerPong/Ball (2)",
       "sync": "transform",
       "grab": true,
       "click": false,
       "seat": false
     },
     "ball3": {
-      "path": "Ball (3)",
+      "path": "BeerPong/Ball (3)",
       "sync": "transform",
       "grab": true,
       "click": false,
       "seat": false
     },
     "p0": {
-      "path": "Players/Player",
+      "path": "BeerPong/Players/Player",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0score": {
-      "path": "Players/Player/ScoreTable/Points",
+      "path": "BeerPong/Players/Player/ScoreTable/Points",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0uiButton": {
-      "path": "Players/Player/Fixture UI/Button Open Settings",
+      "path": "BeerPong/Players/Player/Fixture UI/Button Open Settings",
       "sync": "none",
       "grab": false,
       "click": true,
       "seat": false
     },
     "p0uiAnim": {
-      "path": "Players/Player/Fixture UI",
+      "path": "BeerPong/Players/Player/Fixture UI",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0popup": {
-      "path": "Players/Player/Temp Scoreboard",
+      "path": "BeerPong/Players/Player/Temp Scoreboard",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0popupScore": {
-      "path": "Players/Player/Temp Scoreboard/Canvas/Score",
+      "path": "BeerPong/Players/Player/Temp Scoreboard/Canvas/Score",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0popupAssist": {
-      "path": "Players/Player/Temp Scoreboard/Canvas/Player Aim Assist/Value",
+      "path": "BeerPong/Players/Player/Temp Scoreboard/Canvas/Player Aim Assist/Value",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0popupBg0": {
-      "path": "Players/Player/Temp Scoreboard/Canvas/BG_scoreboard",
+      "path": "BeerPong/Players/Player/Temp Scoreboard/Canvas/BG_scoreboard",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0popupBg1": {
-      "path": "Players/Player/Temp Scoreboard/Canvas/BG_scoreboard/BG",
+      "path": "BeerPong/Players/Player/Temp Scoreboard/Canvas/BG_scoreboard/BG",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0lastAssist": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Last Aim Assist/Value",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Last Aim Assist/Value",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0navbar": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/NavBar",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/NavBar",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0tabGame": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/NavBar/Game",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/NavBar/Game",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0tabRules": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/NavBar/Rules",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/NavBar/Rules",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0tabPlayer": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/NavBar/Player",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/NavBar/Player",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0tabAI": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/NavBar/AI",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/NavBar/AI",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0tabVisual": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/NavBar/Visual",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/NavBar/Visual",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0tabCredits": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/NavBar/Credits",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/NavBar/Credits",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0aiSettings": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AI",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AI",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0aimAssistSettings": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0avatarColor": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Visual/UseAvatarThemeColor",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Visual/UseAvatarThemeColor",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0adaptiveAim": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AdaptiveAim",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AdaptiveAim",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0cupsAnchor": {
+      "path": "BeerPong/Players/Player/[GamemodeNormal]Cups Anchor",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0_mode": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0_modeLabel": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Label",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Label",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0_modeLeft": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Left",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Left",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0_modeRight": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Right",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Right",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0_countHandle": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount/Handle Slide Area/Handle/Text",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount/Handle Slide Area/Handle/Text",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0_count": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0_teams": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Teams",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Teams",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0_barrier": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Barrier",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Barrier",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0_selfFire": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Rules/Self Fire",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Rules/Self Fire",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0_friendlyFire": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Rules/Friendly Fire (Teams):",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Rules/Friendly Fire (Teams):",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0_autoRespawn": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Rules/Auto Respawn Balls",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Rules/Auto Respawn Balls",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0_rowsHandle": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows/Handle Slide Area/Handle/Text",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows/Handle Slide Area/Handle/Text",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0_rows": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0_shape": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0_shapeLabel": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Label",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Label",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0_shapeLeft": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Left",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Left",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0_shapeRight": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Right",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Right",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0_reset": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Reset",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Reset",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0_rerack": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Rerack",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Rerack",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0_sync": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Global/Sync",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Global/Sync",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0_resetAll": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Global/Reset",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Global/Reset",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0_ai": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0_aiAdaptive": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AI/Adaptive",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AI/Adaptive",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0_aiSkill": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI Skill",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI Skill",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0_aimAssist": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AimAssist",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AimAssist",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0_pointsPopup": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Visual/Points Popup",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Visual/Points Popup",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0_size": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Slider",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Slider",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0_sizeReset": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Reset",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Reset",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p0_volume": {
-      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Volume/Container/Volume",
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Volume/Container/Volume",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_volumeToggle": {
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Volume/Toggle",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_volumeContainer": {
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Volume/Container",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0contentGame": {
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Game",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0contentRules": {
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Rules",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0contentPlayer": {
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0contentAI": {
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/AI",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0contentVisual": {
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Visual",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0contentCredits": {
+      "path": "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Credits",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1": {
-      "path": "Players/Player (1)",
+      "path": "BeerPong/Players/Player (1)",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1score": {
-      "path": "Players/Player (1)/ScoreTable/Points",
+      "path": "BeerPong/Players/Player (1)/ScoreTable/Points",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1uiButton": {
-      "path": "Players/Player (1)/Fixture UI/Button Open Settings",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Button Open Settings",
       "sync": "none",
       "grab": false,
       "click": true,
       "seat": false
     },
     "p1uiAnim": {
-      "path": "Players/Player (1)/Fixture UI",
+      "path": "BeerPong/Players/Player (1)/Fixture UI",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1popup": {
-      "path": "Players/Player (1)/Temp Scoreboard",
+      "path": "BeerPong/Players/Player (1)/Temp Scoreboard",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1popupScore": {
-      "path": "Players/Player (1)/Temp Scoreboard/Canvas/Score",
+      "path": "BeerPong/Players/Player (1)/Temp Scoreboard/Canvas/Score",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1popupAssist": {
-      "path": "Players/Player (1)/Temp Scoreboard/Canvas/Player Aim Assist/Value",
+      "path": "BeerPong/Players/Player (1)/Temp Scoreboard/Canvas/Player Aim Assist/Value",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1popupBg0": {
-      "path": "Players/Player (1)/Temp Scoreboard/Canvas/BG_scoreboard",
+      "path": "BeerPong/Players/Player (1)/Temp Scoreboard/Canvas/BG_scoreboard",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1popupBg1": {
-      "path": "Players/Player (1)/Temp Scoreboard/Canvas/BG_scoreboard/BG",
+      "path": "BeerPong/Players/Player (1)/Temp Scoreboard/Canvas/BG_scoreboard/BG",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1lastAssist": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Last Aim Assist/Value",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Last Aim Assist/Value",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1navbar": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1tabGame": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/Game",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/Game",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1tabRules": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/Rules",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/Rules",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1tabPlayer": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/Player",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/Player",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1tabAI": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/AI",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/AI",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1tabVisual": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/Visual",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/Visual",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1tabCredits": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/Credits",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/Credits",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1aiSettings": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AI",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AI",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1aimAssistSettings": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1avatarColor": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Visual/UseAvatarThemeColor",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Visual/UseAvatarThemeColor",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1adaptiveAim": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AdaptiveAim",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AdaptiveAim",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1cupsAnchor": {
+      "path": "BeerPong/Players/Player (1)/[GamemodeNormal]Cups Anchor",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1_mode": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1_modeLabel": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Label",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Label",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1_modeLeft": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Left",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Left",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1_modeRight": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Right",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Right",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1_countHandle": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount/Handle Slide Area/Handle/Text",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount/Handle Slide Area/Handle/Text",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1_count": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1_teams": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Teams",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Teams",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1_barrier": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Barrier",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Barrier",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1_selfFire": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Rules/Self Fire",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Rules/Self Fire",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1_friendlyFire": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Rules/Friendly Fire (Teams):",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Rules/Friendly Fire (Teams):",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1_autoRespawn": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Rules/Auto Respawn Balls",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Rules/Auto Respawn Balls",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1_rowsHandle": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows/Handle Slide Area/Handle/Text",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows/Handle Slide Area/Handle/Text",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1_rows": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1_shape": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1_shapeLabel": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Label",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Label",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1_shapeLeft": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Left",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Left",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1_shapeRight": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Right",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Right",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1_reset": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Reset",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Reset",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1_rerack": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Rerack",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Rerack",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1_sync": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Sync",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Sync",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1_resetAll": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Reset",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Reset",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1_ai": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1_aiAdaptive": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AI/Adaptive",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AI/Adaptive",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1_aiSkill": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI Skill",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI Skill",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1_aimAssist": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AimAssist",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AimAssist",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1_pointsPopup": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Visual/Points Popup",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Visual/Points Popup",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1_size": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Slider",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Slider",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1_sizeReset": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Reset",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Reset",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p1_volume": {
-      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Volume/Container/Volume",
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Volume/Container/Volume",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_volumeToggle": {
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Volume/Toggle",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_volumeContainer": {
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Volume/Container",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1contentGame": {
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1contentRules": {
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Rules",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1contentPlayer": {
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1contentAI": {
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1contentVisual": {
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Visual",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1contentCredits": {
+      "path": "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Credits",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2": {
-      "path": "Players/Player (2)",
+      "path": "BeerPong/Players/Player (2)",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2score": {
-      "path": "Players/Player (2)/ScoreTable/Points",
+      "path": "BeerPong/Players/Player (2)/ScoreTable/Points",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2uiButton": {
-      "path": "Players/Player (2)/Fixture UI/Button Open Settings",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Button Open Settings",
       "sync": "none",
       "grab": false,
       "click": true,
       "seat": false
     },
     "p2uiAnim": {
-      "path": "Players/Player (2)/Fixture UI",
+      "path": "BeerPong/Players/Player (2)/Fixture UI",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2popup": {
-      "path": "Players/Player (2)/Temp Scoreboard",
+      "path": "BeerPong/Players/Player (2)/Temp Scoreboard",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2popupScore": {
-      "path": "Players/Player (2)/Temp Scoreboard/Canvas/Score",
+      "path": "BeerPong/Players/Player (2)/Temp Scoreboard/Canvas/Score",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2popupAssist": {
-      "path": "Players/Player (2)/Temp Scoreboard/Canvas/Player Aim Assist/Value",
+      "path": "BeerPong/Players/Player (2)/Temp Scoreboard/Canvas/Player Aim Assist/Value",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2popupBg0": {
-      "path": "Players/Player (2)/Temp Scoreboard/Canvas/BG_scoreboard",
+      "path": "BeerPong/Players/Player (2)/Temp Scoreboard/Canvas/BG_scoreboard",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2popupBg1": {
-      "path": "Players/Player (2)/Temp Scoreboard/Canvas/BG_scoreboard/BG",
+      "path": "BeerPong/Players/Player (2)/Temp Scoreboard/Canvas/BG_scoreboard/BG",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2lastAssist": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Last Aim Assist/Value",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Last Aim Assist/Value",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2navbar": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2tabGame": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/Game",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/Game",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2tabRules": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/Rules",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/Rules",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2tabPlayer": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/Player",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/Player",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2tabAI": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/AI",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/AI",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2tabVisual": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/Visual",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/Visual",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2tabCredits": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/Credits",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/Credits",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2aiSettings": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AI",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AI",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2aimAssistSettings": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2avatarColor": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Visual/UseAvatarThemeColor",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Visual/UseAvatarThemeColor",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2adaptiveAim": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AdaptiveAim",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AdaptiveAim",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2cupsAnchor": {
+      "path": "BeerPong/Players/Player (2)/[GamemodeNormal]Cups Anchor",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2_mode": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2_modeLabel": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Label",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Label",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2_modeLeft": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Left",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Left",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2_modeRight": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Right",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Right",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2_countHandle": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount/Handle Slide Area/Handle/Text",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount/Handle Slide Area/Handle/Text",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2_count": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2_teams": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Teams",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Teams",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2_barrier": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Barrier",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Barrier",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2_selfFire": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Rules/Self Fire",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Rules/Self Fire",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2_friendlyFire": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Rules/Friendly Fire (Teams):",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Rules/Friendly Fire (Teams):",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2_autoRespawn": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Rules/Auto Respawn Balls",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Rules/Auto Respawn Balls",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2_rowsHandle": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows/Handle Slide Area/Handle/Text",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows/Handle Slide Area/Handle/Text",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2_rows": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2_shape": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2_shapeLabel": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Label",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Label",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2_shapeLeft": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Left",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Left",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2_shapeRight": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Right",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Right",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2_reset": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Reset",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Reset",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2_rerack": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Rerack",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Rerack",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2_sync": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Sync",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Sync",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2_resetAll": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Reset",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Reset",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2_ai": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2_aiAdaptive": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AI/Adaptive",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AI/Adaptive",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2_aiSkill": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI Skill",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI Skill",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2_aimAssist": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AimAssist",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AimAssist",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2_pointsPopup": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Visual/Points Popup",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Visual/Points Popup",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2_size": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Slider",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Slider",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2_sizeReset": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Reset",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Reset",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p2_volume": {
-      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Volume/Container/Volume",
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Volume/Container/Volume",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_volumeToggle": {
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Volume/Toggle",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_volumeContainer": {
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Volume/Container",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2contentGame": {
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2contentRules": {
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Rules",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2contentPlayer": {
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2contentAI": {
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2contentVisual": {
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Visual",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2contentCredits": {
+      "path": "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Credits",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3": {
-      "path": "Players/Player (3)",
+      "path": "BeerPong/Players/Player (3)",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3score": {
-      "path": "Players/Player (3)/ScoreTable/Points",
+      "path": "BeerPong/Players/Player (3)/ScoreTable/Points",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3uiButton": {
-      "path": "Players/Player (3)/Fixture UI/Button Open Settings",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Button Open Settings",
       "sync": "none",
       "grab": false,
       "click": true,
       "seat": false
     },
     "p3uiAnim": {
-      "path": "Players/Player (3)/Fixture UI",
+      "path": "BeerPong/Players/Player (3)/Fixture UI",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3popup": {
-      "path": "Players/Player (3)/Temp Scoreboard",
+      "path": "BeerPong/Players/Player (3)/Temp Scoreboard",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3popupScore": {
-      "path": "Players/Player (3)/Temp Scoreboard/Canvas/Score",
+      "path": "BeerPong/Players/Player (3)/Temp Scoreboard/Canvas/Score",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3popupAssist": {
-      "path": "Players/Player (3)/Temp Scoreboard/Canvas/Player Aim Assist/Value",
+      "path": "BeerPong/Players/Player (3)/Temp Scoreboard/Canvas/Player Aim Assist/Value",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3popupBg0": {
-      "path": "Players/Player (3)/Temp Scoreboard/Canvas/BG_scoreboard",
+      "path": "BeerPong/Players/Player (3)/Temp Scoreboard/Canvas/BG_scoreboard",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3popupBg1": {
-      "path": "Players/Player (3)/Temp Scoreboard/Canvas/BG_scoreboard/BG",
+      "path": "BeerPong/Players/Player (3)/Temp Scoreboard/Canvas/BG_scoreboard/BG",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3lastAssist": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Last Aim Assist/Value",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Last Aim Assist/Value",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3navbar": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3tabGame": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/Game",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/Game",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3tabRules": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/Rules",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/Rules",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3tabPlayer": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/Player",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/Player",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3tabAI": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/AI",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/AI",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3tabVisual": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/Visual",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/Visual",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3tabCredits": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/Credits",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/Credits",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3aiSettings": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AI",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AI",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3aimAssistSettings": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3avatarColor": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Visual/UseAvatarThemeColor",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Visual/UseAvatarThemeColor",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3adaptiveAim": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AdaptiveAim",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AdaptiveAim",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3cupsAnchor": {
+      "path": "BeerPong/Players/Player (3)/[GamemodeNormal]Cups Anchor",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3_mode": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3_modeLabel": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Label",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Label",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3_modeLeft": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Left",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Left",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3_modeRight": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Right",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Right",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3_countHandle": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount/Handle Slide Area/Handle/Text",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount/Handle Slide Area/Handle/Text",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3_count": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3_teams": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Teams",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Teams",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3_barrier": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Barrier",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Barrier",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3_selfFire": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Rules/Self Fire",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Rules/Self Fire",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3_friendlyFire": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Rules/Friendly Fire (Teams):",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Rules/Friendly Fire (Teams):",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3_autoRespawn": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Rules/Auto Respawn Balls",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Rules/Auto Respawn Balls",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3_rowsHandle": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows/Handle Slide Area/Handle/Text",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows/Handle Slide Area/Handle/Text",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3_rows": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3_shape": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3_shapeLabel": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Label",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Label",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3_shapeLeft": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Left",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Left",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3_shapeRight": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Right",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Right",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3_reset": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Reset",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Reset",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3_rerack": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Rerack",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Rerack",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3_sync": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Sync",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Sync",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3_resetAll": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Reset",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Reset",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3_ai": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3_aiAdaptive": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AI/Adaptive",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AI/Adaptive",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3_aiSkill": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI Skill",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI Skill",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3_aimAssist": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AimAssist",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AimAssist",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3_pointsPopup": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Visual/Points Popup",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Visual/Points Popup",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3_size": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Slider",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Slider",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3_sizeReset": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Reset",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Reset",
       "sync": "none",
       "grab": false,
       "click": false,
       "seat": false
     },
     "p3_volume": {
-      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Volume/Container/Volume",
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Volume/Container/Volume",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_volumeToggle": {
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Volume/Toggle",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_volumeContainer": {
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Volume/Container",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3contentGame": {
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3contentRules": {
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Rules",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3contentPlayer": {
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3contentAI": {
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3contentVisual": {
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Visual",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3contentCredits": {
+      "path": "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Credits",
       "sync": "none",
       "grab": false,
       "click": false,
@@ -1541,6 +1799,14 @@
     "p0_size",
     "p0_sizeReset",
     "p0_volume",
+    "p0_volumeToggle",
+    "p0_volumeContainer",
+    "p0contentGame",
+    "p0contentRules",
+    "p0contentPlayer",
+    "p0contentAI",
+    "p0contentVisual",
+    "p0contentCredits",
     "p1",
     "p1score",
     "p1uiButton",
@@ -1591,6 +1857,14 @@
     "p1_size",
     "p1_sizeReset",
     "p1_volume",
+    "p1_volumeToggle",
+    "p1_volumeContainer",
+    "p1contentGame",
+    "p1contentRules",
+    "p1contentPlayer",
+    "p1contentAI",
+    "p1contentVisual",
+    "p1contentCredits",
     "p2",
     "p2score",
     "p2uiButton",
@@ -1641,6 +1915,14 @@
     "p2_size",
     "p2_sizeReset",
     "p2_volume",
+    "p2_volumeToggle",
+    "p2_volumeContainer",
+    "p2contentGame",
+    "p2contentRules",
+    "p2contentPlayer",
+    "p2contentAI",
+    "p2contentVisual",
+    "p2contentCredits",
     "p3",
     "p3score",
     "p3uiButton",
@@ -1690,13 +1972,21 @@
     "p3_pointsPopup",
     "p3_size",
     "p3_sizeReset",
-    "p3_volume"
+    "p3_volume",
+    "p3_volumeToggle",
+    "p3_volumeContainer",
+    "p3contentGame",
+    "p3contentRules",
+    "p3contentPlayer",
+    "p3contentAI",
+    "p3contentVisual",
+    "p3contentCredits"
   ],
   "behaviours": [
     {
       "id": "game",
       "type": "Game",
-      "object": null,
+      "object": "beerPong",
       "fields": {
         "_initialPlayerColors": [
           {
@@ -1894,7 +2184,7 @@
             0
           ]
         },
-        "KingOfTheHillPath": "KingOfTheHillPosition",
+        "KingOfTheHillPath": "BeerPong/KingOfTheHillPosition",
         "ballRadiusLocal": 0.03,
         "LogMinLevel": 1
       }
@@ -1978,13 +2268,13 @@
             -1.317
           ]
         },
-        "CupsAnchorPath": "Players/Player/[GamemodeNormal]Cups Anchor"
+        "CupsAnchorPath": "BeerPong/Players/Player/[GamemodeNormal]Cups Anchor"
       }
     },
     {
       "id": "cm0",
       "type": "CupsManager",
-      "object": null,
+      "object": "p0cupsAnchor",
       "fields": {
         "Glass": {
           "boundsExtents": {
@@ -2306,6 +2596,16 @@
       }
     },
     {
+      "id": "p0_volumeOpen",
+      "type": "ToggleActive",
+      "object": "p0_volumeToggle",
+      "fields": {
+        "Target": {
+          "$obj": "p0_volumeContainer"
+        }
+      }
+    },
+    {
       "id": "p0_nav",
       "type": "SimpleUIToggleGroup",
       "object": "p0navbar",
@@ -2336,6 +2636,26 @@
           },
           {
             "$obj": "p0tabCredits"
+          }
+        ],
+        "Contents": [
+          {
+            "$obj": "p0contentGame"
+          },
+          {
+            "$obj": "p0contentRules"
+          },
+          {
+            "$obj": "p0contentPlayer"
+          },
+          {
+            "$obj": "p0contentAI"
+          },
+          {
+            "$obj": "p0contentVisual"
+          },
+          {
+            "$obj": "p0contentCredits"
           }
         ]
       }
@@ -2434,13 +2754,13 @@
             -1.317
           ]
         },
-        "CupsAnchorPath": "Players/Player (1)/[GamemodeNormal]Cups Anchor"
+        "CupsAnchorPath": "BeerPong/Players/Player (1)/[GamemodeNormal]Cups Anchor"
       }
     },
     {
       "id": "cm1",
       "type": "CupsManager",
-      "object": null,
+      "object": "p1cupsAnchor",
       "fields": {
         "Glass": {
           "boundsExtents": {
@@ -2762,6 +3082,16 @@
       }
     },
     {
+      "id": "p1_volumeOpen",
+      "type": "ToggleActive",
+      "object": "p1_volumeToggle",
+      "fields": {
+        "Target": {
+          "$obj": "p1_volumeContainer"
+        }
+      }
+    },
+    {
       "id": "p1_nav",
       "type": "SimpleUIToggleGroup",
       "object": "p1navbar",
@@ -2792,6 +3122,26 @@
           },
           {
             "$obj": "p1tabCredits"
+          }
+        ],
+        "Contents": [
+          {
+            "$obj": "p1contentGame"
+          },
+          {
+            "$obj": "p1contentRules"
+          },
+          {
+            "$obj": "p1contentPlayer"
+          },
+          {
+            "$obj": "p1contentAI"
+          },
+          {
+            "$obj": "p1contentVisual"
+          },
+          {
+            "$obj": "p1contentCredits"
           }
         ]
       }
@@ -2890,13 +3240,13 @@
             -1.317
           ]
         },
-        "CupsAnchorPath": "Players/Player (2)/[GamemodeNormal]Cups Anchor"
+        "CupsAnchorPath": "BeerPong/Players/Player (2)/[GamemodeNormal]Cups Anchor"
       }
     },
     {
       "id": "cm2",
       "type": "CupsManager",
-      "object": null,
+      "object": "p2cupsAnchor",
       "fields": {
         "Glass": {
           "boundsExtents": {
@@ -3218,6 +3568,16 @@
       }
     },
     {
+      "id": "p2_volumeOpen",
+      "type": "ToggleActive",
+      "object": "p2_volumeToggle",
+      "fields": {
+        "Target": {
+          "$obj": "p2_volumeContainer"
+        }
+      }
+    },
+    {
       "id": "p2_nav",
       "type": "SimpleUIToggleGroup",
       "object": "p2navbar",
@@ -3248,6 +3608,26 @@
           },
           {
             "$obj": "p2tabCredits"
+          }
+        ],
+        "Contents": [
+          {
+            "$obj": "p2contentGame"
+          },
+          {
+            "$obj": "p2contentRules"
+          },
+          {
+            "$obj": "p2contentPlayer"
+          },
+          {
+            "$obj": "p2contentAI"
+          },
+          {
+            "$obj": "p2contentVisual"
+          },
+          {
+            "$obj": "p2contentCredits"
           }
         ]
       }
@@ -3346,13 +3726,13 @@
             -1.317
           ]
         },
-        "CupsAnchorPath": "Players/Player (3)/[GamemodeNormal]Cups Anchor"
+        "CupsAnchorPath": "BeerPong/Players/Player (3)/[GamemodeNormal]Cups Anchor"
       }
     },
     {
       "id": "cm3",
       "type": "CupsManager",
-      "object": null,
+      "object": "p3cupsAnchor",
       "fields": {
         "Glass": {
           "boundsExtents": {
@@ -3674,6 +4054,16 @@
       }
     },
     {
+      "id": "p3_volumeOpen",
+      "type": "ToggleActive",
+      "object": "p3_volumeToggle",
+      "fields": {
+        "Target": {
+          "$obj": "p3_volumeContainer"
+        }
+      }
+    },
+    {
       "id": "p3_nav",
       "type": "SimpleUIToggleGroup",
       "object": "p3navbar",
@@ -3704,6 +4094,26 @@
           },
           {
             "$obj": "p3tabCredits"
+          }
+        ],
+        "Contents": [
+          {
+            "$obj": "p3contentGame"
+          },
+          {
+            "$obj": "p3contentRules"
+          },
+          {
+            "$obj": "p3contentPlayer"
+          },
+          {
+            "$obj": "p3contentAI"
+          },
+          {
+            "$obj": "p3contentVisual"
+          },
+          {
+            "$obj": "p3contentCredits"
           }
         ]
       }
@@ -4016,6 +4426,12 @@
       "method": "OnValueChanged"
     },
     {
+      "object": "p0_volumeToggle",
+      "kind": "uiToggle",
+      "behaviour": "p0_volumeOpen",
+      "method": "OnValueChanged"
+    },
+    {
       "object": "p0tabGame",
       "kind": "uiToggle",
       "behaviour": "p0_nav",
@@ -4187,6 +4603,12 @@
       "object": "p1_volume",
       "kind": "uiSlider",
       "behaviour": "p1_volume",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p1_volumeToggle",
+      "kind": "uiToggle",
+      "behaviour": "p1_volumeOpen",
       "method": "OnValueChanged"
     },
     {
@@ -4364,6 +4786,12 @@
       "method": "OnValueChanged"
     },
     {
+      "object": "p2_volumeToggle",
+      "kind": "uiToggle",
+      "behaviour": "p2_volumeOpen",
+      "method": "OnValueChanged"
+    },
+    {
       "object": "p2tabGame",
       "kind": "uiToggle",
       "behaviour": "p2_nav",
@@ -4538,6 +4966,12 @@
       "method": "OnValueChanged"
     },
     {
+      "object": "p3_volumeToggle",
+      "kind": "uiToggle",
+      "behaviour": "p3_volumeOpen",
+      "method": "OnValueChanged"
+    },
+    {
       "object": "p3tabGame",
       "kind": "uiToggle",
       "behaviour": "p3_nav",
@@ -4572,6 +5006,30 @@
       "kind": "uiToggle",
       "behaviour": "p3_nav",
       "method": "_Toggle5"
+    },
+    {
+      "object": "ball0",
+      "kind": "collisionEnter",
+      "behaviour": "ball0",
+      "method": "OnBallCollision"
+    },
+    {
+      "object": "ball1",
+      "kind": "collisionEnter",
+      "behaviour": "ball1",
+      "method": "OnBallCollision"
+    },
+    {
+      "object": "ball2",
+      "kind": "collisionEnter",
+      "behaviour": "ball2",
+      "method": "OnBallCollision"
+    },
+    {
+      "object": "ball3",
+      "kind": "collisionEnter",
+      "behaviour": "ball3",
+      "method": "OnBallCollision"
     }
   ]
 }
