@@ -18,10 +18,14 @@ namespace BeerPong
 
         static void Dump(string path)
         {
-            var go = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            var asset = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            var scene = UnityEditor.SceneManagement.EditorSceneManager.NewPreviewScene();
+            var go = asset == null ? null : (GameObject)Object.Instantiate(asset);
+            if (go != null) UnityEngine.SceneManagement.SceneManager.MoveGameObjectToScene(go, scene);
             var text = new StringBuilder();
             if (go == null) text.AppendLine("no prefab at " + path);
             else Walk(go.transform, 0, text);
+            UnityEditor.SceneManagement.EditorSceneManager.ClosePreviewScene(scene);
             Directory.CreateDirectory("Logs");
             File.WriteAllText("Logs/beerpong_dump.txt", text.ToString());
         }
@@ -33,6 +37,7 @@ namespace BeerPong
             var ui = t.GetComponent<UnityEngine.UI.Text>();
             if (ui != null) extra += " text='" + ui.text.Replace("\n", "\\n") + "'";
             var r = t.GetComponent<Renderer>();
+            if (r != null && r.bounds.size.magnitude > 2f) extra += $" BIGBOUNDS c={r.bounds.center:F2} s={r.bounds.size:F2}";
             if (r != null) extra += " mats=" + string.Join(",", r.sharedMaterials.Select(m => m == null ? "null" : m.name + "(" + (m.shader != null ? m.shader.name : "?") + ")"));
             text.AppendLine(new string(' ', depth * 2) + t.name + (t.gameObject.activeSelf ? "" : " [off]") + " L" + t.gameObject.layer +
                             $" lp=({t.localPosition.x:F3},{t.localPosition.y:F3},{t.localPosition.z:F3}) le=({t.localEulerAngles.x:F0},{t.localEulerAngles.y:F0},{t.localEulerAngles.z:F0}) ls={t.localScale.x:F3}" +
