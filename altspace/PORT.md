@@ -1,6 +1,6 @@
 # Beer pong: port analysis
 
-Analysis only (2026-11-24). Nothing was built, compiled, run or opened in Unity. Every statement
+Analysis written 2026-11-24 before any work; section 0 is the port's status since. In the analysis nothing was built, compiled, run or opened in Unity. Every statement
 about upstream was read from the clone at `C:\workspace\AltspaceGames\beer-pong`; statements about
 the platform come from `portkit/README.md`, the approved plan and the SDK 4.0.29 `Docs/` folder.
 Where something could not be determined it says so.
@@ -10,6 +10,154 @@ Reference style: a bare script name is under `_Internal/BeerPong/scripts/` (`Bal
 `_Internal/_Scripts/x.cs`, `HandCollider.cs` is `_Internal/HandColliderSystem/HandCollider.cs`.
 Prefab objects are given by hierarchy path inside `BeerPong.prefab` (repo root, 75,690 lines).
 "Slot" means one of the four `Player` objects (a side of the table), not a person.
+
+---
+
+## 0. Port status: the TypeScript rules (2026-11-24)
+
+This section is the state of the port; where it differs from the analysis below (written before the work), it wins.
+Rung 1 only: nothing has been built or run in Unity yet, and `ts/bindings.json` is provisional (see "Bindings").
+
+### 0.1 Decisions (coordinator, after the analysis)
+
+- **The ball in flight is a real Unity rigidbody**, owned and simulated by the thrower's client and transform-synced
+  (`sync: "transform"`), as upstream lets the owner's PhysX decide. The formula replay and the contact solver of
+  section 8.3 (`BallFlight.ts`, the `motion` op, the segment table, time stretching) are **not built**; nor is the
+  `vel` relay op: the ball graph reports the release instead (below).
+- **Cup hits are decided by the thrower's client** from contacts the kit's ball graph reports to the page
+  (graph-to-page event `bpContact`); every client's graph may report, only the ball's owner acts (Ball.cs:1000).
+- The TypeScript owns: modes and settings, racks, re-racks, removal and colours (King of the Hill up to 176 cups),
+  turns, scores, announcements, the start of a throw (VR release velocity from the graph event `bpRelease`; desktop
+  charge on a key), hit and miss bookkeeping, the AI, the settings panels' logic.
+- Dead upstream features are not ported: the adaptive aim assist and its toggle (item 77), the `Locked` state and
+  the throw-indicator arrow (item 10). Also left out: avatar theme colour (16), Index trigger release (18), developer
+  cheat (78), click sound and haptic (93).
+- Other rules are literal; plain bugs are fixed and listed (0.5).
+- A fresh table takes its starting values from the snippet's attributes (section 8.2); a table resumed or joined
+  keeps what the room holds.
+
+### 0.2 What was built (`altspace/ts/`)
+
+| File | From | Notes |
+|---|---|---|
+| `src/Game.ts` | `Game.cs` | modes, side count, options, scoring, turns, AI targeting; the table's frame (holder pose x synced size) |
+| `src/CupsManager.ts` | `CupsManager.cs` | grid rules line for line; one-pass diff instead of the per-frame walk; cups through the `cup` op |
+| `src/Player.ts` | `Player.cs` | one side: score, colour, AI turn, panel state |
+| `src/Cup.ts` | `Cup.cs` | a plain object per cup copy (no behaviour); King of the Hill colours from Unity's generator (`src/Unity.ts`) |
+| `src/PlayerScoreAnnouncement.ts` | `PlayerScoreAnnouncement.cs` | |
+| `src/Ball.ts` | `Ball.cs` | state machine, throw start, aim assist and AI vectoring (:645-877 literal), rim, in-cup timers, misses; no motion |
+| `src/ThryBehaviour.ts` | `_Scripts/ThryBehaviour.cs`, `Logging.cs`, `Helpers.cs` (Duplicate) | |
+| `src/SimpleUISetterExtension.ts`, `src/SimpleUIInput.ts`, `src/SimpleUIToggle.ts`, `src/SimpleUISlider.ts`, `src/SimpleUIOptionSelector.ts`, `src/SimpleUIInteract.ts`, `src/SimpleUIToggleGroup.ts` | `_Internal/UI/` | the editor post-processes that fill `_simpleUIReferences`, `LinkedInputs` and `UdonBehaviours` are redone at run time from bindings |
+| `src/PortOps.ts`, `src/Unity.ts` | none | workarounds for runtime gaps (0.6) |
+| `tools/make-bindings.ts` -> `bindings.json` | section 5 | **provisional** object model (210 objects, 89 behaviours, 116 events); marked `"provisional"` in the file |
+| `golden/` -> `vectors/upstream.json` | `CupsManager.cs` | upstream's file compiled **unchanged** with dotnet 8 against `portkit/golden/UdonStubs.cs` (`npm run golden`) |
+| `test/racks.test.ts`, `test/scenarios.test.ts`, `test/helpers.ts` | | 18 tests (5 rules/vectors, 13 FakeRoom scenarios) |
+
+Not translated in this job: `UI/Localization.cs`, `UI/LocalizationMenu.cs` (labels ship in English, item 92),
+`HandCollider.cs` (the knock-out reads the page's hand poses instead), `VRDesktopToggler.cs` and `ClickSound.cs`
+(Unity side / left out).
+
+### 0.3 Kit side the TypeScript expects (the kit builder and its graphs must provide)
+
+Game relay ops (sent by `PortOps.ts`; add them in `BeerPongKitBuilder.RelayOps` and to the README op table):
+`cup|@<anchorPath>|<name>|<on>|lx|ly|lz|scale|r|g|b` (instantiate / move / colour all three LODs, or destroy, a copy
+of `[ThryBP]glass` named `[ThryBP]Cup <side> <index>`), `cupInside|@<cupPath>|1/0`, `ballPhys|<ball>|rest` and
+`ballPhys|<ball>|fly|px|py|pz|vx|vy|vz` (kinematic / dynamic with gravity), `uiSetToggle|<ref>|1/0|notify`,
+`uiSetSlider|<ref>|value`, `scale|@|s` (kit root scale = table size), `audioVolume|<ref>|v`.
+
+Ball graph (per ball, owner's physics) to page: `bpRelease|<ball>|vx|vy|vz|maxAngularDegPerSec` on a VR release (mean
+of the non-zero samples of the last 10 frames, Ball.cs:226-233, :511-527) and
+`bpContact|<ball>|<other name>|<own 1/0>|bx|by|bz|vx|vy|vz|cx|cy|cz|cupTopY` on every collision (the other object's
+name, whether it is under this kit's root, ball position and velocity before the contact, and for a cup its position
+and bounds top). The splash particle system's burst must be 20 (`particles|play`). The desktop strength bar
+(`_Strength` via `matFloat` on `Strength Indicator/Quad`) needs the shader remade. Layout numbers in bindings (team
+anchors, spawn points, cup bounds, ball radius) are from section 5 and the model files, to be re-measured.
+
+### 0.4 Checklist status (101 items of section 2)
+
+| Status | Count | Items |
+|---|---|---|
+| Ported and covered by a Node test | 67 | 1, 2, 3, 5, 6, 9, 11, 12, 13, 17, 19, 20, 22, 23, 24, 28, 30, 31, 32, 33, 35, 37, 39, 41, 44, 45, 46, 47, 48, 50, 51, 52, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 66, 67, 68, 69, 70, 71, 72, 74, 76, 79, 80, 84, 85, 86, 87, 88, 89, 90, 91, 94, 96, 97, 98, 101 |
+| Ported, not yet covered by a test | 19 | 4 (teleport), 7 (dividers), 8 (table indicator colour), 15, 29, 36 (knock-out from hand poses), 40, 42, 43, 49, 53 (cup positions: provisional sizes), 65, 73, 75, 81, 82, 83, 99, 100 |
+| Moved to the Unity side (owner's PhysX, platform sync, kit graph); the TypeScript part is done | 8 | 14, 21, 25, 26, 27 (sounds play, without the volume scale), 34, 38, 95 |
+| Left out | 6 | 10, 16, 18, 77, 78, 93 |
+| Not done in this job | 1 | 92 (localisation: English labels only) |
+
+Tests (`npm test`: typecheck, lint, 18 tests, all pass): rack layouts worked out by hand from the code with line
+references; all four shapes x rows 0-12 and every re-rack of 0-121 cups against upstream's own compiled
+`CupsManager.cs` (52 layouts, 488 reracks, 8 resets with Game's overwrites); scenarios on the fake room: two sides play
+a rack to the end; a hit reported by the thrower removes exactly that cup on every client while other clients'
+reports change nothing; a rim shot; a re-rack from the panel; settings changed on one panel reach every client and
+all four panels (teams, rules, aim assist, side count, mode selector, rows/shape, sync, size + reset, volume local,
+reset all, panel open and tab); King of the Hill 176 cups (27 state keys, largest leaf 1,151 bytes, no refused or
+rate-limited write); the thrower leaves mid-flight, with the ball in a cup (counted once), and while holding it; a
+late joiner; two tables in one room; desktop key throw; AI against AI; aim assist; scoring and collision rules per
+mode. `npm run build` gives a 449 KB `pk-beer-pong.js`.
+
+### 0.5 Bugs fixed (upstream behaviour changed on purpose)
+
+1. A HashTag re-rack lost cups: only 0, 5, 16, 33, 56 or 85 cups fit its row counts, so e.g. 6 left became 5
+   (55 reachable cases, found by the golden vectors). Rows are added until the remaining cups fit (`CupsManager.ts`).
+2. Re-creating a changed cup appended a duplicate to `_activeCupsList` (CupsManager.cs:456-459 with :548).
+3. The template cup has no `TableScaleTransform`, so `CupsManager.GlobalHeight` threw when the AI aimed in King of the
+   Hill or Big Pong (Game.cs:366, :372; Cup.cs:58-61).
+4. King of the Hill cups kept side colours on a client where a rack arrived before the side's random-colour flag
+   (SyncColor skips everything while random is on, CupsManager.cs:497); switching the flag now recolours.
+5. `ResetPlayer` set `_score` past its property, so the resetting client's own plate kept the old score (Player.cs:295).
+6. The Size setter refreshed the Aim Assist sliders (Game.cs:119), item 90.
+7. `ResetBalls` respawned balls the caller might not own (Game.cs:719, :727), item 99: Respawn takes ownership.
+8. `CountCupHit` wrote `_recentThrowsHits[-1]` (Game.cs:438), item 100: the ring belonged to the dead adaptive aim
+   assist and is gone.
+9. A VR release with no non-zero velocity sample gave a NaN velocity (Ball.cs:523): zero.
+10. The miss checks could each fire in one frame, passing the turn twice (Ball.cs:264-289): the first miss ends them.
+11. The desktop charge was never cleared (item 22).
+12. `_countedHit` was local (Ball.cs:60): synced, so a hit is counted once whoever finishes the turn (item 96).
+13. Nobody could take a ball whose holder left (item 97); a ball in flight whose thrower left was decided by
+    whichever client inherited it (item 96): the referee now respawns (held) or calls a miss (in flight); on the rim or
+    in a cup the new owner finishes the turn on the synced clock.
+14. An AI turn was lost when the client driving it left (item 98): the referee starts the AI after 6 s.
+15. Volume started at 1.0 until the slider moved (item 91): the `volume` setting (0.5) applies at start.
+16. Teams on/off made every receiving client take ownership of sides 2-3 to recolour them (Game.cs:559-579): only the
+    Game's owner does.
+
+Other changes (not bugs): cups appear at once (item 60); timers of a ball state run on the synced clock; the AI does
+not pull a ball out of a person's hand; the tab bar ignores a tab turning off (upstream briefly synced -1); the rim
+spiral starts from the synced `int(angle / 2)` on every client including the owner.
+
+### 0.6 Runtime gaps (portkit not edited; local workarounds in the game's files)
+
+1. **No way for game code to send a game-defined relay op.** The README lets games add ops (`KitBuilder.RelayOps`), but
+   `HostActions` is a fixed list. `PortOps.ts` calls the relay host's private batching sender `event`; the fake room's
+   graph notes "unknown op" for them (the tests filter exactly these seven names).
+2. No relay op to **set a uGUI Toggle or Slider** (only to receive `uiToggle` / `uiSlider`): game ops `uiSetToggle`,
+   `uiSetSlider`.
+3. No **rigidbody** control (kinematic, velocity) and no way to **create or destroy** copies of a kit object: game ops
+   `ballPhys`, `cup`, `cupInside`.
+4. No way to **scale the kit root** from game code (table Size): game op `scale` on `@`.
+5. No **AudioSource.volume** op, and `PlayOneShot` has no volume scale: `audioVolume` op; collision sounds play at the
+   source volume.
+6. `GameObject` has no **ReleaseGrab()**: `gameObject.host?.releaseGrab()` (an `@internal` member).
+7. No **IsVR** in the runtime: a hold in which the throw key was used is a desktop throw; otherwise the drop waits up to
+   10 ticks for `bpRelease`, then throws without it.
+8. `values.ts` lacks **Vector3.Angle, Vector3.Reflect, Quaternion.Angle, LookRotation and Unity's Random.InitState**:
+   `src/Unity.ts` (the xorshift128 generator is the widely documented one, not checked against Unity).
+9. Graph events with a reserved object kind (`collisionEnter`, `triggerEnter`) carry one argument after the target,
+   too few for a contact; the ball graph uses its own event name (`bpContact`).
+10. `Behaviour` has a `Player` getter, so upstream's field `CupsManager.Player` is `SidePlayer` here.
+11. `[FieldChangeCallback]` on a field that is not synced (`Game._volume`): a local `static localChangeCallbacks` map,
+    read by `SetProgramVariable` in `SimpleUIInput.ts`.
+12. Golden stubs lack `Mathf.Sqrt/Pow`, `Vector3 ==`, `Utilities` and `UnityEngine.Random`: shadowed in
+    `golden/Harness.cs` without editing `portkit/golden/UdonStubs.cs`.
+13. The fake room: its KeyCode table has only a few keys (the desktop test uses R), `ReleaseGrab` raises no drop (the
+    test drops), and its graph does not run game ops.
+
+### 0.7 Open
+
+- Everything Unity: the kit builder, real `bindings.json`, the game ops and the ball graph (0.3), rung 2-4.
+- Whether the platform's `drop` comes before or after the graph's `bpRelease` in the app (both orders are handled).
+- Whether `watchTransform` reports a physics-driven ball often enough for the "still for 1 s" and respawn-height misses
+  on the owner's page; if not, the ball graph should report those misses too.
+- Sounds' licence (section 6) and the art credit are unchanged from the analysis.
 
 ---
 
@@ -683,6 +831,9 @@ Also needed in the shared runtime rather than per game: Unity-compatible `Vector
 Gizmos: `<bs-gizmo type="position" attribute="position"/>`; `<bs-gizmo type="box" attribute="position" size="1.52 1.64 2.96"/>` (2-side table); `<bs-gizmo type="box" attribute="position" size="3.4 1.64 3.0"/>` (largest footprint, 3 and 4 sides); `<bs-gizmo type="sphere" attribute="position" radius="3"/>` (throwing room). A gizmo bound to an attribute is centred on it and cannot also take an offset, so the boxes are twice the table height (0.82) to show its top; half of each box is below the floor. Footprints are from the model bounds (2 sides: 1.51 x 2.96 m; 3 sides: 3.31 x 2.87 m; 4 sides: 2.96 x 2.96 m) and must be re-measured by the kit builder.
 
 ### 8.3 What runs per frame and what is precomputed
+
+**Superseded (section 0.1):** the ball is a rigidbody simulated by the thrower's client; the solver, replay and
+`motion` / `vel` ops below were not built.
 
 Upstream does six things every frame (`Ball.cs:200-224`, `CupsManager.cs:476`). In the port:
 

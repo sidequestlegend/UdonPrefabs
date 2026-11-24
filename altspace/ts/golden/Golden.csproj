@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Golden vectors: Thryrallo's own CupsManager.cs, unchanged, compiled with dotnet against portkit's stand-ins for
+       Unity, UdonSharp and VRChat (never in Unity), driven by Harness.cs. `npm run golden` writes vectors/upstream.json. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <NoWarn>CS0108;CS0114;CS0162;CS0168;CS0169;CS0219;CS0414;CS0649;CS0660;CS0661;CS8981</NoWarn>
+    <BaseIntermediateOutputPath>obj/</BaseIntermediateOutputPath>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../portkit/golden/UdonStubs.cs" />
+    <Compile Include="../../../_Internal/BeerPong/scripts/CupsManager.cs" />
+    <Compile Include="Harness.cs" />
+  </ItemGroup>
+</Project>

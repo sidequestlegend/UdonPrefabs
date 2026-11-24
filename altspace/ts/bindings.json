@@ -1,0 +1,4577 @@
+{
+  "schema": 1,
+  "slug": "beer-pong",
+  "hash": "",
+  "provisional": "Written by ts/tools/make-bindings.ts from PORT.md section 5, not by the kit builder: paths, sizes and positions are unconfirmed and refs order will change.",
+  "root": "BeerPong",
+  "bundles": {
+    "windows": "",
+    "android": ""
+  },
+  "objects": {
+    "table": {
+      "path": "table",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "table2": {
+      "path": "table/[ThryBP]2Players",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "table3": {
+      "path": "table/[ThryBP]3Players",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "table4": {
+      "path": "table/[ThryBP]4Players",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "splash": {
+      "path": "SplashParticles",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "strength": {
+      "path": "Strength Indicator/Quad",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "ball0": {
+      "path": "Ball",
+      "sync": "transform",
+      "grab": true,
+      "click": false,
+      "seat": false
+    },
+    "ball1": {
+      "path": "Ball (1)",
+      "sync": "transform",
+      "grab": true,
+      "click": false,
+      "seat": false
+    },
+    "ball2": {
+      "path": "Ball (2)",
+      "sync": "transform",
+      "grab": true,
+      "click": false,
+      "seat": false
+    },
+    "ball3": {
+      "path": "Ball (3)",
+      "sync": "transform",
+      "grab": true,
+      "click": false,
+      "seat": false
+    },
+    "p0": {
+      "path": "Players/Player",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0score": {
+      "path": "Players/Player/ScoreTable/Points",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0uiButton": {
+      "path": "Players/Player/Fixture UI/Button Open Settings",
+      "sync": "none",
+      "grab": false,
+      "click": true,
+      "seat": false
+    },
+    "p0uiAnim": {
+      "path": "Players/Player/Fixture UI",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0popup": {
+      "path": "Players/Player/Temp Scoreboard",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0popupScore": {
+      "path": "Players/Player/Temp Scoreboard/Canvas/Score",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0popupAssist": {
+      "path": "Players/Player/Temp Scoreboard/Canvas/Player Aim Assist/Value",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0popupBg0": {
+      "path": "Players/Player/Temp Scoreboard/Canvas/BG_scoreboard",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0popupBg1": {
+      "path": "Players/Player/Temp Scoreboard/Canvas/BG_scoreboard/BG",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0lastAssist": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Last Aim Assist/Value",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0navbar": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/NavBar",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0tabGame": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/NavBar/Game",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0tabRules": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/NavBar/Rules",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0tabPlayer": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/NavBar/Player",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0tabAI": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/NavBar/AI",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0tabVisual": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/NavBar/Visual",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0tabCredits": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/NavBar/Credits",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0aiSettings": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AI",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0aimAssistSettings": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0avatarColor": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Visual/UseAvatarThemeColor",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0adaptiveAim": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AdaptiveAim",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_mode": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_modeLabel": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Label",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_modeLeft": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Left",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_modeRight": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Right",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_countHandle": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount/Handle Slide Area/Handle/Text",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_count": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_teams": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Teams",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_barrier": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Barrier",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_selfFire": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Rules/Self Fire",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_friendlyFire": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Rules/Friendly Fire (Teams):",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_autoRespawn": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Rules/Auto Respawn Balls",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_rowsHandle": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows/Handle Slide Area/Handle/Text",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_rows": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_shape": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_shapeLabel": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Label",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_shapeLeft": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Left",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_shapeRight": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Right",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_reset": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Reset",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_rerack": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Rerack",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_sync": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Global/Sync",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_resetAll": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Global/Reset",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_ai": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_aiAdaptive": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AI/Adaptive",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_aiSkill": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI Skill",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_aimAssist": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AimAssist",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_pointsPopup": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Visual/Points Popup",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_size": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Slider",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_sizeReset": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Reset",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p0_volume": {
+      "path": "Players/Player/Fixture UI/Slider/Panel/UI/Volume/Container/Volume",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1": {
+      "path": "Players/Player (1)",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1score": {
+      "path": "Players/Player (1)/ScoreTable/Points",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1uiButton": {
+      "path": "Players/Player (1)/Fixture UI/Button Open Settings",
+      "sync": "none",
+      "grab": false,
+      "click": true,
+      "seat": false
+    },
+    "p1uiAnim": {
+      "path": "Players/Player (1)/Fixture UI",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1popup": {
+      "path": "Players/Player (1)/Temp Scoreboard",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1popupScore": {
+      "path": "Players/Player (1)/Temp Scoreboard/Canvas/Score",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1popupAssist": {
+      "path": "Players/Player (1)/Temp Scoreboard/Canvas/Player Aim Assist/Value",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1popupBg0": {
+      "path": "Players/Player (1)/Temp Scoreboard/Canvas/BG_scoreboard",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1popupBg1": {
+      "path": "Players/Player (1)/Temp Scoreboard/Canvas/BG_scoreboard/BG",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1lastAssist": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Last Aim Assist/Value",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1navbar": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1tabGame": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/Game",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1tabRules": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/Rules",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1tabPlayer": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/Player",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1tabAI": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/AI",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1tabVisual": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/Visual",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1tabCredits": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/Credits",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1aiSettings": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AI",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1aimAssistSettings": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1avatarColor": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Visual/UseAvatarThemeColor",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1adaptiveAim": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AdaptiveAim",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_mode": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_modeLabel": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Label",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_modeLeft": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Left",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_modeRight": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Right",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_countHandle": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount/Handle Slide Area/Handle/Text",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_count": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_teams": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Teams",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_barrier": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Barrier",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_selfFire": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Rules/Self Fire",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_friendlyFire": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Rules/Friendly Fire (Teams):",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_autoRespawn": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Rules/Auto Respawn Balls",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_rowsHandle": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows/Handle Slide Area/Handle/Text",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_rows": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_shape": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_shapeLabel": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Label",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_shapeLeft": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Left",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_shapeRight": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Right",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_reset": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Reset",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_rerack": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Rerack",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_sync": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Sync",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_resetAll": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Reset",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_ai": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_aiAdaptive": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AI/Adaptive",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_aiSkill": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI Skill",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_aimAssist": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AimAssist",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_pointsPopup": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Visual/Points Popup",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_size": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Slider",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_sizeReset": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Reset",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p1_volume": {
+      "path": "Players/Player (1)/Fixture UI/Slider/Panel/UI/Volume/Container/Volume",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2": {
+      "path": "Players/Player (2)",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2score": {
+      "path": "Players/Player (2)/ScoreTable/Points",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2uiButton": {
+      "path": "Players/Player (2)/Fixture UI/Button Open Settings",
+      "sync": "none",
+      "grab": false,
+      "click": true,
+      "seat": false
+    },
+    "p2uiAnim": {
+      "path": "Players/Player (2)/Fixture UI",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2popup": {
+      "path": "Players/Player (2)/Temp Scoreboard",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2popupScore": {
+      "path": "Players/Player (2)/Temp Scoreboard/Canvas/Score",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2popupAssist": {
+      "path": "Players/Player (2)/Temp Scoreboard/Canvas/Player Aim Assist/Value",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2popupBg0": {
+      "path": "Players/Player (2)/Temp Scoreboard/Canvas/BG_scoreboard",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2popupBg1": {
+      "path": "Players/Player (2)/Temp Scoreboard/Canvas/BG_scoreboard/BG",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2lastAssist": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Last Aim Assist/Value",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2navbar": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2tabGame": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/Game",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2tabRules": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/Rules",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2tabPlayer": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/Player",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2tabAI": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/AI",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2tabVisual": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/Visual",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2tabCredits": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/Credits",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2aiSettings": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AI",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2aimAssistSettings": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2avatarColor": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Visual/UseAvatarThemeColor",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2adaptiveAim": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AdaptiveAim",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_mode": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_modeLabel": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Label",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_modeLeft": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Left",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_modeRight": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Right",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_countHandle": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount/Handle Slide Area/Handle/Text",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_count": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_teams": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Teams",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_barrier": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Barrier",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_selfFire": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Rules/Self Fire",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_friendlyFire": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Rules/Friendly Fire (Teams):",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_autoRespawn": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Rules/Auto Respawn Balls",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_rowsHandle": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows/Handle Slide Area/Handle/Text",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_rows": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_shape": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_shapeLabel": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Label",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_shapeLeft": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Left",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_shapeRight": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Right",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_reset": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Reset",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_rerack": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Rerack",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_sync": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Sync",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_resetAll": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Reset",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_ai": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_aiAdaptive": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AI/Adaptive",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_aiSkill": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI Skill",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_aimAssist": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AimAssist",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_pointsPopup": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Visual/Points Popup",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_size": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Slider",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_sizeReset": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Reset",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p2_volume": {
+      "path": "Players/Player (2)/Fixture UI/Slider/Panel/UI/Volume/Container/Volume",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3": {
+      "path": "Players/Player (3)",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3score": {
+      "path": "Players/Player (3)/ScoreTable/Points",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3uiButton": {
+      "path": "Players/Player (3)/Fixture UI/Button Open Settings",
+      "sync": "none",
+      "grab": false,
+      "click": true,
+      "seat": false
+    },
+    "p3uiAnim": {
+      "path": "Players/Player (3)/Fixture UI",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3popup": {
+      "path": "Players/Player (3)/Temp Scoreboard",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3popupScore": {
+      "path": "Players/Player (3)/Temp Scoreboard/Canvas/Score",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3popupAssist": {
+      "path": "Players/Player (3)/Temp Scoreboard/Canvas/Player Aim Assist/Value",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3popupBg0": {
+      "path": "Players/Player (3)/Temp Scoreboard/Canvas/BG_scoreboard",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3popupBg1": {
+      "path": "Players/Player (3)/Temp Scoreboard/Canvas/BG_scoreboard/BG",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3lastAssist": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Last Aim Assist/Value",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3navbar": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3tabGame": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/Game",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3tabRules": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/Rules",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3tabPlayer": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/Player",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3tabAI": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/AI",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3tabVisual": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/Visual",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3tabCredits": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/Credits",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3aiSettings": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AI",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3aimAssistSettings": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3avatarColor": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Visual/UseAvatarThemeColor",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3adaptiveAim": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AdaptiveAim",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_mode": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_modeLabel": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Label",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_modeLeft": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Left",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_modeRight": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Right",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_countHandle": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount/Handle Slide Area/Handle/Text",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_count": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_teams": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Teams",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_barrier": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Barrier",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_selfFire": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Rules/Self Fire",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_friendlyFire": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Rules/Friendly Fire (Teams):",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_autoRespawn": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Rules/Auto Respawn Balls",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_rowsHandle": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows/Handle Slide Area/Handle/Text",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_rows": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_shape": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_shapeLabel": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Label",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_shapeLeft": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Left",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_shapeRight": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Right",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_reset": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Reset",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_rerack": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Rerack",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_sync": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Sync",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_resetAll": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Reset",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_ai": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_aiAdaptive": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AI/Adaptive",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_aiSkill": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI Skill",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_aimAssist": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AimAssist",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_pointsPopup": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Visual/Points Popup",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_size": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Slider",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_sizeReset": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Reset",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "p3_volume": {
+      "path": "Players/Player (3)/Fixture UI/Slider/Panel/UI/Volume/Container/Volume",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    }
+  },
+  "refs": [
+    "table",
+    "table2",
+    "table3",
+    "table4",
+    "splash",
+    "strength",
+    "ball0",
+    "ball1",
+    "ball2",
+    "ball3",
+    "p0",
+    "p0score",
+    "p0uiButton",
+    "p0uiAnim",
+    "p0popup",
+    "p0popupScore",
+    "p0popupAssist",
+    "p0popupBg0",
+    "p0popupBg1",
+    "p0lastAssist",
+    "p0navbar",
+    "p0tabGame",
+    "p0tabRules",
+    "p0tabPlayer",
+    "p0tabAI",
+    "p0tabVisual",
+    "p0tabCredits",
+    "p0aiSettings",
+    "p0aimAssistSettings",
+    "p0avatarColor",
+    "p0adaptiveAim",
+    "p0_mode",
+    "p0_modeLabel",
+    "p0_modeLeft",
+    "p0_modeRight",
+    "p0_countHandle",
+    "p0_count",
+    "p0_teams",
+    "p0_barrier",
+    "p0_selfFire",
+    "p0_friendlyFire",
+    "p0_autoRespawn",
+    "p0_rowsHandle",
+    "p0_rows",
+    "p0_shape",
+    "p0_shapeLabel",
+    "p0_shapeLeft",
+    "p0_shapeRight",
+    "p0_reset",
+    "p0_rerack",
+    "p0_sync",
+    "p0_resetAll",
+    "p0_ai",
+    "p0_aiAdaptive",
+    "p0_aiSkill",
+    "p0_aimAssist",
+    "p0_pointsPopup",
+    "p0_size",
+    "p0_sizeReset",
+    "p0_volume",
+    "p1",
+    "p1score",
+    "p1uiButton",
+    "p1uiAnim",
+    "p1popup",
+    "p1popupScore",
+    "p1popupAssist",
+    "p1popupBg0",
+    "p1popupBg1",
+    "p1lastAssist",
+    "p1navbar",
+    "p1tabGame",
+    "p1tabRules",
+    "p1tabPlayer",
+    "p1tabAI",
+    "p1tabVisual",
+    "p1tabCredits",
+    "p1aiSettings",
+    "p1aimAssistSettings",
+    "p1avatarColor",
+    "p1adaptiveAim",
+    "p1_mode",
+    "p1_modeLabel",
+    "p1_modeLeft",
+    "p1_modeRight",
+    "p1_countHandle",
+    "p1_count",
+    "p1_teams",
+    "p1_barrier",
+    "p1_selfFire",
+    "p1_friendlyFire",
+    "p1_autoRespawn",
+    "p1_rowsHandle",
+    "p1_rows",
+    "p1_shape",
+    "p1_shapeLabel",
+    "p1_shapeLeft",
+    "p1_shapeRight",
+    "p1_reset",
+    "p1_rerack",
+    "p1_sync",
+    "p1_resetAll",
+    "p1_ai",
+    "p1_aiAdaptive",
+    "p1_aiSkill",
+    "p1_aimAssist",
+    "p1_pointsPopup",
+    "p1_size",
+    "p1_sizeReset",
+    "p1_volume",
+    "p2",
+    "p2score",
+    "p2uiButton",
+    "p2uiAnim",
+    "p2popup",
+    "p2popupScore",
+    "p2popupAssist",
+    "p2popupBg0",
+    "p2popupBg1",
+    "p2lastAssist",
+    "p2navbar",
+    "p2tabGame",
+    "p2tabRules",
+    "p2tabPlayer",
+    "p2tabAI",
+    "p2tabVisual",
+    "p2tabCredits",
+    "p2aiSettings",
+    "p2aimAssistSettings",
+    "p2avatarColor",
+    "p2adaptiveAim",
+    "p2_mode",
+    "p2_modeLabel",
+    "p2_modeLeft",
+    "p2_modeRight",
+    "p2_countHandle",
+    "p2_count",
+    "p2_teams",
+    "p2_barrier",
+    "p2_selfFire",
+    "p2_friendlyFire",
+    "p2_autoRespawn",
+    "p2_rowsHandle",
+    "p2_rows",
+    "p2_shape",
+    "p2_shapeLabel",
+    "p2_shapeLeft",
+    "p2_shapeRight",
+    "p2_reset",
+    "p2_rerack",
+    "p2_sync",
+    "p2_resetAll",
+    "p2_ai",
+    "p2_aiAdaptive",
+    "p2_aiSkill",
+    "p2_aimAssist",
+    "p2_pointsPopup",
+    "p2_size",
+    "p2_sizeReset",
+    "p2_volume",
+    "p3",
+    "p3score",
+    "p3uiButton",
+    "p3uiAnim",
+    "p3popup",
+    "p3popupScore",
+    "p3popupAssist",
+    "p3popupBg0",
+    "p3popupBg1",
+    "p3lastAssist",
+    "p3navbar",
+    "p3tabGame",
+    "p3tabRules",
+    "p3tabPlayer",
+    "p3tabAI",
+    "p3tabVisual",
+    "p3tabCredits",
+    "p3aiSettings",
+    "p3aimAssistSettings",
+    "p3avatarColor",
+    "p3adaptiveAim",
+    "p3_mode",
+    "p3_modeLabel",
+    "p3_modeLeft",
+    "p3_modeRight",
+    "p3_countHandle",
+    "p3_count",
+    "p3_teams",
+    "p3_barrier",
+    "p3_selfFire",
+    "p3_friendlyFire",
+    "p3_autoRespawn",
+    "p3_rowsHandle",
+    "p3_rows",
+    "p3_shape",
+    "p3_shapeLabel",
+    "p3_shapeLeft",
+    "p3_shapeRight",
+    "p3_reset",
+    "p3_rerack",
+    "p3_sync",
+    "p3_resetAll",
+    "p3_ai",
+    "p3_aiAdaptive",
+    "p3_aiSkill",
+    "p3_aimAssist",
+    "p3_pointsPopup",
+    "p3_size",
+    "p3_sizeReset",
+    "p3_volume"
+  ],
+  "behaviours": [
+    {
+      "id": "game",
+      "type": "Game",
+      "object": null,
+      "fields": {
+        "_initialPlayerColors": [
+          {
+            "$color": [
+              0.237,
+              0.745,
+              0,
+              1
+            ]
+          },
+          {
+            "$color": [
+              0.745,
+              0,
+              0.218,
+              1
+            ]
+          },
+          {
+            "$color": [
+              0,
+              0.569,
+              0.764,
+              1
+            ]
+          },
+          {
+            "$color": [
+              0.84,
+              0.698,
+              0,
+              1
+            ]
+          }
+        ],
+        "_allowAvatarThemeColorUsage": true,
+        "_allowAimAssist": true,
+        "_allowAI": true,
+        "PlayersList": [
+          {
+            "$beh": "p0"
+          },
+          {
+            "$beh": "p1"
+          },
+          {
+            "$beh": "p2"
+          },
+          {
+            "$beh": "p3"
+          }
+        ],
+        "_tablesAnimator": {
+          "$comp": "table",
+          "kind": "Animator"
+        },
+        "Balls": [
+          {
+            "$beh": "ball0"
+          },
+          {
+            "$beh": "ball1"
+          },
+          {
+            "$beh": "ball2"
+          },
+          {
+            "$beh": "ball3"
+          }
+        ],
+        "_teamIndicatorMaterialIndex": 3,
+        "_tables": [
+          null,
+          null,
+          {
+            "$comp": "table2",
+            "kind": "Renderer"
+          },
+          {
+            "$comp": "table3",
+            "kind": "Renderer"
+          },
+          {
+            "$comp": "table4",
+            "kind": "Renderer"
+          }
+        ],
+        "_twoTeamPositions": [
+          {
+            "position": {
+              "$v3": [
+                0,
+                0.8,
+                0
+              ]
+            },
+            "yaw": 0
+          },
+          {
+            "position": {
+              "$v3": [
+                0,
+                0.8,
+                0
+              ]
+            },
+            "yaw": 180
+          }
+        ],
+        "_threeTeamPositions": [
+          {
+            "position": {
+              "$v3": [
+                0,
+                0.8,
+                0
+              ]
+            },
+            "yaw": 0
+          },
+          {
+            "position": {
+              "$v3": [
+                0,
+                0.8,
+                0
+              ]
+            },
+            "yaw": 240
+          },
+          {
+            "position": {
+              "$v3": [
+                0,
+                0.8,
+                0
+              ]
+            },
+            "yaw": 120
+          }
+        ],
+        "_fourTeamPositions": [
+          {
+            "position": {
+              "$v3": [
+                0,
+                0.8,
+                0
+              ]
+            },
+            "yaw": 0
+          },
+          {
+            "position": {
+              "$v3": [
+                0,
+                0.8,
+                0
+              ]
+            },
+            "yaw": 180
+          },
+          {
+            "position": {
+              "$v3": [
+                0,
+                0.8,
+                0
+              ]
+            },
+            "yaw": 90
+          },
+          {
+            "position": {
+              "$v3": [
+                0,
+                0.8,
+                0
+              ]
+            },
+            "yaw": 270
+          }
+        ],
+        "_respawnHeightLocal": {
+          "$v3": [
+            0,
+            0.4,
+            0
+          ]
+        },
+        "_kingOfTheHillLocal": {
+          "$v3": [
+            0,
+            0.8,
+            0
+          ]
+        },
+        "KingOfTheHillPath": "KingOfTheHillPosition",
+        "ballRadiusLocal": 0.03,
+        "LogMinLevel": 1
+      }
+    },
+    {
+      "id": "p0",
+      "type": "Player",
+      "object": "p0",
+      "fields": {
+        "CupsManager": {
+          "$beh": "cm0"
+        },
+        "ScoreAnnouncement": {
+          "$beh": "ann0"
+        },
+        "UIAnimator": {
+          "$comp": "p0uiAnim",
+          "kind": "Animator"
+        },
+        "UiButtonRenderer": {
+          "$comp": "p0uiButton",
+          "kind": "Renderer"
+        },
+        "LastAimAssitDisplay": {
+          "$comp": "p0lastAssist",
+          "kind": "Text"
+        },
+        "UI_score_boards": [
+          {
+            "$comp": "p0score",
+            "kind": "Text"
+          }
+        ],
+        "UiImagesUsingPlayerColor": [
+          {
+            "$comp": "p0popupBg0",
+            "kind": "Image"
+          },
+          {
+            "$comp": "p0popupBg1",
+            "kind": "Image"
+          }
+        ],
+        "UiImageAlphas": [
+          1,
+          1
+        ],
+        "_avatarThemeColorToggle": {
+          "$obj": "p0avatarColor"
+        },
+        "_aiNavButton": {
+          "$obj": "p0tabAI"
+        },
+        "_aiSettings": {
+          "$obj": "p0aiSettings"
+        },
+        "_aimAssistSettings": {
+          "$obj": "p0aimAssistSettings"
+        },
+        "_adaptiveAimToggle": {
+          "$obj": "p0adaptiveAim"
+        },
+        "BallSpawnLocal": {
+          "$v3": [
+            0.552,
+            0.01,
+            -1.311
+          ]
+        },
+        "AiBallSpawnLocal": {
+          "$v3": [
+            0,
+            0.42,
+            -1.547
+          ]
+        },
+        "CupsAnchorLocal": {
+          "$v3": [
+            0,
+            0,
+            -1.317
+          ]
+        },
+        "CupsAnchorPath": "Players/Player/[GamemodeNormal]Cups Anchor"
+      }
+    },
+    {
+      "id": "cm0",
+      "type": "CupsManager",
+      "object": null,
+      "fields": {
+        "Glass": {
+          "boundsExtents": {
+            "$v3": [
+              0.052,
+              0.076,
+              0.052
+            ]
+          },
+          "lossyScale": {
+            "$v3": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "SidePlayer": {
+          "$beh": "p0"
+        },
+        "LogMinLevel": 1
+      }
+    },
+    {
+      "id": "ann0",
+      "type": "PlayerScoreAnnouncement",
+      "object": "p0popup",
+      "fields": {
+        "_animator": {
+          "$comp": "p0popup",
+          "kind": "Animator"
+        },
+        "_textScore": {
+          "$comp": "p0popupScore",
+          "kind": "TMP"
+        },
+        "_textSkill": {
+          "$comp": "p0popupAssist",
+          "kind": "TMP"
+        },
+        "_player": {
+          "$beh": "p0"
+        }
+      }
+    },
+    {
+      "id": "p0_mode",
+      "type": "SimpleUIOptionSelector",
+      "object": "p0_mode",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_gameMode",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ],
+        "Options": [
+          "Normal",
+          "King of the Pong",
+          "Big Pong",
+          "Mayhem"
+        ],
+        "Label": {
+          "$comp": "p0_modeLabel",
+          "kind": "Text"
+        }
+      }
+    },
+    {
+      "id": "p0_count",
+      "type": "SimpleUISlider",
+      "object": "p0_count",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_playerCount",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ],
+        "wholeNumbers": true,
+        "Handle": {
+          "$comp": "p0_countHandle",
+          "kind": "Text"
+        }
+      }
+    },
+    {
+      "id": "p0_teams",
+      "type": "SimpleUIToggle",
+      "object": "p0_teams",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_doTeams",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p0_barrier",
+      "type": "SimpleUIToggle",
+      "object": "p0_barrier",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_useBarrier",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p0_selfFire",
+      "type": "SimpleUIToggle",
+      "object": "p0_selfFire",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_allowSelfFire",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p0_friendlyFire",
+      "type": "SimpleUIToggle",
+      "object": "p0_friendlyFire",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_allowFriendlyFire",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p0_autoRespawn",
+      "type": "SimpleUIToggle",
+      "object": "p0_autoRespawn",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_doAutoRespawnBalls",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p0_rows",
+      "type": "SimpleUISlider",
+      "object": "p0_rows",
+      "fields": {
+        "NetworkVariable": false,
+        "EventName": "ResetGlasses",
+        "VariableName": "_rows",
+        "UdonBehaviours": [
+          {
+            "$beh": "cm0"
+          }
+        ],
+        "wholeNumbers": true,
+        "Handle": {
+          "$comp": "p0_rowsHandle",
+          "kind": "Text"
+        }
+      }
+    },
+    {
+      "id": "p0_shape",
+      "type": "SimpleUIOptionSelector",
+      "object": "p0_shape",
+      "fields": {
+        "NetworkVariable": false,
+        "EventName": "ResetGlasses",
+        "VariableName": "_shape",
+        "UdonBehaviours": [
+          {
+            "$beh": "cm0"
+          }
+        ],
+        "Options": [
+          "Triangle",
+          "Square",
+          "Circle",
+          "HashTag"
+        ],
+        "Label": {
+          "$comp": "p0_shapeLabel",
+          "kind": "Text"
+        }
+      }
+    },
+    {
+      "id": "p0_ai",
+      "type": "SimpleUIToggle",
+      "object": "p0_ai",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_isAI",
+        "UdonBehaviours": [
+          {
+            "$beh": "p0"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p0_aiAdaptive",
+      "type": "SimpleUIToggle",
+      "object": "p0_aiAdaptive",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_useAdaptiveAISkill",
+        "UdonBehaviours": [
+          {
+            "$beh": "p0"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p0_aiSkill",
+      "type": "SimpleUISlider",
+      "object": "p0_aiSkill",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_aiSkill",
+        "UdonBehaviours": [
+          {
+            "$beh": "p0"
+          }
+        ],
+        "wholeNumbers": false
+      }
+    },
+    {
+      "id": "p0_aimAssist",
+      "type": "SimpleUISlider",
+      "object": "p0_aimAssist",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_aimAssist",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ],
+        "wholeNumbers": false
+      }
+    },
+    {
+      "id": "p0_pointsPopup",
+      "type": "SimpleUIToggle",
+      "object": "p0_pointsPopup",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_showPointsPopup",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p0_size",
+      "type": "SimpleUISlider",
+      "object": "p0_size",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_size",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ],
+        "wholeNumbers": false,
+        "resetValue": 1
+      }
+    },
+    {
+      "id": "p0_volume",
+      "type": "SimpleUISlider",
+      "object": "p0_volume",
+      "fields": {
+        "NetworkVariable": false,
+        "EventName": "",
+        "VariableName": "_volume",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ],
+        "wholeNumbers": false
+      }
+    },
+    {
+      "id": "p0_nav",
+      "type": "SimpleUIToggleGroup",
+      "object": "p0navbar",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_settingsNavbar",
+        "UdonBehaviours": [
+          {
+            "$beh": "p0"
+          }
+        ],
+        "Toggles": [
+          {
+            "$obj": "p0tabGame"
+          },
+          {
+            "$obj": "p0tabRules"
+          },
+          {
+            "$obj": "p0tabPlayer"
+          },
+          {
+            "$obj": "p0tabAI"
+          },
+          {
+            "$obj": "p0tabVisual"
+          },
+          {
+            "$obj": "p0tabCredits"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p0_open",
+      "type": "SimpleUIInteract",
+      "object": "p0uiButton",
+      "fields": {
+        "NetworkVariable": false,
+        "EventName": "ToggleSettings",
+        "VariableName": "",
+        "UdonBehaviours": [
+          {
+            "$beh": "p0"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p1",
+      "type": "Player",
+      "object": "p1",
+      "fields": {
+        "CupsManager": {
+          "$beh": "cm1"
+        },
+        "ScoreAnnouncement": {
+          "$beh": "ann1"
+        },
+        "UIAnimator": {
+          "$comp": "p1uiAnim",
+          "kind": "Animator"
+        },
+        "UiButtonRenderer": {
+          "$comp": "p1uiButton",
+          "kind": "Renderer"
+        },
+        "LastAimAssitDisplay": {
+          "$comp": "p1lastAssist",
+          "kind": "Text"
+        },
+        "UI_score_boards": [
+          {
+            "$comp": "p1score",
+            "kind": "Text"
+          }
+        ],
+        "UiImagesUsingPlayerColor": [
+          {
+            "$comp": "p1popupBg0",
+            "kind": "Image"
+          },
+          {
+            "$comp": "p1popupBg1",
+            "kind": "Image"
+          }
+        ],
+        "UiImageAlphas": [
+          1,
+          1
+        ],
+        "_avatarThemeColorToggle": {
+          "$obj": "p1avatarColor"
+        },
+        "_aiNavButton": {
+          "$obj": "p1tabAI"
+        },
+        "_aiSettings": {
+          "$obj": "p1aiSettings"
+        },
+        "_aimAssistSettings": {
+          "$obj": "p1aimAssistSettings"
+        },
+        "_adaptiveAimToggle": {
+          "$obj": "p1adaptiveAim"
+        },
+        "BallSpawnLocal": {
+          "$v3": [
+            0.552,
+            0.01,
+            -1.311
+          ]
+        },
+        "AiBallSpawnLocal": {
+          "$v3": [
+            0,
+            0.42,
+            -1.547
+          ]
+        },
+        "CupsAnchorLocal": {
+          "$v3": [
+            0,
+            0,
+            -1.317
+          ]
+        },
+        "CupsAnchorPath": "Players/Player (1)/[GamemodeNormal]Cups Anchor"
+      }
+    },
+    {
+      "id": "cm1",
+      "type": "CupsManager",
+      "object": null,
+      "fields": {
+        "Glass": {
+          "boundsExtents": {
+            "$v3": [
+              0.052,
+              0.076,
+              0.052
+            ]
+          },
+          "lossyScale": {
+            "$v3": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "SidePlayer": {
+          "$beh": "p1"
+        },
+        "LogMinLevel": 1
+      }
+    },
+    {
+      "id": "ann1",
+      "type": "PlayerScoreAnnouncement",
+      "object": "p1popup",
+      "fields": {
+        "_animator": {
+          "$comp": "p1popup",
+          "kind": "Animator"
+        },
+        "_textScore": {
+          "$comp": "p1popupScore",
+          "kind": "TMP"
+        },
+        "_textSkill": {
+          "$comp": "p1popupAssist",
+          "kind": "TMP"
+        },
+        "_player": {
+          "$beh": "p1"
+        }
+      }
+    },
+    {
+      "id": "p1_mode",
+      "type": "SimpleUIOptionSelector",
+      "object": "p1_mode",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_gameMode",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ],
+        "Options": [
+          "Normal",
+          "King of the Pong",
+          "Big Pong",
+          "Mayhem"
+        ],
+        "Label": {
+          "$comp": "p1_modeLabel",
+          "kind": "Text"
+        }
+      }
+    },
+    {
+      "id": "p1_count",
+      "type": "SimpleUISlider",
+      "object": "p1_count",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_playerCount",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ],
+        "wholeNumbers": true,
+        "Handle": {
+          "$comp": "p1_countHandle",
+          "kind": "Text"
+        }
+      }
+    },
+    {
+      "id": "p1_teams",
+      "type": "SimpleUIToggle",
+      "object": "p1_teams",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_doTeams",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p1_barrier",
+      "type": "SimpleUIToggle",
+      "object": "p1_barrier",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_useBarrier",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p1_selfFire",
+      "type": "SimpleUIToggle",
+      "object": "p1_selfFire",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_allowSelfFire",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p1_friendlyFire",
+      "type": "SimpleUIToggle",
+      "object": "p1_friendlyFire",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_allowFriendlyFire",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p1_autoRespawn",
+      "type": "SimpleUIToggle",
+      "object": "p1_autoRespawn",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_doAutoRespawnBalls",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p1_rows",
+      "type": "SimpleUISlider",
+      "object": "p1_rows",
+      "fields": {
+        "NetworkVariable": false,
+        "EventName": "ResetGlasses",
+        "VariableName": "_rows",
+        "UdonBehaviours": [
+          {
+            "$beh": "cm1"
+          }
+        ],
+        "wholeNumbers": true,
+        "Handle": {
+          "$comp": "p1_rowsHandle",
+          "kind": "Text"
+        }
+      }
+    },
+    {
+      "id": "p1_shape",
+      "type": "SimpleUIOptionSelector",
+      "object": "p1_shape",
+      "fields": {
+        "NetworkVariable": false,
+        "EventName": "ResetGlasses",
+        "VariableName": "_shape",
+        "UdonBehaviours": [
+          {
+            "$beh": "cm1"
+          }
+        ],
+        "Options": [
+          "Triangle",
+          "Square",
+          "Circle",
+          "HashTag"
+        ],
+        "Label": {
+          "$comp": "p1_shapeLabel",
+          "kind": "Text"
+        }
+      }
+    },
+    {
+      "id": "p1_ai",
+      "type": "SimpleUIToggle",
+      "object": "p1_ai",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_isAI",
+        "UdonBehaviours": [
+          {
+            "$beh": "p1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p1_aiAdaptive",
+      "type": "SimpleUIToggle",
+      "object": "p1_aiAdaptive",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_useAdaptiveAISkill",
+        "UdonBehaviours": [
+          {
+            "$beh": "p1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p1_aiSkill",
+      "type": "SimpleUISlider",
+      "object": "p1_aiSkill",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_aiSkill",
+        "UdonBehaviours": [
+          {
+            "$beh": "p1"
+          }
+        ],
+        "wholeNumbers": false
+      }
+    },
+    {
+      "id": "p1_aimAssist",
+      "type": "SimpleUISlider",
+      "object": "p1_aimAssist",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_aimAssist",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ],
+        "wholeNumbers": false
+      }
+    },
+    {
+      "id": "p1_pointsPopup",
+      "type": "SimpleUIToggle",
+      "object": "p1_pointsPopup",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_showPointsPopup",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p1_size",
+      "type": "SimpleUISlider",
+      "object": "p1_size",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_size",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ],
+        "wholeNumbers": false,
+        "resetValue": 1
+      }
+    },
+    {
+      "id": "p1_volume",
+      "type": "SimpleUISlider",
+      "object": "p1_volume",
+      "fields": {
+        "NetworkVariable": false,
+        "EventName": "",
+        "VariableName": "_volume",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ],
+        "wholeNumbers": false
+      }
+    },
+    {
+      "id": "p1_nav",
+      "type": "SimpleUIToggleGroup",
+      "object": "p1navbar",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_settingsNavbar",
+        "UdonBehaviours": [
+          {
+            "$beh": "p1"
+          }
+        ],
+        "Toggles": [
+          {
+            "$obj": "p1tabGame"
+          },
+          {
+            "$obj": "p1tabRules"
+          },
+          {
+            "$obj": "p1tabPlayer"
+          },
+          {
+            "$obj": "p1tabAI"
+          },
+          {
+            "$obj": "p1tabVisual"
+          },
+          {
+            "$obj": "p1tabCredits"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p1_open",
+      "type": "SimpleUIInteract",
+      "object": "p1uiButton",
+      "fields": {
+        "NetworkVariable": false,
+        "EventName": "ToggleSettings",
+        "VariableName": "",
+        "UdonBehaviours": [
+          {
+            "$beh": "p1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p2",
+      "type": "Player",
+      "object": "p2",
+      "fields": {
+        "CupsManager": {
+          "$beh": "cm2"
+        },
+        "ScoreAnnouncement": {
+          "$beh": "ann2"
+        },
+        "UIAnimator": {
+          "$comp": "p2uiAnim",
+          "kind": "Animator"
+        },
+        "UiButtonRenderer": {
+          "$comp": "p2uiButton",
+          "kind": "Renderer"
+        },
+        "LastAimAssitDisplay": {
+          "$comp": "p2lastAssist",
+          "kind": "Text"
+        },
+        "UI_score_boards": [
+          {
+            "$comp": "p2score",
+            "kind": "Text"
+          }
+        ],
+        "UiImagesUsingPlayerColor": [
+          {
+            "$comp": "p2popupBg0",
+            "kind": "Image"
+          },
+          {
+            "$comp": "p2popupBg1",
+            "kind": "Image"
+          }
+        ],
+        "UiImageAlphas": [
+          1,
+          1
+        ],
+        "_avatarThemeColorToggle": {
+          "$obj": "p2avatarColor"
+        },
+        "_aiNavButton": {
+          "$obj": "p2tabAI"
+        },
+        "_aiSettings": {
+          "$obj": "p2aiSettings"
+        },
+        "_aimAssistSettings": {
+          "$obj": "p2aimAssistSettings"
+        },
+        "_adaptiveAimToggle": {
+          "$obj": "p2adaptiveAim"
+        },
+        "BallSpawnLocal": {
+          "$v3": [
+            0.552,
+            0.01,
+            -1.311
+          ]
+        },
+        "AiBallSpawnLocal": {
+          "$v3": [
+            0,
+            0.42,
+            -1.547
+          ]
+        },
+        "CupsAnchorLocal": {
+          "$v3": [
+            0,
+            0,
+            -1.317
+          ]
+        },
+        "CupsAnchorPath": "Players/Player (2)/[GamemodeNormal]Cups Anchor"
+      }
+    },
+    {
+      "id": "cm2",
+      "type": "CupsManager",
+      "object": null,
+      "fields": {
+        "Glass": {
+          "boundsExtents": {
+            "$v3": [
+              0.052,
+              0.076,
+              0.052
+            ]
+          },
+          "lossyScale": {
+            "$v3": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "SidePlayer": {
+          "$beh": "p2"
+        },
+        "LogMinLevel": 1
+      }
+    },
+    {
+      "id": "ann2",
+      "type": "PlayerScoreAnnouncement",
+      "object": "p2popup",
+      "fields": {
+        "_animator": {
+          "$comp": "p2popup",
+          "kind": "Animator"
+        },
+        "_textScore": {
+          "$comp": "p2popupScore",
+          "kind": "TMP"
+        },
+        "_textSkill": {
+          "$comp": "p2popupAssist",
+          "kind": "TMP"
+        },
+        "_player": {
+          "$beh": "p2"
+        }
+      }
+    },
+    {
+      "id": "p2_mode",
+      "type": "SimpleUIOptionSelector",
+      "object": "p2_mode",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_gameMode",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ],
+        "Options": [
+          "Normal",
+          "King of the Pong",
+          "Big Pong",
+          "Mayhem"
+        ],
+        "Label": {
+          "$comp": "p2_modeLabel",
+          "kind": "Text"
+        }
+      }
+    },
+    {
+      "id": "p2_count",
+      "type": "SimpleUISlider",
+      "object": "p2_count",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_playerCount",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ],
+        "wholeNumbers": true,
+        "Handle": {
+          "$comp": "p2_countHandle",
+          "kind": "Text"
+        }
+      }
+    },
+    {
+      "id": "p2_teams",
+      "type": "SimpleUIToggle",
+      "object": "p2_teams",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_doTeams",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p2_barrier",
+      "type": "SimpleUIToggle",
+      "object": "p2_barrier",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_useBarrier",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p2_selfFire",
+      "type": "SimpleUIToggle",
+      "object": "p2_selfFire",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_allowSelfFire",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p2_friendlyFire",
+      "type": "SimpleUIToggle",
+      "object": "p2_friendlyFire",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_allowFriendlyFire",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p2_autoRespawn",
+      "type": "SimpleUIToggle",
+      "object": "p2_autoRespawn",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_doAutoRespawnBalls",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p2_rows",
+      "type": "SimpleUISlider",
+      "object": "p2_rows",
+      "fields": {
+        "NetworkVariable": false,
+        "EventName": "ResetGlasses",
+        "VariableName": "_rows",
+        "UdonBehaviours": [
+          {
+            "$beh": "cm2"
+          }
+        ],
+        "wholeNumbers": true,
+        "Handle": {
+          "$comp": "p2_rowsHandle",
+          "kind": "Text"
+        }
+      }
+    },
+    {
+      "id": "p2_shape",
+      "type": "SimpleUIOptionSelector",
+      "object": "p2_shape",
+      "fields": {
+        "NetworkVariable": false,
+        "EventName": "ResetGlasses",
+        "VariableName": "_shape",
+        "UdonBehaviours": [
+          {
+            "$beh": "cm2"
+          }
+        ],
+        "Options": [
+          "Triangle",
+          "Square",
+          "Circle",
+          "HashTag"
+        ],
+        "Label": {
+          "$comp": "p2_shapeLabel",
+          "kind": "Text"
+        }
+      }
+    },
+    {
+      "id": "p2_ai",
+      "type": "SimpleUIToggle",
+      "object": "p2_ai",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_isAI",
+        "UdonBehaviours": [
+          {
+            "$beh": "p2"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p2_aiAdaptive",
+      "type": "SimpleUIToggle",
+      "object": "p2_aiAdaptive",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_useAdaptiveAISkill",
+        "UdonBehaviours": [
+          {
+            "$beh": "p2"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p2_aiSkill",
+      "type": "SimpleUISlider",
+      "object": "p2_aiSkill",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_aiSkill",
+        "UdonBehaviours": [
+          {
+            "$beh": "p2"
+          }
+        ],
+        "wholeNumbers": false
+      }
+    },
+    {
+      "id": "p2_aimAssist",
+      "type": "SimpleUISlider",
+      "object": "p2_aimAssist",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_aimAssist",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ],
+        "wholeNumbers": false
+      }
+    },
+    {
+      "id": "p2_pointsPopup",
+      "type": "SimpleUIToggle",
+      "object": "p2_pointsPopup",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_showPointsPopup",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p2_size",
+      "type": "SimpleUISlider",
+      "object": "p2_size",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_size",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ],
+        "wholeNumbers": false,
+        "resetValue": 1
+      }
+    },
+    {
+      "id": "p2_volume",
+      "type": "SimpleUISlider",
+      "object": "p2_volume",
+      "fields": {
+        "NetworkVariable": false,
+        "EventName": "",
+        "VariableName": "_volume",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ],
+        "wholeNumbers": false
+      }
+    },
+    {
+      "id": "p2_nav",
+      "type": "SimpleUIToggleGroup",
+      "object": "p2navbar",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_settingsNavbar",
+        "UdonBehaviours": [
+          {
+            "$beh": "p2"
+          }
+        ],
+        "Toggles": [
+          {
+            "$obj": "p2tabGame"
+          },
+          {
+            "$obj": "p2tabRules"
+          },
+          {
+            "$obj": "p2tabPlayer"
+          },
+          {
+            "$obj": "p2tabAI"
+          },
+          {
+            "$obj": "p2tabVisual"
+          },
+          {
+            "$obj": "p2tabCredits"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p2_open",
+      "type": "SimpleUIInteract",
+      "object": "p2uiButton",
+      "fields": {
+        "NetworkVariable": false,
+        "EventName": "ToggleSettings",
+        "VariableName": "",
+        "UdonBehaviours": [
+          {
+            "$beh": "p2"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p3",
+      "type": "Player",
+      "object": "p3",
+      "fields": {
+        "CupsManager": {
+          "$beh": "cm3"
+        },
+        "ScoreAnnouncement": {
+          "$beh": "ann3"
+        },
+        "UIAnimator": {
+          "$comp": "p3uiAnim",
+          "kind": "Animator"
+        },
+        "UiButtonRenderer": {
+          "$comp": "p3uiButton",
+          "kind": "Renderer"
+        },
+        "LastAimAssitDisplay": {
+          "$comp": "p3lastAssist",
+          "kind": "Text"
+        },
+        "UI_score_boards": [
+          {
+            "$comp": "p3score",
+            "kind": "Text"
+          }
+        ],
+        "UiImagesUsingPlayerColor": [
+          {
+            "$comp": "p3popupBg0",
+            "kind": "Image"
+          },
+          {
+            "$comp": "p3popupBg1",
+            "kind": "Image"
+          }
+        ],
+        "UiImageAlphas": [
+          1,
+          1
+        ],
+        "_avatarThemeColorToggle": {
+          "$obj": "p3avatarColor"
+        },
+        "_aiNavButton": {
+          "$obj": "p3tabAI"
+        },
+        "_aiSettings": {
+          "$obj": "p3aiSettings"
+        },
+        "_aimAssistSettings": {
+          "$obj": "p3aimAssistSettings"
+        },
+        "_adaptiveAimToggle": {
+          "$obj": "p3adaptiveAim"
+        },
+        "BallSpawnLocal": {
+          "$v3": [
+            0.552,
+            0.01,
+            -1.311
+          ]
+        },
+        "AiBallSpawnLocal": {
+          "$v3": [
+            0,
+            0.42,
+            -1.547
+          ]
+        },
+        "CupsAnchorLocal": {
+          "$v3": [
+            0,
+            0,
+            -1.317
+          ]
+        },
+        "CupsAnchorPath": "Players/Player (3)/[GamemodeNormal]Cups Anchor"
+      }
+    },
+    {
+      "id": "cm3",
+      "type": "CupsManager",
+      "object": null,
+      "fields": {
+        "Glass": {
+          "boundsExtents": {
+            "$v3": [
+              0.052,
+              0.076,
+              0.052
+            ]
+          },
+          "lossyScale": {
+            "$v3": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "SidePlayer": {
+          "$beh": "p3"
+        },
+        "LogMinLevel": 1
+      }
+    },
+    {
+      "id": "ann3",
+      "type": "PlayerScoreAnnouncement",
+      "object": "p3popup",
+      "fields": {
+        "_animator": {
+          "$comp": "p3popup",
+          "kind": "Animator"
+        },
+        "_textScore": {
+          "$comp": "p3popupScore",
+          "kind": "TMP"
+        },
+        "_textSkill": {
+          "$comp": "p3popupAssist",
+          "kind": "TMP"
+        },
+        "_player": {
+          "$beh": "p3"
+        }
+      }
+    },
+    {
+      "id": "p3_mode",
+      "type": "SimpleUIOptionSelector",
+      "object": "p3_mode",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_gameMode",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ],
+        "Options": [
+          "Normal",
+          "King of the Pong",
+          "Big Pong",
+          "Mayhem"
+        ],
+        "Label": {
+          "$comp": "p3_modeLabel",
+          "kind": "Text"
+        }
+      }
+    },
+    {
+      "id": "p3_count",
+      "type": "SimpleUISlider",
+      "object": "p3_count",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_playerCount",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ],
+        "wholeNumbers": true,
+        "Handle": {
+          "$comp": "p3_countHandle",
+          "kind": "Text"
+        }
+      }
+    },
+    {
+      "id": "p3_teams",
+      "type": "SimpleUIToggle",
+      "object": "p3_teams",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_doTeams",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p3_barrier",
+      "type": "SimpleUIToggle",
+      "object": "p3_barrier",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_useBarrier",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p3_selfFire",
+      "type": "SimpleUIToggle",
+      "object": "p3_selfFire",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_allowSelfFire",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p3_friendlyFire",
+      "type": "SimpleUIToggle",
+      "object": "p3_friendlyFire",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_allowFriendlyFire",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p3_autoRespawn",
+      "type": "SimpleUIToggle",
+      "object": "p3_autoRespawn",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_doAutoRespawnBalls",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p3_rows",
+      "type": "SimpleUISlider",
+      "object": "p3_rows",
+      "fields": {
+        "NetworkVariable": false,
+        "EventName": "ResetGlasses",
+        "VariableName": "_rows",
+        "UdonBehaviours": [
+          {
+            "$beh": "cm3"
+          }
+        ],
+        "wholeNumbers": true,
+        "Handle": {
+          "$comp": "p3_rowsHandle",
+          "kind": "Text"
+        }
+      }
+    },
+    {
+      "id": "p3_shape",
+      "type": "SimpleUIOptionSelector",
+      "object": "p3_shape",
+      "fields": {
+        "NetworkVariable": false,
+        "EventName": "ResetGlasses",
+        "VariableName": "_shape",
+        "UdonBehaviours": [
+          {
+            "$beh": "cm3"
+          }
+        ],
+        "Options": [
+          "Triangle",
+          "Square",
+          "Circle",
+          "HashTag"
+        ],
+        "Label": {
+          "$comp": "p3_shapeLabel",
+          "kind": "Text"
+        }
+      }
+    },
+    {
+      "id": "p3_ai",
+      "type": "SimpleUIToggle",
+      "object": "p3_ai",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_isAI",
+        "UdonBehaviours": [
+          {
+            "$beh": "p3"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p3_aiAdaptive",
+      "type": "SimpleUIToggle",
+      "object": "p3_aiAdaptive",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_useAdaptiveAISkill",
+        "UdonBehaviours": [
+          {
+            "$beh": "p3"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p3_aiSkill",
+      "type": "SimpleUISlider",
+      "object": "p3_aiSkill",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_aiSkill",
+        "UdonBehaviours": [
+          {
+            "$beh": "p3"
+          }
+        ],
+        "wholeNumbers": false
+      }
+    },
+    {
+      "id": "p3_aimAssist",
+      "type": "SimpleUISlider",
+      "object": "p3_aimAssist",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_aimAssist",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ],
+        "wholeNumbers": false
+      }
+    },
+    {
+      "id": "p3_pointsPopup",
+      "type": "SimpleUIToggle",
+      "object": "p3_pointsPopup",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_showPointsPopup",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p3_size",
+      "type": "SimpleUISlider",
+      "object": "p3_size",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_size",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ],
+        "wholeNumbers": false,
+        "resetValue": 1
+      }
+    },
+    {
+      "id": "p3_volume",
+      "type": "SimpleUISlider",
+      "object": "p3_volume",
+      "fields": {
+        "NetworkVariable": false,
+        "EventName": "",
+        "VariableName": "_volume",
+        "UdonBehaviours": [
+          {
+            "$beh": "game"
+          }
+        ],
+        "wholeNumbers": false
+      }
+    },
+    {
+      "id": "p3_nav",
+      "type": "SimpleUIToggleGroup",
+      "object": "p3navbar",
+      "fields": {
+        "NetworkVariable": true,
+        "EventName": "",
+        "VariableName": "_settingsNavbar",
+        "UdonBehaviours": [
+          {
+            "$beh": "p3"
+          }
+        ],
+        "Toggles": [
+          {
+            "$obj": "p3tabGame"
+          },
+          {
+            "$obj": "p3tabRules"
+          },
+          {
+            "$obj": "p3tabPlayer"
+          },
+          {
+            "$obj": "p3tabAI"
+          },
+          {
+            "$obj": "p3tabVisual"
+          },
+          {
+            "$obj": "p3tabCredits"
+          }
+        ]
+      }
+    },
+    {
+      "id": "p3_open",
+      "type": "SimpleUIInteract",
+      "object": "p3uiButton",
+      "fields": {
+        "NetworkVariable": false,
+        "EventName": "ToggleSettings",
+        "VariableName": "",
+        "UdonBehaviours": [
+          {
+            "$beh": "p3"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ball0",
+      "type": "Ball",
+      "object": "ball0",
+      "fields": {
+        "index": 0,
+        "_throwVelocityMultiplierVR": 1.5,
+        "_throwVelocityMultiplierDekstop": 1,
+        "_gameManager": {
+          "$beh": "game"
+        },
+        "_renderer": {
+          "$comp": "ball0",
+          "kind": "Renderer"
+        },
+        "_splashParticles": {
+          "$comp": "splash",
+          "kind": "ParticleSystem"
+        },
+        "_audioSource": {
+          "$comp": "ball0",
+          "kind": "AudioSource"
+        },
+        "_strengthIndicatorDesktop": {
+          "$comp": "strength",
+          "kind": "Renderer"
+        },
+        "_audio_collision_table": {
+          "$clip": 0
+        },
+        "_audio_collision_glass": {
+          "$clip": 1
+        },
+        "_audio_water_splash": {
+          "$clip": 2
+        }
+      }
+    },
+    {
+      "id": "ball1",
+      "type": "Ball",
+      "object": "ball1",
+      "fields": {
+        "index": 1,
+        "_throwVelocityMultiplierVR": 1.5,
+        "_throwVelocityMultiplierDekstop": 1,
+        "_gameManager": {
+          "$beh": "game"
+        },
+        "_renderer": {
+          "$comp": "ball1",
+          "kind": "Renderer"
+        },
+        "_splashParticles": {
+          "$comp": "splash",
+          "kind": "ParticleSystem"
+        },
+        "_audioSource": {
+          "$comp": "ball1",
+          "kind": "AudioSource"
+        },
+        "_strengthIndicatorDesktop": {
+          "$comp": "strength",
+          "kind": "Renderer"
+        },
+        "_audio_collision_table": {
+          "$clip": 0
+        },
+        "_audio_collision_glass": {
+          "$clip": 1
+        },
+        "_audio_water_splash": {
+          "$clip": 2
+        }
+      }
+    },
+    {
+      "id": "ball2",
+      "type": "Ball",
+      "object": "ball2",
+      "fields": {
+        "index": 2,
+        "_throwVelocityMultiplierVR": 1.5,
+        "_throwVelocityMultiplierDekstop": 1,
+        "_gameManager": {
+          "$beh": "game"
+        },
+        "_renderer": {
+          "$comp": "ball2",
+          "kind": "Renderer"
+        },
+        "_splashParticles": {
+          "$comp": "splash",
+          "kind": "ParticleSystem"
+        },
+        "_audioSource": {
+          "$comp": "ball2",
+          "kind": "AudioSource"
+        },
+        "_strengthIndicatorDesktop": {
+          "$comp": "strength",
+          "kind": "Renderer"
+        },
+        "_audio_collision_table": {
+          "$clip": 0
+        },
+        "_audio_collision_glass": {
+          "$clip": 1
+        },
+        "_audio_water_splash": {
+          "$clip": 2
+        }
+      }
+    },
+    {
+      "id": "ball3",
+      "type": "Ball",
+      "object": "ball3",
+      "fields": {
+        "index": 3,
+        "_throwVelocityMultiplierVR": 1.5,
+        "_throwVelocityMultiplierDekstop": 1,
+        "_gameManager": {
+          "$beh": "game"
+        },
+        "_renderer": {
+          "$comp": "ball3",
+          "kind": "Renderer"
+        },
+        "_splashParticles": {
+          "$comp": "splash",
+          "kind": "ParticleSystem"
+        },
+        "_audioSource": {
+          "$comp": "ball3",
+          "kind": "AudioSource"
+        },
+        "_strengthIndicatorDesktop": {
+          "$comp": "strength",
+          "kind": "Renderer"
+        },
+        "_audio_collision_table": {
+          "$clip": 0
+        },
+        "_audio_collision_glass": {
+          "$clip": 1
+        },
+        "_audio_water_splash": {
+          "$clip": 2
+        }
+      }
+    }
+  ],
+  "events": [
+    {
+      "object": "p0_modeLeft",
+      "kind": "uiButton",
+      "behaviour": "p0_mode",
+      "method": "Prev"
+    },
+    {
+      "object": "p0_modeRight",
+      "kind": "uiButton",
+      "behaviour": "p0_mode",
+      "method": "Next"
+    },
+    {
+      "object": "p0_count",
+      "kind": "uiSlider",
+      "behaviour": "p0_count",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p0_teams",
+      "kind": "uiToggle",
+      "behaviour": "p0_teams",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p0_barrier",
+      "kind": "uiToggle",
+      "behaviour": "p0_barrier",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p0_selfFire",
+      "kind": "uiToggle",
+      "behaviour": "p0_selfFire",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p0_friendlyFire",
+      "kind": "uiToggle",
+      "behaviour": "p0_friendlyFire",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p0_autoRespawn",
+      "kind": "uiToggle",
+      "behaviour": "p0_autoRespawn",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p0_rows",
+      "kind": "uiSlider",
+      "behaviour": "p0_rows",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p0_shapeLeft",
+      "kind": "uiButton",
+      "behaviour": "p0_shape",
+      "method": "Prev"
+    },
+    {
+      "object": "p0_shapeRight",
+      "kind": "uiButton",
+      "behaviour": "p0_shape",
+      "method": "Next"
+    },
+    {
+      "object": "p0_reset",
+      "kind": "uiButton",
+      "behaviour": "p0",
+      "method": "ResetPlayer"
+    },
+    {
+      "object": "p0_rerack",
+      "kind": "uiButton",
+      "behaviour": "cm0",
+      "method": "Rerack"
+    },
+    {
+      "object": "p0_sync",
+      "kind": "uiButton",
+      "behaviour": "p0",
+      "method": "SyncSettingsToAllPlayers"
+    },
+    {
+      "object": "p0_resetAll",
+      "kind": "uiButton",
+      "behaviour": "p0",
+      "method": "ResetAllPlayers"
+    },
+    {
+      "object": "p0_ai",
+      "kind": "uiToggle",
+      "behaviour": "p0_ai",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p0_aiAdaptive",
+      "kind": "uiToggle",
+      "behaviour": "p0_aiAdaptive",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p0_aiSkill",
+      "kind": "uiSlider",
+      "behaviour": "p0_aiSkill",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p0_aimAssist",
+      "kind": "uiSlider",
+      "behaviour": "p0_aimAssist",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p0_pointsPopup",
+      "kind": "uiToggle",
+      "behaviour": "p0_pointsPopup",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p0_size",
+      "kind": "uiSlider",
+      "behaviour": "p0_size",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p0_sizeReset",
+      "kind": "uiButton",
+      "behaviour": "p0_size",
+      "method": "ResetValue"
+    },
+    {
+      "object": "p0_volume",
+      "kind": "uiSlider",
+      "behaviour": "p0_volume",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p0tabGame",
+      "kind": "uiToggle",
+      "behaviour": "p0_nav",
+      "method": "_Toggle0"
+    },
+    {
+      "object": "p0tabRules",
+      "kind": "uiToggle",
+      "behaviour": "p0_nav",
+      "method": "_Toggle1"
+    },
+    {
+      "object": "p0tabPlayer",
+      "kind": "uiToggle",
+      "behaviour": "p0_nav",
+      "method": "_Toggle2"
+    },
+    {
+      "object": "p0tabAI",
+      "kind": "uiToggle",
+      "behaviour": "p0_nav",
+      "method": "_Toggle3"
+    },
+    {
+      "object": "p0tabVisual",
+      "kind": "uiToggle",
+      "behaviour": "p0_nav",
+      "method": "_Toggle4"
+    },
+    {
+      "object": "p0tabCredits",
+      "kind": "uiToggle",
+      "behaviour": "p0_nav",
+      "method": "_Toggle5"
+    },
+    {
+      "object": "p1_modeLeft",
+      "kind": "uiButton",
+      "behaviour": "p1_mode",
+      "method": "Prev"
+    },
+    {
+      "object": "p1_modeRight",
+      "kind": "uiButton",
+      "behaviour": "p1_mode",
+      "method": "Next"
+    },
+    {
+      "object": "p1_count",
+      "kind": "uiSlider",
+      "behaviour": "p1_count",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p1_teams",
+      "kind": "uiToggle",
+      "behaviour": "p1_teams",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p1_barrier",
+      "kind": "uiToggle",
+      "behaviour": "p1_barrier",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p1_selfFire",
+      "kind": "uiToggle",
+      "behaviour": "p1_selfFire",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p1_friendlyFire",
+      "kind": "uiToggle",
+      "behaviour": "p1_friendlyFire",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p1_autoRespawn",
+      "kind": "uiToggle",
+      "behaviour": "p1_autoRespawn",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p1_rows",
+      "kind": "uiSlider",
+      "behaviour": "p1_rows",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p1_shapeLeft",
+      "kind": "uiButton",
+      "behaviour": "p1_shape",
+      "method": "Prev"
+    },
+    {
+      "object": "p1_shapeRight",
+      "kind": "uiButton",
+      "behaviour": "p1_shape",
+      "method": "Next"
+    },
+    {
+      "object": "p1_reset",
+      "kind": "uiButton",
+      "behaviour": "p1",
+      "method": "ResetPlayer"
+    },
+    {
+      "object": "p1_rerack",
+      "kind": "uiButton",
+      "behaviour": "cm1",
+      "method": "Rerack"
+    },
+    {
+      "object": "p1_sync",
+      "kind": "uiButton",
+      "behaviour": "p1",
+      "method": "SyncSettingsToAllPlayers"
+    },
+    {
+      "object": "p1_resetAll",
+      "kind": "uiButton",
+      "behaviour": "p1",
+      "method": "ResetAllPlayers"
+    },
+    {
+      "object": "p1_ai",
+      "kind": "uiToggle",
+      "behaviour": "p1_ai",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p1_aiAdaptive",
+      "kind": "uiToggle",
+      "behaviour": "p1_aiAdaptive",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p1_aiSkill",
+      "kind": "uiSlider",
+      "behaviour": "p1_aiSkill",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p1_aimAssist",
+      "kind": "uiSlider",
+      "behaviour": "p1_aimAssist",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p1_pointsPopup",
+      "kind": "uiToggle",
+      "behaviour": "p1_pointsPopup",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p1_size",
+      "kind": "uiSlider",
+      "behaviour": "p1_size",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p1_sizeReset",
+      "kind": "uiButton",
+      "behaviour": "p1_size",
+      "method": "ResetValue"
+    },
+    {
+      "object": "p1_volume",
+      "kind": "uiSlider",
+      "behaviour": "p1_volume",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p1tabGame",
+      "kind": "uiToggle",
+      "behaviour": "p1_nav",
+      "method": "_Toggle0"
+    },
+    {
+      "object": "p1tabRules",
+      "kind": "uiToggle",
+      "behaviour": "p1_nav",
+      "method": "_Toggle1"
+    },
+    {
+      "object": "p1tabPlayer",
+      "kind": "uiToggle",
+      "behaviour": "p1_nav",
+      "method": "_Toggle2"
+    },
+    {
+      "object": "p1tabAI",
+      "kind": "uiToggle",
+      "behaviour": "p1_nav",
+      "method": "_Toggle3"
+    },
+    {
+      "object": "p1tabVisual",
+      "kind": "uiToggle",
+      "behaviour": "p1_nav",
+      "method": "_Toggle4"
+    },
+    {
+      "object": "p1tabCredits",
+      "kind": "uiToggle",
+      "behaviour": "p1_nav",
+      "method": "_Toggle5"
+    },
+    {
+      "object": "p2_modeLeft",
+      "kind": "uiButton",
+      "behaviour": "p2_mode",
+      "method": "Prev"
+    },
+    {
+      "object": "p2_modeRight",
+      "kind": "uiButton",
+      "behaviour": "p2_mode",
+      "method": "Next"
+    },
+    {
+      "object": "p2_count",
+      "kind": "uiSlider",
+      "behaviour": "p2_count",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p2_teams",
+      "kind": "uiToggle",
+      "behaviour": "p2_teams",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p2_barrier",
+      "kind": "uiToggle",
+      "behaviour": "p2_barrier",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p2_selfFire",
+      "kind": "uiToggle",
+      "behaviour": "p2_selfFire",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p2_friendlyFire",
+      "kind": "uiToggle",
+      "behaviour": "p2_friendlyFire",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p2_autoRespawn",
+      "kind": "uiToggle",
+      "behaviour": "p2_autoRespawn",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p2_rows",
+      "kind": "uiSlider",
+      "behaviour": "p2_rows",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p2_shapeLeft",
+      "kind": "uiButton",
+      "behaviour": "p2_shape",
+      "method": "Prev"
+    },
+    {
+      "object": "p2_shapeRight",
+      "kind": "uiButton",
+      "behaviour": "p2_shape",
+      "method": "Next"
+    },
+    {
+      "object": "p2_reset",
+      "kind": "uiButton",
+      "behaviour": "p2",
+      "method": "ResetPlayer"
+    },
+    {
+      "object": "p2_rerack",
+      "kind": "uiButton",
+      "behaviour": "cm2",
+      "method": "Rerack"
+    },
+    {
+      "object": "p2_sync",
+      "kind": "uiButton",
+      "behaviour": "p2",
+      "method": "SyncSettingsToAllPlayers"
+    },
+    {
+      "object": "p2_resetAll",
+      "kind": "uiButton",
+      "behaviour": "p2",
+      "method": "ResetAllPlayers"
+    },
+    {
+      "object": "p2_ai",
+      "kind": "uiToggle",
+      "behaviour": "p2_ai",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p2_aiAdaptive",
+      "kind": "uiToggle",
+      "behaviour": "p2_aiAdaptive",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p2_aiSkill",
+      "kind": "uiSlider",
+      "behaviour": "p2_aiSkill",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p2_aimAssist",
+      "kind": "uiSlider",
+      "behaviour": "p2_aimAssist",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p2_pointsPopup",
+      "kind": "uiToggle",
+      "behaviour": "p2_pointsPopup",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p2_size",
+      "kind": "uiSlider",
+      "behaviour": "p2_size",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p2_sizeReset",
+      "kind": "uiButton",
+      "behaviour": "p2_size",
+      "method": "ResetValue"
+    },
+    {
+      "object": "p2_volume",
+      "kind": "uiSlider",
+      "behaviour": "p2_volume",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p2tabGame",
+      "kind": "uiToggle",
+      "behaviour": "p2_nav",
+      "method": "_Toggle0"
+    },
+    {
+      "object": "p2tabRules",
+      "kind": "uiToggle",
+      "behaviour": "p2_nav",
+      "method": "_Toggle1"
+    },
+    {
+      "object": "p2tabPlayer",
+      "kind": "uiToggle",
+      "behaviour": "p2_nav",
+      "method": "_Toggle2"
+    },
+    {
+      "object": "p2tabAI",
+      "kind": "uiToggle",
+      "behaviour": "p2_nav",
+      "method": "_Toggle3"
+    },
+    {
+      "object": "p2tabVisual",
+      "kind": "uiToggle",
+      "behaviour": "p2_nav",
+      "method": "_Toggle4"
+    },
+    {
+      "object": "p2tabCredits",
+      "kind": "uiToggle",
+      "behaviour": "p2_nav",
+      "method": "_Toggle5"
+    },
+    {
+      "object": "p3_modeLeft",
+      "kind": "uiButton",
+      "behaviour": "p3_mode",
+      "method": "Prev"
+    },
+    {
+      "object": "p3_modeRight",
+      "kind": "uiButton",
+      "behaviour": "p3_mode",
+      "method": "Next"
+    },
+    {
+      "object": "p3_count",
+      "kind": "uiSlider",
+      "behaviour": "p3_count",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p3_teams",
+      "kind": "uiToggle",
+      "behaviour": "p3_teams",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p3_barrier",
+      "kind": "uiToggle",
+      "behaviour": "p3_barrier",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p3_selfFire",
+      "kind": "uiToggle",
+      "behaviour": "p3_selfFire",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p3_friendlyFire",
+      "kind": "uiToggle",
+      "behaviour": "p3_friendlyFire",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p3_autoRespawn",
+      "kind": "uiToggle",
+      "behaviour": "p3_autoRespawn",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p3_rows",
+      "kind": "uiSlider",
+      "behaviour": "p3_rows",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p3_shapeLeft",
+      "kind": "uiButton",
+      "behaviour": "p3_shape",
+      "method": "Prev"
+    },
+    {
+      "object": "p3_shapeRight",
+      "kind": "uiButton",
+      "behaviour": "p3_shape",
+      "method": "Next"
+    },
+    {
+      "object": "p3_reset",
+      "kind": "uiButton",
+      "behaviour": "p3",
+      "method": "ResetPlayer"
+    },
+    {
+      "object": "p3_rerack",
+      "kind": "uiButton",
+      "behaviour": "cm3",
+      "method": "Rerack"
+    },
+    {
+      "object": "p3_sync",
+      "kind": "uiButton",
+      "behaviour": "p3",
+      "method": "SyncSettingsToAllPlayers"
+    },
+    {
+      "object": "p3_resetAll",
+      "kind": "uiButton",
+      "behaviour": "p3",
+      "method": "ResetAllPlayers"
+    },
+    {
+      "object": "p3_ai",
+      "kind": "uiToggle",
+      "behaviour": "p3_ai",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p3_aiAdaptive",
+      "kind": "uiToggle",
+      "behaviour": "p3_aiAdaptive",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p3_aiSkill",
+      "kind": "uiSlider",
+      "behaviour": "p3_aiSkill",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p3_aimAssist",
+      "kind": "uiSlider",
+      "behaviour": "p3_aimAssist",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p3_pointsPopup",
+      "kind": "uiToggle",
+      "behaviour": "p3_pointsPopup",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p3_size",
+      "kind": "uiSlider",
+      "behaviour": "p3_size",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p3_sizeReset",
+      "kind": "uiButton",
+      "behaviour": "p3_size",
+      "method": "ResetValue"
+    },
+    {
+      "object": "p3_volume",
+      "kind": "uiSlider",
+      "behaviour": "p3_volume",
+      "method": "OnValueChanged"
+    },
+    {
+      "object": "p3tabGame",
+      "kind": "uiToggle",
+      "behaviour": "p3_nav",
+      "method": "_Toggle0"
+    },
+    {
+      "object": "p3tabRules",
+      "kind": "uiToggle",
+      "behaviour": "p3_nav",
+      "method": "_Toggle1"
+    },
+    {
+      "object": "p3tabPlayer",
+      "kind": "uiToggle",
+      "behaviour": "p3_nav",
+      "method": "_Toggle2"
+    },
+    {
+      "object": "p3tabAI",
+      "kind": "uiToggle",
+      "behaviour": "p3_nav",
+      "method": "_Toggle3"
+    },
+    {
+      "object": "p3tabVisual",
+      "kind": "uiToggle",
+      "behaviour": "p3_nav",
+      "method": "_Toggle4"
+    },
+    {
+      "object": "p3tabCredits",
+      "kind": "uiToggle",
+      "behaviour": "p3_nav",
+      "method": "_Toggle5"
+    }
+  ]
+}
