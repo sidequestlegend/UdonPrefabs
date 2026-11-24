@@ -544,3 +544,38 @@ test("scoring and collision rules per mode (Game.cs:478-511), on a live table", 
   g._gameMode = GameMode.Mayham;
   assert.equal(g.GetNextPlayer(2), 2);
 });
+
+test("the ball graph's own reports: a desktop drop throws at once, a still ball and a low ball are misses", async () => {
+  const world = newWorld(12, { desktop: ["Dee"] });
+  const dee = world.join({ name: "Dee" });
+  const eve = world.join({ name: "Eve" });
+  await settle(world);
+  // a desktop page never waits for a VR release report: an uncharged drop is a throw of strength 0 at once
+  assert.ok(dee.grab(SLUG, "0", "ball0"));
+  await world.run(300);
+  dee.drop(SLUG, "0", "ball0");
+  await world.run(150);
+  assert.equal(B(world, dee)._state[0], BallState.Flying, "thrown on the next tick");
+  assert.equal(B(world, dee)._start_velocity.magnitude, 0);
+  // the graph says the dynamic ball lay still for a second: a miss, the turn passes (once, whichever check is first)
+  await world.run(1000);
+  dee.graphEvent(SLUG, "0", "bpStill", "0");
+  await world.run(500);
+  for (const c of [dee, eve]) {
+    assert.equal(B(world, c)._state[0], BallState.Idle, `${c.name}: respawned`);
+    assert.equal(B(world, c).CurrentPlayer, 1, `${c.name}: side 1's turn`);
+  }
+  // a report from a page that does not own the ball changes nothing (Dee, who respawned it, throws again: the fake
+  // room keeps a kit object's pose on the page that set it)
+  assert.ok(dee.grab(SLUG, "0", "ball0"));
+  await world.run(300);
+  dee.drop(SLUG, "0", "ball0");
+  await world.run(150);
+  eve.graphEvent(SLUG, "0", "bpLow", "0");
+  await world.run(200);
+  assert.equal(B(world, dee)._state[0], BallState.Flying, "the owner's ball still flies");
+  dee.graphEvent(SLUG, "0", "bpLow", "0");
+  await world.run(200);
+  for (const c of [dee, eve]) assert.equal(B(world, c).CurrentPlayer, 0, `${c.name}: below the respawn height is a miss`);
+  assert.deepEqual(problems(world), []);
+});

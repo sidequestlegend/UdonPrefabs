@@ -19,8 +19,15 @@ export const bindings = JSON.parse(readFileSync(fileURLToPath(new URL("../bindin
 export const SLUG = game.slug;
 export { game };
 
-export function newWorld(seed = 1): TestWorld {
+export function newWorld(seed = 1, options: { desktop?: string[] } = {}): TestWorld {
   const world = new TestWorld(game, bindings, { seed });
+  // Players are in a headset (scene.IsVR() true) unless named in `desktop`: a VR drop waits for the graph's release.
+  const join = world.join.bind(world);
+  world.join = (o = {}) => {
+    const c = join(o);
+    c.vr = !(options.desktop ?? []).includes(o.name ?? "");
+    return c;
+  };
   // The game's own relay ops, as BeerPongKitBuilder.RelayOps adds them to the kit's relay graph.
   for (const op of GAME_OPS) world.room.defineRelayOp(op);
   return world;
