@@ -441,7 +441,8 @@ namespace BeerPong
             body.linearDamping = 0f;
             body.angularDamping = 0.5f;
             body.interpolation = RigidbodyInterpolation.Interpolate;
-            body.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+            // continuous, not speculative: speculative contacts fire OnCollisionEnter (and deflect the ball) near a cup it never touches (seen in Play mode)
+            body.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
             var audio = ball.GetComponent<AudioSource>();
             if (audio != null) { audio.playOnAwake = false; audio.spatialBlend = 1f; audio.volume = 0.5f; }
 
@@ -522,6 +523,9 @@ namespace BeerPong
         {
             if (ps == null) return;
             var main = ps.main;
+            // particles live 1 s, not 2: they have fallen under the table by then, and the kit's bounds (its footprint and
+            // photo) are not stretched 12 m down by two seconds of falling
+            main.startLifetime = new ParticleSystem.MinMaxCurve(1f);
             main.loop = false;
             main.playOnAwake = false;
             var emission = ps.emission;

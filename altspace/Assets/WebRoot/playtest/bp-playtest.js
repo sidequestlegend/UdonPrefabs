@@ -121,6 +121,27 @@
     return { ended: !!ended, hit, states };
   }
 
+  /**
+   * The ball held above a cup of the other side, checked in Unity before it is let go (a page that has just taken
+   * the ball over may still see it where the last owner's sync put it for a moment).
+   */
+  async function placeAboveAndWait() {
+    let name = "";
+    for (let i = 0; i < 4; i++) {
+      name = debug().placeAbove(0);
+      const want = debug().ballPosition(0);
+      let near = false;
+      for (let k = 0; k < 20 && !near; k++) {
+        const b = await ballInUnity(0);
+        near = b.kinematic && Math.hypot(b.p[0] - want[0], b.p[1] - want[1], b.p[2] - want[2]) < 0.02;
+        if (!near) await sleep(150);
+      }
+      if (near) break;
+    }
+    await sleep(300);
+    return name;
+  }
+
   /** A throw with no velocity from the AI spawn point misses (still for 1 s) and passes the turn, until `side` has it. */
   async function passTo(side) {
     for (let i = 0; i < 3 && table().balls[0].side !== side; i++) {
@@ -220,7 +241,7 @@
       // contact, the hit rule and the removal are what is tested)
       const how = attempt < 2 ? "aimed" : "fall";
       if (how === "aimed") say("INFO", "the AI's aim: the ball to side " + thrower + "'s AI spawn point", debug().aimPlace(0));
-      else say("INFO", "the ball held above a cup of side " + target, debug().placeAbove(0));
+      else say("INFO", "the ball held above a cup of side " + target, await placeAboveAndWait());
       await sleep(1000);
       const since = debug().now();
       const aimedAt = Date.now();
@@ -373,8 +394,15 @@
         debug().aimPlace(0);
         await sleep(1000);
         const v = debug().aimShoot(0);
-        say("INFO", "round " + round + ": aimed throw from side " + side, v);
-        const r = await settleThrow("round " + round, t.cups.slice(), 20000);
+        say("INFO", "round " + round + ": the AI's aimed throw from side " + side, v);
+        let r = await settleThrow("round " + round, t.cups.slice(), 20000);
+        if (!r.hit) {
+          // the aimed throw met a rim (physics): the ball let fall onto a cup instead, so the round has its hit
+          await passTo(side);
+          say("INFO", "round " + round + ": the ball held above a cup and let fall", await placeAboveAndWait());
+          debug().dropThrow(0);
+          r = await settleThrow("round " + round + " (fall)", t.cups.slice(), 20000);
+        }
         const afterNames = (await cupNames(target)).split(",").filter(Boolean);
         const gone = beforeNames.filter((n) => afterNames.indexOf(n) < 0);
         check(r.hit && gone.length === 1, `round ${round}: the thrower's throw removes one cup of side ${target}`, gone.join(","));
@@ -420,7 +448,7 @@
       const gone = beforeNames.filter((n) => afterNames.indexOf(n) < 0);
       check(distinct >= 5 && Math.max(...ys) - Math.min(...ys) > 0.05,
         `round ${round}: the watcher sees the ball fly (its synced transform in this page's Unity)`, `${samples.length} samples, ${distinct} distinct positions, height ${Math.min(...ys).toFixed(2)}..${Math.max(...ys).toFixed(2)}, ${travelled.toFixed(2)} m across`);
-      check(!!result && gone.join(",") === result.gone && table().cups.join(",") === result.cups,
+      check(!!result && gone.length === 1 && gone.join(",") === result.gone && table().cups.join(",") === result.cups,
         `round ${round}: the same cup is removed on the watcher's page and in its Unity`, `here ${gone.join(",")} / thrower ${result && result.gone}; cups ${table().cups.join(",")}`);
       send({ kind: "seen", round, digest: debug().digest(), myDigestAtResult: result && result.digest });
     }
