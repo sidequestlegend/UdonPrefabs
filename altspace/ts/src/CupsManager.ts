@@ -9,6 +9,9 @@
 //   - Bug fixed: a HashTag rerack lost cups (see RerackInternal).
 //   - Init's "owner resets the rack" (:78-81) happens in Game.OnInstanceStart for a fresh table, so a player who
 //     arrives later never resets a rack in play.
+//   - Bug fixed: a hit's removal (:169-184) took the rack's ownership and wrote the whole grid from the hitter's copy,
+//     so two hits on one rack at nearly the same moment (several balls) lost one removal. A hit now asks the referee
+//     (RequestRemoveCup, a command), which removes each requested cup from its own copy, one request at a time.
 
 import { Quaternion, Vector3 } from "../portkit/src/index.ts";
 import { Cup, type CupTemplate } from "./Cup.ts";
@@ -27,8 +30,8 @@ const MODE_NORMAL = 0;
 export class CupsManager extends SimpleUISetterExtension {
   static override synced = ["_cupOwnersAtPositions", "_scale", "_anchor_id", "_position_offset", "_hit", "_existing_glasses_count", "_shape", "_rows"];
   static override fieldChangeCallbacks = { _shape: "Shape", _rows: "Rows" };
-  /** Nothing here is run by another client (upstream has no network events). */
-  static override networkCallable: readonly string[] = [];
+  /** Run for another client only on the referee, as a command: a hit's cup removal (RequestRemoveCup). */
+  static override networkCallable: readonly string[] = ["RemoveCupCommand"];
 
   static readonly PLAYER_VALUE_NONE = 255;
   static readonly MAX_ROWS = 11;
@@ -189,6 +192,26 @@ export class CupsManager extends SimpleUISetterExtension {
       this.SyncGlasses();
       this.RequestSerialization();
     }
+  }
+
+  /**
+   * A hit's removal, asked of the referee: it removes the cup from its own copy of the rack (RemoveCup) and writes the
+   * rack, so removals asked at the same moment are merged, not lost. `owner` is whose cup the hitter saw there.
+   */
+  RequestRemoveCup(row: number, collum: number): void {
+    const index = row * this.X_PER_ROW + collum;
+    this.SendCommand("RemoveCupCommand", row, collum, this._cupOwnersAtPositions[index] ?? CupsManager.PLAYER_VALUE_NONE);
+  }
+
+  /** The referee's side of RequestRemoveCup. A cup already gone (a second report of it) or replaced is left alone. */
+  RemoveCupCommand(row: unknown, collum: unknown, owner: unknown): void {
+    if (!this.Networking.IsReferee) return;
+    const int = (v: unknown, hi: number) => typeof v === "number" && Number.isInteger(v) && v >= 0 && v < hi;
+    if (!int(row, CupsManager.MAX_ROWS) || !int(collum, this.X_PER_ROW)) return;
+    const index = (row as number) * this.X_PER_ROW + (collum as number);
+    const there = this._cupOwnersAtPositions[index];
+    if (there === CupsManager.PLAYER_VALUE_NONE || there !== owner) return;
+    this.RemoveCup(row as number, collum as number);
   }
 
   /** :187-191 */

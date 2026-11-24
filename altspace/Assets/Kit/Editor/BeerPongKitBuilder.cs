@@ -477,14 +477,10 @@ namespace BeerPong
             var variables = ball.GetComponent<Variables>();
             if (variables == null) variables = ball.AddComponent<Variables>();
             variables.declarations.Set(RespawnVariable, F(bp.transform, "RespawnHeight").gameObject);
-            variables.declarations.Set(LaunchVariable, Vector3.zero);
-            variables.declarations.Set(LaunchPendingVariable, false);
             stage.AddGraph(ball, "ball" + i, BallGraph.Build(i, key));          // one asset per ball: the graph knows its index
         }
 
         public const string RespawnVariable = "BpRespawn";
-        public const string LaunchVariable = "BpLaunch";
-        public const string LaunchPendingVariable = "BpLaunchPending";
 
         static AudioClip LoadClip(string file) =>
             AssetDatabase.LoadAssetAtPath<AudioClip>($"{SoundFolder}/{file}") ?? throw new Exception($"no sound {SoundFolder}/{file}");
@@ -554,15 +550,6 @@ namespace BeerPong
                         g.IfNotNull(r, () => g.Do(typeof(Material), "SetColor", new[] { typeof(string), typeof(Color) }, g.Get(typeof(Renderer), "material", r), "_BaseColor", colour));
                     }));
             });
-            // bpLaunch | <ball> | vx | vy | vz: the body leaves kinematic; its ball graph sets the velocity in the next physics
-            // step (a velocity set in the frame the body leaves kinematic is lost: seen in Play mode)
-            ops.Add("bpLaunch", () => ops.With(typeof(Rigidbody), rb =>
-            {
-                var velocity = g.Keep(g.V3(ops.Number(0), ops.Number(1), ops.Number(2)));
-                g.Set(typeof(Rigidbody), "isKinematic", rb, false);
-                g.SetObjVar(LaunchVariable, velocity, ops.Target, typeof(Vector3));
-                g.SetObjVar(LaunchPendingVariable, true, ops.Target, typeof(bool));
-            }));
             // cupInside | @<cup> | 1/0: the throw collider off and the inner colliders on, or the other way round
             ops.Add("cupInside", () =>
             {

@@ -15,8 +15,14 @@
 //     a fresh table only. A table resumed or joined keeps what the room holds.
 //   - The table material's indicator colour is set on each table model's own renderer (upstream shares one material
 //     instance across the three models of one table, :268-287).
-//   - Teleport on a side-count change (:738-779) is kept, but not at start-up, and only when the local player's
-//     position is known (the page learns it from pose updates).
+//   - Teleport on a side-count change (:738-779) is kept, but never at start-up (a fresh table's first side count is
+//     not a change: the starter stays where they are), and only when the local player's position is known (the page
+//     asks for it at start and follows pose updates and teleports).
+//   - Bug fixed: two hits on one rack at nearly the same moment (King of the Hill, Mayhem: several balls) each took the
+//     rack's ownership and wrote its whole grid, so one removal was lost (14 -> 13 cups, not 12). A removal is a
+//     request to the referee (a command, run one at a time and merged into its copy of the rack).
+//   - Bug fixed: the adaptive AI skill divided by the side's own cups (:349), which are 0 for every side but the first
+//     in Big Pong (one shared rack): Infinity or NaN. A side with no cups uses a cup ratio of 1.
 //   - The table's frame (where the holder stands, its rotation, scale and the synced size) is computed here: the
 //     page cannot read kit transforms back after the script moves things, so world positions of anchors, spawn
 //     points and cups come from the layout numbers in bindings.json.
@@ -38,6 +44,8 @@ export interface TeamPose {
 }
 
 const AIM_ASSIST_DEFAULT = 0.3;
+/** Seconds between two launches from one page (Game.Launch): the kit's rbLaunch lands on the second physics step. */
+export const LAUNCH_GAP = 0.15;
 const MODE_NAMES: Record<string, number> = { normal: 0, king: 1, koth: 1, big: 2, "big-pong": 2, mayhem: 3 };
 const SHAPE_NAMES: Record<string, number> = { triangle: 0, square: 1, circle: 2, hashtag: 3 };
 
@@ -114,6 +122,11 @@ export class Game extends SimpleUISetterExtension {
   private _teamSize = 1;
   /** Owner writes are held back until the instance knows whether the table is fresh, resumed or joined. */
   private _ready = false;
+  /** True while a fresh table sets itself up (no teleport: the first side count is not a change). */
+  private _startingUp = false;
+  /** Launches waiting their turn (Launch): the kit's rbLaunch holds one pending launch per kit. */
+  private _launchQueue: Array<{ ball: Ball; velocity: Vector3 }> = [];
+  private _nextLaunchTime = 0;
 
   // the holder's transform (snippet attributes position / rotation / scale)
   private _holderPosition = Vector3.zero;
@@ -248,7 +261,43 @@ export class Game extends SimpleUISetterExtension {
 
   override OnInstanceStart(kind: StartKind): void {
     this._ready = true;
-    if (kind === "fresh") this.StartFreshTable();
+    if (kind === "fresh") {
+      this._startingUp = true;
+      try {
+        this.StartFreshTable();
+      } finally {
+        this._startingUp = false;
+      }
+    }
+  }
+
+  override Update(): void {
+    this.FlushLaunches();
+  }
+
+  // ---- launches (port): the kit's rbLaunch keeps one pending launch per kit (graph variables), so a second launch
+  //      within two physics steps of the first would take its place and the first ball would fall with no velocity.
+  //      This page sends one launch, then waits LAUNCH_GAP before the next (only an AI driving several balls, or a
+  //      ball dropping into a cup as another is thrown, ever waits).
+
+  /** Throws a ball this page owns: dynamic, with `velocity` from the second physics step. */
+  Launch(ball: Ball, velocity: Vector3): void {
+    this.CancelLaunch(ball);
+    this._launchQueue.push({ ball, velocity: velocity.clone() });
+    this.FlushLaunches();
+  }
+
+  /** A launch still waiting is dropped (the ball was respawned or held still). */
+  CancelLaunch(ball: Ball): void {
+    if (this._launchQueue.length) this._launchQueue = this._launchQueue.filter((l) => l.ball !== ball);
+  }
+
+  private FlushLaunches(): void {
+    const now = this.Time.time;
+    if (!this._launchQueue.length || now < this._nextLaunchTime) return;
+    const next = this._launchQueue.shift()!;
+    this.Host.rbLaunch(next.ball.gameObject.key, next.velocity);
+    this._nextLaunchTime = now + LAUNCH_GAP;
   }
 
   /** True when this client may act as the Game's owner (Networking.IsOwner(gameObject) upstream). */
@@ -337,7 +386,8 @@ export class Game extends SimpleUISetterExtension {
     const myCups = this.Players[playerIndex]!.CupsManager.SyncedCount;
     const avgCups = totalCupsOthers / (skilledPlayerCount - 1);
     const valueSkill = totalSkill / (skilledPlayerCount - 1);
-    const valueCups = avgCups / myCups;
+    // bug fixed: upstream divides by myCups, 0 for every side but the first in Big Pong (one shared rack): Infinity or NaN
+    const valueCups = myCups > 0 ? avgCups / myCups : 1;
     const rdm = this.Random.value * 0.3 - 0.15;
     return Mathf.Clamp01(valueSkill * valueCups + rdm);
   }
@@ -377,11 +427,14 @@ export class Game extends SimpleUISetterExtension {
     return dir.add(Vector3.up.scale(0.5)).normalized.scale(0.7 * this.LossyScale());
   }
 
-  /** :416-426 */
+  /**
+   * :416-426. The removal is a request to the referee (CupsManager.RequestRemoveCup), which merges every request into
+   * its copy of the rack: two hits on one rack at the same moment both count (upstream each hitter wrote the whole rack).
+   */
   RemoveCup(cup: Cup | null, _scoreingPlayer: number): void {
     if (!cup) return;
     if (cup.PlayerAnchorSide) {
-      if (this.Gamemode !== GameMode.BigPong) cup.PlayerAnchorSide.CupsManager.RemoveCup(cup.Row, cup.Column);
+      if (this.Gamemode !== GameMode.BigPong) cup.PlayerAnchorSide.CupsManager.RequestRemoveCup(cup.Row, cup.Column);
     }
   }
 
@@ -390,7 +443,11 @@ export class Game extends SimpleUISetterExtension {
     return player1 % this._teamSize === player2 % this._teamSize;
   }
 
-  /** :433-465 (the dead recent-throws ring left out) */
+  /**
+   * :433-465 (the dead recent-throws ring left out). Run by the thrower's client, which owns the scoring side already
+   * (CountThrow claimed it at the throw); a request to the referee would race that claim (a command can reach the
+   * referee before the claim does, and the referee's write is then dropped).
+   */
   CountCupHit(cupOwner: number, scoreingPlayer: number, scoreType: number): void {
     this.Log(3, `CountCupHit: ${cupOwner} ${scoreingPlayer} ${scoreType} ${this.Players[scoreingPlayer]!._isAI}`);
     if (!this.Players[scoreingPlayer]!._isAI) this.Players[scoreingPlayer]!.AddHit();
@@ -661,7 +718,8 @@ export class Game extends SimpleUISetterExtension {
     if (this.PlayerCount <= this._tables.length && this.PlayerCount <= this.Players.length) {
       this.ConfigureCups();
       for (let i = 0; i < this._tables.length; i++) this._tables[i]?.gameObject.SetActive(i === this.PlayerCount);
-      const doTeleportPlayer = this.OwnerActs();
+      // never at start-up: a fresh table's first side count is not a change (the starter stays where they are)
+      const doTeleportPlayer = this.OwnerActs() && !this._startingUp;
       const localPlayerIndex = doTeleportPlayer ? this.DetermineLocalPlayerIndex() : -1;
       for (let i = 0; i < this.Players.length; i++) {
         if (!this.Players[i]!.gameObject.activeSelf && this.OwnerActs()) this.Players[i]!.CupsManager.ResetGlasses();

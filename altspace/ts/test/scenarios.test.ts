@@ -95,10 +95,13 @@ test("a hit reported by the thrower removes exactly that cup on every client; ot
     assert.equal(B(world, c)._state[0], BallState.Idle);
     assert.equal(B(world, c).CurrentPlayer, 0, "the scorer throws again");
   }
-  // the thrower's client decided: it owns the ball, the side's score and the rack it changed
+  // the thrower's client decided: it owns the ball and the side's score; the rack is written by the referee (Ann
+  // here too), which removes the cups hits ask it to (a command), one at a time
   const net = world.instance(bob).networking;
   assert.equal(net.GetOwner(B(world, bob))?.displayName, "Ann");
-  assert.equal(net.GetOwner(CM(world, bob, 1))?.displayName, "Ann");
+  assert.equal(net.GetOwner(P(world, bob, 0))?.displayName, "Ann");
+  const referee = [ann, bob, cat].find((c) => world.instance(c).networking.IsReferee)!;
+  assert.equal(net.GetOwner(CM(world, bob, 1))?.displayName, referee.name);
   assert.ok(world.agree());
   assert.deepEqual(problems(world), []);
 });
@@ -453,10 +456,10 @@ test("desktop: holding the throw key charges the throw, letting go throws along 
   // charge ~0.6 s of 1 s -> speed min(5, 0.6 * 5) * 1 = 3 m/s (Ball.cs:552-563), then aim assist (strength 0.3) may bend it
   const v = ball._start_velocity;
   assert.ok(v.magnitude > 1 && v.magnitude < 8, `speed ${v.magnitude}`);
-  const launch = ann.graph(SLUG).records.filter((r) => r.op === "bpLaunch");
-  assert.equal(launch.length, 1, "the thrower's page launches the ball once (game op bpLaunch)");
+  const launch = ann.graph(SLUG).records.filter((r) => r.op === "rbLaunch");
+  assert.equal(launch.length, 1, "the thrower's page launches the ball once (the kit's rbLaunch)");
   assert.deepEqual(launch[0]!.args.map(Number).map((n) => n.toFixed(3)), [v.x, v.y, v.z].map((n) => n.toFixed(3)), "with the throw's velocity");
-  const bobs = bob.graph(SLUG).records.filter((r) => r.target === bindings.refs.indexOf("ball0").toString() && (r.op.startsWith("rb") || r.op === "bpLaunch"));
+  const bobs = bob.graph(SLUG).records.filter((r) => r.target === bindings.refs.indexOf("ball0").toString() && r.op.startsWith("rb"));
   assert.ok(bobs.length > 0 && bobs.every((r) => r.op === "rbVelocity" ? r.args.every((a) => Number(a) === 0) : r.op === "rbKinematic" && r.args[0] === "1"),
     "other pages only ever keep the ball kinematic");
   assert.equal(ann.graph(SLUG).floats.get("ball0Bar/_Cutoff"), "1.01", "the charge bar is cleared");
@@ -482,7 +485,7 @@ test("AI against AI: turns pass, AI throws and hits are not counted, nothing sta
     assert.equal(P(world, c, 1)._numberOfThrows, 0);
     assert.ok(P(world, c, 0)._lastAimAssistStrength > 0, "the AI publishes its skill as the last assist");
   }
-  assert.ok(ann.graph(SLUG).records.some((r) => r.op === "bpLaunch"), "the AI launched balls");
+  assert.ok(ann.graph(SLUG).records.some((r) => r.op === "rbLaunch"), "the AI launched balls");
   assert.ok(world.agree());
   assert.deepEqual(problems(world), []);
 });

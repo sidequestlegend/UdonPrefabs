@@ -3,8 +3,9 @@
 // and checked in Unity with the kit's probe command and beer pong's own (Assets/Kit/Editor/BeerPongProbe.cs).
 // Not part of the snippet: the test page loads it before the snippet.
 //
-// window.__bpPlan: "single" (one page: key throw, a cup hit, re-rack, settings) or "multi" (two Local Multiplayer
-// players: one throws, the other watches; the watcher reloads its page and must see the same table).
+// window.__bpPlan: "single" (one page: key throw, a cup hit, re-rack, settings), "multi" (two Local Multiplayer
+// players: one throws, the other watches; the watcher reloads its page and must see the same table) or "start3" (a
+// fresh 3-side table: the player who starts it is not moved).
 (function () {
   "use strict";
   const KEY = "beer-pong:0";
@@ -167,6 +168,14 @@
     check(colour === "0.745 0.000 0.218", "a cup of side 1 has side 1's colour on its LOD renderers (cupPlace)", first.name + " " + colour);
     let ball = await ballInUnity(0);
     check(ball.kinematic, "the ball rests kinematic at side 0's spawn", ball.text);
+    // the table, its fittings and the cups are the port's own models (tools/make_models.py), none of upstream's
+    const tableMeshes = await cmd("bpmesh " + HOLDER + " " + enc("BeerPong/table"));
+    const fixtureMeshes = await cmd("bpmesh " + HOLDER + " " + enc(debug().pathOf("p0uiAnim")));
+    const cupMeshes = await cmd("bpmesh " + HOLDER + " " + enc(first.path));
+    const names = (tableMeshes + "," + fixtureMeshes + "," + cupMeshes).split(/[,|]/).map((n) => n.trim()).filter(Boolean);
+    check(names.length >= 10 && names.every((n) => n.startsWith("bp_")) && cupMeshes.indexOf("| bp_cup_collider") > 0,
+      "the table, the panel fittings and the cups draw and collide with the generated models",
+      `table ${tableMeshes}; fittings ${fixtureMeshes}; cup ${cupMeshes}`);
 
     // ---- the first grab of a Play session lets go by itself (spikes/RESULTS.md S6): a desktop drop with no charge is a
     //      throw of strength 0, which misses and passes the turn. Done first so the key throw below is a real hold.
@@ -224,6 +233,7 @@
     let hitSide = -1;
     let hitHow = "";
     let hitDetail = "";
+    let launchChecked = false;
     if (keyThrow.hit) {
       t = table();
       hitSide = t.cups[0] < keyBefore[0] ? 0 : 1;
@@ -249,7 +259,17 @@
       say("INFO", (how === "aimed" ? "aimed throw from side " : "let fall, side ") + thrower, "velocity " + v);
       await sleep(150);
       ball = await ballInUnity(0);
-      say("INFO", "the thrower's ball 150 ms later", ball.text + "; " + await cmd("bpvar " + HOLDER + " " + enc(debug().pathOf("ball0")) + " BpLaunch BpLaunchPending"));
+      say("INFO", "the thrower's ball 150 ms later", ball.text);
+      if (how === "aimed" && !launchChecked) {
+        // the kit's standard rbLaunch (game op bpLaunch before): the body is dynamic and flies with the throw's
+        // horizontal velocity (gravity changes only the vertical part; 150 ms is before any contact)
+        launchChecked = true;
+        const want = (v.match(/-?[\d.]+(e-?\d+)?/g) || []).map(Number);
+        const flat = Math.hypot(want[0], want[2]);
+        const off = Math.hypot(ball.v[0] - want[0], ball.v[2] - want[2]);
+        check(!ball.kinematic && flat > 0.5 && off < 0.15 * flat, "a throw is the kit's rbLaunch: 150 ms later the body is dynamic with the throw's horizontal velocity",
+          `thrown ${want.map((n) => n.toFixed(3)).join(",")}, body ${ball.text}, off by ${off.toFixed(3)} m/s`);
+      }
       const aimed = await settleThrow("an aimed throw", beforeCups, 20000);
       const reports = graphSince(aimedAt - 200, ["collisionEnter", "bpStill", "bpLow"]);
       say("INFO", "the ball graph's reports", reports.length + ": " + reports.slice(0, 6).map((e) => e.name + " " + e.args.split("|").slice(0, 2).join("|")).join(" ; "));
@@ -363,18 +383,24 @@
     // the thrower: the player who is not coming back from a reload, and whose session sorts first otherwise
     const thrower = back ? false : me.sid < others[0].sid;
     say("INFO", (thrower ? "thrower" : "watcher") + " is " + me.name + (back ? " (back after a reload)" : ""));
+    const ref = debug().referee();
+    // a hit's cup removal is a request to the referee: when the thrower is not the referee, it crosses pages
+    say("INFO", "the referee is " + (ref && ref.sid === me.sid ? "this page (" + me.name + ")" : "the other page"));
 
     if (back) {
       // late join by reload: the cups and scores as the thrower left them
       const word = await until(() => heard.find((m) => m.kind === "final"), 30000, 250);
       await sleep(1500);
+      if (word) await until(() => debug().stamp().version === word.stamp.version, 10000, 200);
       const t = table();
       const agree = await cupsAgree("after the reload");
       check(!!word && t.cups.join(",") === word.cups && t.scores.join(",") === word.scores && agree.ok,
         "after reloading its page the watcher sees the remaining cups and the scores (late join), in the page and in Unity",
         `${agree.detail}; scores ${t.scores.join(",")}; thrower said cups ${word && word.cups}, scores ${word && word.scores}`);
-      check(!!word && word.digest === debug().digest(), "the reloaded page holds the same state as the thrower's (digest)", word ? `${word.digest} / ${debug().digest()}` : "no word");
-      send({ kind: "backDone", digest: debug().digest() });
+      const mine = debug().stamp();
+      check(!!word && word.stamp.version === mine.version && word.stamp.digest === mine.digest, "the reloaded page holds the same state as the thrower's (digest at the same version)",
+        word ? `${word.stamp.version} ${word.stamp.digest} / ${mine.version} ${mine.digest}` : "no word");
+      send({ kind: "backDone", stamp: mine });
       try {
         sessionStorage.removeItem("bpTestReloaded");
       } catch (e) {
@@ -407,18 +433,21 @@
         const afterNames = (await cupNames(target)).split(",").filter(Boolean);
         const gone = beforeNames.filter((n) => afterNames.indexOf(n) < 0);
         check(r.hit && gone.length === 1, `round ${round}: the thrower's throw removes one cup of side ${target}`, gone.join(","));
-        send({ kind: "result", round, target, gone: gone.join(","), cups: table().cups.join(","), digest: debug().digest() });
+        send({ kind: "result", round, target, gone: gone.join(","), cups: table().cups.join(","), stamp: debug().stamp() });
         await until(() => heard.some((m) => m.kind === "seen" && m.round === round), 30000, 200);
       }
       const seen = heard.filter((m) => m.kind === "seen");
-      check(seen.length === 2 && seen.every((m) => m.digest === m.myDigestAtResult), "the watcher reached the same state digest after each throw", JSON.stringify(seen.map((m) => m.digest)));
+      check(seen.length === 2 && seen.every((m) => m.stamp && m.result && m.stamp.version === m.result.version && m.stamp.digest === m.result.digest),
+        "the watcher reached the same state after each throw (digest at the same version)", JSON.stringify(seen.map((m) => [m.stamp, m.result])));
       // the watcher reloads; the table as it stands goes to it, and it must find the same
       await until(() => heard.some((m) => m.kind === "reloading"), 30000, 200);
       await until(() => heard.some((m) => m.kind === "hello"), 120000, 250);
       const t = table();
-      send({ kind: "final", cups: t.cups.join(","), scores: t.scores.join(","), digest: debug().digest() });
+      send({ kind: "final", cups: t.cups.join(","), scores: t.scores.join(","), stamp: debug().stamp() });
       const done = await until(() => heard.find((m) => m.kind === "backDone"), 60000, 250);
-      check(!!done && done.digest === debug().digest(), "after the reload both pages hold the same state (digest)", done ? `${done.digest} / ${debug().digest()}` : "no word");
+      const mine = debug().stamp();
+      check(!!done && done.stamp.version === mine.version && done.stamp.digest === mine.digest, "after the reload both pages hold the same state (digest at the same version)",
+        done ? `${done.stamp.version} ${done.stamp.digest} / ${mine.version} ${mine.digest}` : "no word");
       return;
     }
 
@@ -451,7 +480,8 @@
         `round ${round}: the watcher sees the ball fly (its synced transform in this page's Unity)`, `${samples.length} samples, ${distinct} distinct positions, height ${Math.min(...ys).toFixed(2)}..${Math.max(...ys).toFixed(2)}, ${travelled.toFixed(2)} m across`);
       check(!!result && gone.length === 1 && gone.join(",") === result.gone && table().cups.join(",") === result.cups,
         `round ${round}: the same cup is removed on the watcher's page and in its Unity`, `here ${gone.join(",")} / thrower ${result && result.gone}; cups ${table().cups.join(",")}`);
-      send({ kind: "seen", round, digest: debug().digest(), myDigestAtResult: result && result.digest });
+      if (result) await until(() => debug().stamp().version === result.stamp.version, 10000, 200);
+      send({ kind: "seen", round, stamp: debug().stamp(), result: result && result.stamp });
     }
     // late join by reload
     send({ kind: "reloading" });
@@ -523,9 +553,28 @@
     await cmd("shot poke 0.6 1.3 0 0.3 0.8 1.2 60");
   }
 
+  // ---- a fresh 3-side table: the player who starts it stays where they are (review finding 3) ----------------
+  async function start3() {
+    const before = await cmd("probe - head");
+    if (!(await waitStarted())) return;
+    await sleep(4000); // the fresh table's start-up writes, and a teleport if one came
+    const after = await cmd("probe - head");
+    const a = before.split(" ").map(Number);
+    const b = after.split(" ").map(Number);
+    const moved = Math.hypot(a[0] - b[0], a[2] - b[2]);
+    const t = table();
+    const shown = await probe("active", debug().pathOf("table3"));
+    check(t.players === 3 && shown === "True", "a fresh table takes players=\"3\": three sides, the 3-side table shown", `players ${t.players}, table3 active ${shown}`);
+    check(a.length >= 3 && b.length >= 3 && moved < 0.05, "the player who starts a 3-side table is not teleported (the first side count is not a change)",
+      `head before ${before}, after ${after}, moved ${moved.toFixed(3)} m`);
+    const agree = await cupsAgree("3 sides");
+    check(agree.ok && t.cups[2] === 15, "the third side's rack is made in Unity too", agree.detail);
+  }
+
   window.__bpRun = async function (plan) {
     try {
       if (plan === "single") await single();
+      else if (plan === "start3") await start3();
       else if (plan === "poke") await poke();
       else if (plan === "multi") {
         hello();

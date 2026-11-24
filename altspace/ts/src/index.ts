@@ -33,31 +33,42 @@ const game: GameDefinition = {
 };
 
 /**
- * Readers for Play-mode tests (window.__pk1.debug["beer-pong:<inst>"]): the table as this page holds it, and the
- * transform reports the page gets of a ball (how often a physics-driven ball's position reaches the page).
+ * Readers and helpers for Play-mode tests (window.__pk1.debug["beer-pong:<inst>"]): the table as this page holds it,
+ * the transform reports the page gets of a ball (how often a physics-driven ball's position reaches the page), and
+ * helpers that move the ball or remove a cup. The runtime puts them in the page registry only on a test page
+ * (`window.__pk1_debug = true`, which the Play-mode kit test sets first); a published page never has them. Nothing here
+ * changes the game until a hook is called: the report counter is installed by the first call of `now` or `reports`.
  */
 function debugHooks(instance: GameInstance): Record<string, unknown> {
   const G = () => instance.behaviour<Game>("game");
   const ball = (i: number) => instance.behaviour<Ball>(`ball${i}`);
   // every pose report of each ball, with the page's clock: the rate the "still for 1 s" and respawn-height checks see
   const reports: Array<Array<{ t: number; y: number }>> = [[], [], [], []];
-  for (let i = 0; i < 4; i++) {
-    const transform = ball(i).transform;
-    const original = transform._report.bind(transform);
-    transform._report = (position, rotation) => {
-      const list = reports[i]!;
-      list.push({ t: instance.platform.clock.now(), y: position.y });
-      if (list.length > 2000) list.splice(0, 1000);
-      original(position, rotation);
-    };
-  }
+  let counting = false;
+  const countReports = () => {
+    if (counting) return;
+    counting = true;
+    for (let i = 0; i < 4; i++) {
+      const transform = ball(i).transform;
+      const original = transform._report.bind(transform);
+      transform._report = (position, rotation) => {
+        const list = reports[i]!;
+        list.push({ t: instance.platform.clock.now(), y: position.y });
+        if (list.length > 2000) list.splice(0, 1000);
+        original(position, rotation);
+      };
+    }
+  };
   return {
     refOf: (key: string) => instance.bindings.refs.indexOf(key),
     /** Sends relay records as they are ("<op>|<target>|<args>^..."), for diagnostics. */
     rawRelay: (records: string) => instance.platform.relaySend(`beer-pong:${instance.inst}|${records}`),
     pathOf: (key: string) => instance.bindings.objects[key]?.path ?? "",
-    /** The page clock the report times use (ms). */
-    now: () => instance.platform.clock.now(),
+    /** The page clock the report times use (ms); from the first call on, the ball's pose reports are counted. */
+    now: () => {
+      countReports();
+      return instance.platform.clock.now();
+    },
     me: () => ({ sid: instance.networking.LocalPlayer.sid, name: instance.networking.LocalPlayer.displayName }),
     table: () => {
       const g = G();
@@ -80,6 +91,7 @@ function debugHooks(instance: GameInstance): Record<string, unknown> {
     cups: (side: number) => G().Players[side]!.CupsManager.List.map((c) => ({ name: c.name, path: c.manager.CupPath(c), position: [c.position.x, c.position.y, c.position.z] })),
     /** A ball's pose reports since `since` (page clock, ms): count, and the longest gap between two. */
     reports: (i: number, since: number) => {
+      countReports();
       const list = reports[i]!.filter((r) => r.t >= since);
       let gap = 0;
       for (let k = 1; k < list.length; k++) gap = Math.max(gap, list[k]!.t - list[k - 1]!.t);

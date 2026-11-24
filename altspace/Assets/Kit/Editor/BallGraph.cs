@@ -10,8 +10,8 @@
 //       physics step before the contact (upstream's last sample); "own" says whether the other collider is in this
 //       kit (Game.AllowCollision's other-table test, Game.cs:480); the other's position and the top of its collider's
 //       bounds are what a cup hit needs (Ball.cs:929-946).
-//   (and in: the game op bpLaunch leaves the launch velocity in the ball's BpLaunch variable; the first FixedUpdate
-//   after the body went dynamic gives it to the body)
+//   (a throw itself is the kit's standard rbLaunch op, in the relay graph: kinematic off, the velocity on the second
+//   physics step)
 //   bpStill|<ball>, bpLow|<ball>  while the body is dynamic (the owner's throw): still (speed^2 <= 0.5) for over 1 s and
 //       over 1 s since it went dynamic, and below RespawnHeight (Ball.cs:264-289), once each per flight.
 using PortKit;
@@ -23,8 +23,6 @@ namespace BeerPong
     public static class BallGraph
     {
         const int Ring = 10;
-        /// <summary>Physics.gravity.y as upstream assumes it (VRChat's default; a snippet never changes the world's).</summary>
-        const float Gravity = -9.81f;
 
         public static GraphWriter Build(int index, string key)
         {
@@ -40,8 +38,6 @@ namespace BeerPong
             g.Declare("StillSince", 0f);
             g.Declare("SaidStill", false);
             g.Declare("SaidLow", false);
-            g.Declare("Armed", false);
-            g.Declare("LaunchFrom", Vector3.zero);
 
             Val Position() => g.Get(typeof(Transform), "position");
             Val Rotation() => g.Get(typeof(Transform), "rotation");
@@ -97,32 +93,9 @@ namespace BeerPong
                 g.PageEvent("bpRelease", index, g.InvariantText(g.X(velocity)), g.InvariantText(g.Y(velocity)), g.InvariantText(g.Z(velocity)), g.InvariantText(maxAngle));
             });
 
-            // ---- the owner's flight: the launch velocity (game op bpLaunch), then the miss checks of Ball.cs:264-289 at the
-            //      physics rate ----
+            // ---- the owner's flight: the miss checks of Ball.cs:264-289 at the physics rate ----
             g.On(new FixedUpdate(), _ => g.If(g.Not(g.Get(typeof(Rigidbody), "isKinematic")), () =>
             {
-                // The SDK's synced-object handoff (SyncedObjectPhysicsHandoff, Local Multiplayer's mirror of the app's) gives
-                // a synced body its tracked velocity (zero at rest) in the first physics step after it leaves kinematic,
-                // over whatever was set. So: the first step notes where the ball is; the second puts it where the throw
-                // has taken it by then (from there, one step of flight) and gives it the throw's velocity of that moment.
-                g.If(g.ObjVar(BeerPongKitBuilder.LaunchPendingVariable, typeof(bool)), () =>
-                {
-                    var launch = g.Keep(g.ObjVar(BeerPongKitBuilder.LaunchVariable, typeof(Vector3)));
-                    g.If(g.Not(g.B("Armed")), () =>
-                    {
-                        g.SetGraphVar("Armed", true);
-                        g.SetGraphVar("LaunchFrom", g.Get(typeof(Rigidbody), "position"), v3);
-                        g.Set(typeof(Rigidbody), "linearVelocity", null, launch);
-                    }, () =>
-                    {
-                        var dt = g.Keep(g.Get(typeof(Time), "fixedDeltaTime"));
-                        var drop = g.Keep(Gravity * 0.5f * dt * dt);
-                        g.Set(typeof(Rigidbody), "position", null, g.GraphVar("LaunchFrom", v3) + g.Scale(launch, dt) + g.V3(0f, drop, 0f));
-                        g.Set(typeof(Rigidbody), "linearVelocity", null, launch + g.V3(0f, Gravity * dt, 0f));
-                        g.SetGraphVar("Armed", false);
-                        g.SetObjVar(BeerPongKitBuilder.LaunchPendingVariable, false, null, typeof(bool));
-                    });
-                });
                 var now = g.Keep(g.Get(typeof(Time), "time"));
                 g.If(g.Not(g.B("Dyn")), () =>
                 {

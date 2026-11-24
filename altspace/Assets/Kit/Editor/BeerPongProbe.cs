@@ -4,6 +4,7 @@
 //   PKTEST CMD <id> bpball <holder> <i>      ball i's body: "<kinematic> <vx> <vy> <vz> <x> <y> <z>"
 //   PKTEST CMD <id> bpcupcolor <holder> <side> <cup name>   _BaseColor of the copy's Glass_LOD0
 //   PKTEST CMD <id> bpright <holder> <slider path> <f>       the world point a fraction f of the slider's width right of its centre
+//   PKTEST CMD <id> bpmesh <holder> <path>   mesh names an object and its children draw and collide with
 // Editor only: never in a kit.
 using System;
 using System.Collections;
@@ -57,6 +58,17 @@ namespace BeerPong
                 if (t == null) { reply("error: not found"); return null; }
                 var vars = Unity.VisualScripting.Variables.Object(t.gameObject);
                 reply(string.Join(", ", a.Skip(2).Select(n => n + "=" + (vars.IsDefined(n) ? Convert.ToString(vars.Get(n), CultureInfo.InvariantCulture) : "undefined"))));
+                return null;
+            };
+            // the meshes an object and its children draw and collide with: "<renderer meshes> | <collider meshes>" (the
+            // generated table and cups, never upstream's table.dae / glass.dae)
+            KitPlayTest.Commands["bpmesh"] = (a, reply) =>
+            {
+                var t = KitProbe.Find(a[0], a[1]);
+                if (t == null) { reply("error: not found"); return null; }
+                var drawn = t.GetComponentsInChildren<MeshFilter>(true).Where(f => f.sharedMesh != null).Select(f => f.sharedMesh.name).Distinct();
+                var colliding = t.GetComponentsInChildren<MeshCollider>(true).Where(c => c.sharedMesh != null).Select(c => c.sharedMesh.name).Distinct();
+                reply(string.Join(",", drawn) + " | " + string.Join(",", colliding));
                 return null;
             };
             KitPlayTest.Commands["bpcupcolor"] = (a, reply) =>

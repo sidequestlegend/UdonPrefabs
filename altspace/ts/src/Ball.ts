@@ -4,8 +4,8 @@
 // How the ball moves here (coordinator's decision, PORT.md "Decisions"): the ball is a real Unity rigidbody, owned
 // and simulated by the thrower's client and transform-synced to everyone (`sync: "transform"` in bindings.json: the
 // script gives it its network id and a BS Synced Object), as upstream lets the owner's physics decide. The owner
-// starts a throw with the kit's `rbKinematic` / `rbVelocity` ops; every other client keeps the body kinematic so the
-// synced transform alone moves it. The kit's ball graph (one per ball, BeerPongKitBuilder) reports what the page
+// starts a throw with the kit's `rbLaunch` op (through Game.Launch, one launch at a time); every other client keeps the
+// body kinematic (`rbKinematic` / `rbVelocity`) so the synced transform alone moves it. The kit's ball graph (one per ball, BeerPongKitBuilder) reports what the page
 // cannot see, through the graph-to-page channel:
 //   bpRelease|<ball>|<vx>|<vy>|<vz>|<max angular deg/s>   On Release of a grab: Ball.cs:226-233 and :511-527 computed
 //                                                         per frame in the graph (the mean of the non-zero velocity
@@ -59,7 +59,7 @@ import {
 import type { Cup } from "./Cup.ts";
 import { GameMode, type Game } from "./Game.ts";
 import { CastInt } from "./CSharp.ts";
-import { BallLaunch, CupInside } from "./PortOps.ts";
+import { CupInside } from "./PortOps.ts";
 
 /** Ball.cs:11-19 */
 export const BallState = { Idle: 0, InHand: 1, Locked: 2, Flying: 3, Rimming: 4, InCup: 5 } as const;
@@ -175,7 +175,11 @@ export class Ball extends Behaviour {
 
   /** The body follows the owner's physics (false) or stands still where the page puts it (true). */
   private SetKinematic(kinematic: boolean): void {
-    if (kinematic) this.Host.rbVelocity(this.gameObject.key, Vector3.zero);
+    if (kinematic) {
+      // a launch still waiting its turn (Game.Launch) is void once the ball is held still again
+      this._gameManager?.CancelLaunch(this);
+      this.Host.rbVelocity(this.gameObject.key, Vector3.zero);
+    }
     // (not the cached rbKinematic: a grab changes the body behind the page's back)
     this.Host.op("rbKinematic", this.gameObject.key, [kinematic]);
   }
@@ -536,13 +540,13 @@ export class Ball extends Behaviour {
   }
 
   /**
-   * Hands the throw to the owner's physics: the game op `bpLaunch` makes the body dynamic, and the ball graph gives it
-   * `velocity` in the next physics step. (Seen in Play mode: the standard rbVelocity, sent with rbKinematic 0 in one
-   * batch, is lost when the body leaves kinematic in the same frame: the body falls from rest. PORT.md 0.6.) It starts
-   * where it is: every caller launches from the ball's current position.
+   * Hands the throw to the owner's physics: the kit's `rbLaunch` makes the body dynamic and gives it `velocity` on the
+   * second physics step (seen in Play mode: a velocity set in the step the body leaves kinematic is lost to the SDK's
+   * synced-object handoff, PORT.md 0.6). Game.Launch sends one launch at a time, since the kit keeps one pending launch
+   * per kit. It starts where it is: every caller launches from the ball's current position.
    */
   private Launch(_position: Vector3, velocity: Vector3): void {
-    BallLaunch(this.Host, this.gameObject.key, velocity);
+    this._gameManager.Launch(this, velocity);
   }
 
   // ========= Prediction ========== (:643-877)
