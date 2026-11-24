@@ -1,0 +1,10 @@
+{
+  "name": "bp-multi",
+  "timeout": 420,
+  "players": 2,
+  "elements": [
+    "<script>window.__bpPlan = \"multi\";</script>",
+    "<script src=\"{SERVER}/web/playtest/bp-playtest.js\"></script>",
+    "<bs-snippet name=\"beer-pong\" title=\"Beer Pong\" script=\"{SERVER}/web/pk-beer-pong.js\" position=\"0 0 1.9\" rotation=\"0 0 0\" aim-assist=\"1\" windows=\"{SERVER}/kits/windows/beer-pong\" android=\"{SERVER}/kits/android/beer-pong\"></bs-snippet>"
+  ]
+}
