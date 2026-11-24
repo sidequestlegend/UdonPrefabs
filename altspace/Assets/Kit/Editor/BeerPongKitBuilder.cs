@@ -311,7 +311,7 @@ namespace BeerPong
             void Selector(string id, string path, string target, string variable, bool networked, string[] options, string eventName = "")
             {
                 var go = O(F(ui, path).gameObject, K("_" + id));
-                var label = O(F(ui, path + "/Label").gameObject, K("_" + id + "Label"));
+                O(F(ui, path + "/Selection").gameObject, K("_" + id + "Label"));
                 Input(id, "SimpleUIOptionSelector", go, new JObject
                 {
                     ["UdonBehaviours"] = new JArray(B(target)), ["VariableName"] = variable, ["NetworkVariable"] = networked, ["EventName"] = eventName,
@@ -330,7 +330,7 @@ namespace BeerPong
 
             // Game tab
             Selector("mode", "Main/Game/Gamemode", "game", "_gameMode", true, new[] { "Normal", "King of the Pong", "Big Pong", "Mayhem" });
-            var countHandle = O(HandleText(F(ui, "Main/Game/PlayerCount")), K("_countHandle"));
+            O(HandleText(F(ui, "Main/Game/PlayerCount")), K("_countHandle"));
             Slider("count", "Main/Game/PlayerCount", "game", "_playerCount", true, new JObject { ["Handle"] = Comp(K("_countHandle"), "Text") });
             Toggle("teams", "Main/Game/TeamsBarrier/Teams", "game", "_doTeams");
             Toggle("barrier", "Main/Game/TeamsBarrier/Barrier", "game", "_useBarrier");
@@ -339,8 +339,8 @@ namespace BeerPong
             Toggle("friendlyFire", "Main/Rules/Friendly Fire (Teams):", "game", "_allowFriendlyFire");
             Toggle("autoRespawn", "Main/Rules/Auto Respawn Balls", "game", "_doAutoRespawnBalls");
             // Player tab: rows and shape are this side's, not networked, then ResetGlasses
-            O(HandleText(F(ui, "Main/Player/Options/Rows")), K("_rowsHandle"));
-            Slider("rows", "Main/Player/Options/Rows", $"cm{s}", "_rows", false, new JObject { ["EventName"] = "ResetGlasses", ["Handle"] = Comp(K("_rowsHandle"), "Text") });
+            // (upstream's Rows handle has no number on it, unlike the side count's)
+            Slider("rows", "Main/Player/Options/Rows", $"cm{s}", "_rows", false, new JObject { ["EventName"] = "ResetGlasses" });
             Selector("shape", "Main/Player/Options/Shape", $"cm{s}", "_shape", false, new[] { "Triangle", "Square", "Circle", "HashTag" }, "ResetGlasses");
             Button("reset", "Main/Player/Options/Buttons/Reset", $"p{s}", "ResetPlayer");
             Button("rerack", "Main/Player/Options/Buttons/Rerack", $"cm{s}", "Rerack");
@@ -639,6 +639,7 @@ namespace BeerPong
             {
                 var shared = renderer.sharedMaterials;
                 for (int i = 0; i < shared.Length; i++) if (shared[i] != null) shared[i] = Convert(shared[i], renderer is ParticleSystemRenderer);
+                if (renderer is ParticleSystemRenderer psr && psr.trailMaterial != null) psr.trailMaterial = Convert(psr.trailMaterial, true);
                 renderer.sharedMaterials = shared;
             }
             AssetDatabase.SaveAssets();
@@ -648,7 +649,11 @@ namespace BeerPong
         Material Convert(Material source, bool particles)
         {
             if (converted.TryGetValue(source, out var done)) return done;
-            if (source.shader != null && source.shader.name.StartsWith("Universal Render Pipeline/")) return converted[source] = source;
+            // only the built-in pipeline's Standard and particle shaders are remade; anything else (TextMesh Pro, URP) stays
+            string shaderName = source.shader != null ? source.shader.name : "";
+            bool standard = shaderName == "Standard" || shaderName == "Standard (Specular setup)";
+            bool builtInParticle = shaderName.StartsWith("Particles/") || shaderName.StartsWith("Legacy Shaders/Particles") || shaderName.StartsWith("Mobile/Particles");
+            if (!standard && !builtInParticle) return source;
             var lit = Shader.Find("Universal Render Pipeline/Lit");
             var particle = Shader.Find("Universal Render Pipeline/Particles/Unlit");
             string name = "BP " + source.name;

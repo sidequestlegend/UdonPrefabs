@@ -13,7 +13,6 @@
     "unit": "node --disable-warning=ExperimentalWarning --test \"test/*.test.ts\"",
     "test": "npm run typecheck && npm run lint && npm run unit",
     "build": "node --disable-warning=ExperimentalWarning portkit/tools/build.ts --game . --out ../Assets/WebRoot",
-    "bindings": "node --disable-warning=ExperimentalWarning tools/make-bindings.ts",
     "golden": "dotnet run --project golden -c Release -- vectors/upstream.json"
   },
   "devDependencies": {

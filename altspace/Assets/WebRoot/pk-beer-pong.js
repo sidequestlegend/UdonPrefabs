@@ -4,7 +4,7 @@
  * Port source: https://github.com/sidequestlegend/UdonPrefabs (branch altspace). Includes the portkit runtime (MIT).
  * Third-party notices: altspace/THIRD-PARTY-NOTICES.md in the port source.
  */
-/* pk-beer-pong.js: portkit runtime with the rules of 'beer-pong' (protocol pk1, bindings unhashed). Built file: do not edit. */
+/* pk-beer-pong.js: portkit runtime with the rules of 'beer-pong' (protocol pk1, bindings 431a1a7ebf73dfb4205af14fca2dc543f1894dba). Built file: do not edit. */
 (() => {
   var __defProp = Object.defineProperty;
   var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
@@ -8287,1764 +8287,5253 @@ ${label}`)));
 
   // bindings.json
   var bindings_default = {
-    schema: 1,
-    slug: "beer-pong",
-    hash: "",
-    provisional: "Written by ts/tools/make-bindings.ts from PORT.md section 5, not by the kit builder: paths, sizes and positions are unconfirmed and refs order will change.",
+    behaviours: [
+      {
+        fields: {
+          Balls: [
+            {
+              $beh: "ball0"
+            },
+            {
+              $beh: "ball1"
+            },
+            {
+              $beh: "ball2"
+            },
+            {
+              $beh: "ball3"
+            }
+          ],
+          KingOfTheHillPath: "BeerPong/KingOfTheHillPosition",
+          LogMinLevel: 1,
+          PlayersList: [
+            {
+              $beh: "p0"
+            },
+            {
+              $beh: "p1"
+            },
+            {
+              $beh: "p2"
+            },
+            {
+              $beh: "p3"
+            }
+          ],
+          _allowAI: true,
+          _allowAimAssist: true,
+          _allowAvatarThemeColorUsage: true,
+          _fourTeamPositions: [
+            {
+              position: {
+                $v3: [0, 0.8, 0]
+              },
+              yaw: 0
+            },
+            {
+              position: {
+                $v3: [0, 0.8, 0]
+              },
+              yaw: 180
+            },
+            {
+              position: {
+                $v3: [0, 0.8, 0]
+              },
+              yaw: 90
+            },
+            {
+              position: {
+                $v3: [0, 0.8, 0]
+              },
+              yaw: 270
+            }
+          ],
+          _initialPlayerColors: [
+            {
+              $color: [0.237, 0.745, 0, 1]
+            },
+            {
+              $color: [0.745, 0, 0.218, 1]
+            },
+            {
+              $color: [0, 0.569, 0.764, 1]
+            },
+            {
+              $color: [0.84, 0.698, 0, 1]
+            }
+          ],
+          _kingOfTheHillLocal: {
+            $v3: [0, 0.8, 0]
+          },
+          _respawnHeightLocal: {
+            $v3: [0, 0.4, 0]
+          },
+          _tables: [
+            null,
+            null,
+            {
+              $comp: "table2",
+              kind: "Renderer"
+            },
+            {
+              $comp: "table3",
+              kind: "Renderer"
+            },
+            {
+              $comp: "table4",
+              kind: "Renderer"
+            }
+          ],
+          _tablesAnimator: {
+            $comp: "table",
+            kind: "Animator"
+          },
+          _teamIndicatorMaterialIndex: 3,
+          _threeTeamPositions: [
+            {
+              position: {
+                $v3: [0, 0.8, 0]
+              },
+              yaw: 0
+            },
+            {
+              position: {
+                $v3: [0, 0.8, 0]
+              },
+              yaw: 240
+            },
+            {
+              position: {
+                $v3: [0, 0.8, 0]
+              },
+              yaw: 120.00001
+            }
+          ],
+          _twoTeamPositions: [
+            {
+              position: {
+                $v3: [0, 0.8, 0]
+              },
+              yaw: 0
+            },
+            {
+              position: {
+                $v3: [0, 0.8, 0]
+              },
+              yaw: 180
+            }
+          ],
+          ballRadiusLocal: 0.03
+        },
+        id: "game",
+        object: "beerPong",
+        type: "Game"
+      },
+      {
+        fields: {
+          AiBallSpawnLocal: {
+            $v3: [0, 0.42, -1.547]
+          },
+          BallSpawnLocal: {
+            $v3: [0.55215, 0.01, -1.311]
+          },
+          CupsAnchorLocal: {
+            $v3: [0, 0, -1.317]
+          },
+          CupsAnchorPath: "BeerPong/Players/Player/[GamemodeNormal]Cups Anchor",
+          CupsManager: {
+            $beh: "cm0"
+          },
+          LastAimAssitDisplay: {
+            $comp: "p0lastAssist",
+            kind: "Text"
+          },
+          LogMinLevel: 1,
+          ScoreAnnouncement: {
+            $beh: "ann0"
+          },
+          UIAnimator: {
+            $comp: "p0uiAnim",
+            kind: "Animator"
+          },
+          UI_score_boards: [
+            {
+              $comp: "p0score",
+              kind: "Text"
+            }
+          ],
+          UiButtonRenderer: {
+            $comp: "p0uiButton",
+            kind: "Renderer"
+          },
+          UiImageAlphas: [1, 0.14118],
+          UiImagesUsingPlayerColor: [
+            {
+              $comp: "p0popupBg0",
+              kind: "Image"
+            },
+            {
+              $comp: "p0popupBg1",
+              kind: "Image"
+            }
+          ],
+          _adaptiveAimToggle: {
+            $obj: "p0adaptiveAim"
+          },
+          _aiNavButton: {
+            $obj: "p0tabAI"
+          },
+          _aiSettings: {
+            $obj: "p0aiSettings"
+          },
+          _aimAssistSettings: {
+            $obj: "p0aimAssistSettings"
+          },
+          _avatarThemeColorToggle: {
+            $obj: "p0avatarColor"
+          }
+        },
+        id: "p0",
+        object: "p0",
+        type: "Player"
+      },
+      {
+        fields: {
+          Glass: {
+            boundsExtents: {
+              $v3: [0.05207, 0.07598, 0.05207]
+            },
+            lossyScale: {
+              $v3: [1, 1, 1]
+            }
+          },
+          LogMinLevel: 1,
+          SidePlayer: {
+            $beh: "p0"
+          }
+        },
+        id: "cm0",
+        object: "p0cupsAnchor",
+        type: "CupsManager"
+      },
+      {
+        fields: {
+          _animator: {
+            $comp: "p0popup",
+            kind: "Animator"
+          },
+          _player: {
+            $beh: "p0"
+          },
+          _textScore: {
+            $comp: "p0popupScore",
+            kind: "TMP"
+          },
+          _textSkill: {
+            $comp: "p0popupAssist",
+            kind: "TMP"
+          }
+        },
+        id: "ann0",
+        object: "p0popup",
+        type: "PlayerScoreAnnouncement"
+      },
+      {
+        fields: {
+          EventName: "",
+          Label: {
+            $comp: "p0_modeLabel",
+            kind: "Text"
+          },
+          NetworkVariable: true,
+          Options: ["Normal", "King of the Pong", "Big Pong", "Mayhem"],
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_gameMode",
+          clickClip: {
+            $clip: 0,
+            on: "p0panel"
+          },
+          clickSource: {
+            $comp: "p0panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p0_mode",
+        object: "p0_mode",
+        type: "SimpleUIOptionSelector"
+      },
+      {
+        fields: {
+          EventName: "",
+          Handle: {
+            $comp: "p0_countHandle",
+            kind: "Text"
+          },
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_playerCount",
+          clickClip: {
+            $clip: 0,
+            on: "p0panel"
+          },
+          clickSource: {
+            $comp: "p0panel",
+            kind: "AudioSource"
+          },
+          wholeNumbers: true
+        },
+        id: "p0_count",
+        object: "p0_count",
+        type: "SimpleUISlider"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_doTeams",
+          clickClip: {
+            $clip: 0,
+            on: "p0panel"
+          },
+          clickSource: {
+            $comp: "p0panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p0_teams",
+        object: "p0_teams",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_useBarrier",
+          clickClip: {
+            $clip: 0,
+            on: "p0panel"
+          },
+          clickSource: {
+            $comp: "p0panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p0_barrier",
+        object: "p0_barrier",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_allowSelfFire",
+          clickClip: {
+            $clip: 0,
+            on: "p0panel"
+          },
+          clickSource: {
+            $comp: "p0panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p0_selfFire",
+        object: "p0_selfFire",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_allowFriendlyFire",
+          clickClip: {
+            $clip: 0,
+            on: "p0panel"
+          },
+          clickSource: {
+            $comp: "p0panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p0_friendlyFire",
+        object: "p0_friendlyFire",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_doAutoRespawnBalls",
+          clickClip: {
+            $clip: 0,
+            on: "p0panel"
+          },
+          clickSource: {
+            $comp: "p0panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p0_autoRespawn",
+        object: "p0_autoRespawn",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "ResetGlasses",
+          NetworkVariable: false,
+          UdonBehaviours: [
+            {
+              $beh: "cm0"
+            }
+          ],
+          VariableName: "_rows",
+          clickClip: {
+            $clip: 0,
+            on: "p0panel"
+          },
+          clickSource: {
+            $comp: "p0panel",
+            kind: "AudioSource"
+          },
+          wholeNumbers: true
+        },
+        id: "p0_rows",
+        object: "p0_rows",
+        type: "SimpleUISlider"
+      },
+      {
+        fields: {
+          EventName: "ResetGlasses",
+          Label: {
+            $comp: "p0_shapeLabel",
+            kind: "Text"
+          },
+          NetworkVariable: false,
+          Options: ["Triangle", "Square", "Circle", "HashTag"],
+          UdonBehaviours: [
+            {
+              $beh: "cm0"
+            }
+          ],
+          VariableName: "_shape",
+          clickClip: {
+            $clip: 0,
+            on: "p0panel"
+          },
+          clickSource: {
+            $comp: "p0panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p0_shape",
+        object: "p0_shape",
+        type: "SimpleUIOptionSelector"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "p0"
+            }
+          ],
+          VariableName: "_isAI",
+          clickClip: {
+            $clip: 0,
+            on: "p0panel"
+          },
+          clickSource: {
+            $comp: "p0panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p0_ai",
+        object: "p0_ai",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "p0"
+            }
+          ],
+          VariableName: "_useAdaptiveAISkill",
+          clickClip: {
+            $clip: 0,
+            on: "p0panel"
+          },
+          clickSource: {
+            $comp: "p0panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p0_aiAdaptive",
+        object: "p0_aiAdaptive",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "p0"
+            }
+          ],
+          VariableName: "_aiSkill",
+          clickClip: {
+            $clip: 0,
+            on: "p0panel"
+          },
+          clickSource: {
+            $comp: "p0panel",
+            kind: "AudioSource"
+          },
+          wholeNumbers: false
+        },
+        id: "p0_aiSkill",
+        object: "p0_aiSkill",
+        type: "SimpleUISlider"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_aimAssist",
+          clickClip: {
+            $clip: 0,
+            on: "p0panel"
+          },
+          clickSource: {
+            $comp: "p0panel",
+            kind: "AudioSource"
+          },
+          wholeNumbers: false
+        },
+        id: "p0_aimAssist",
+        object: "p0_aimAssist",
+        type: "SimpleUISlider"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_showPointsPopup",
+          clickClip: {
+            $clip: 0,
+            on: "p0panel"
+          },
+          clickSource: {
+            $comp: "p0panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p0_pointsPopup",
+        object: "p0_pointsPopup",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_size",
+          clickClip: {
+            $clip: 0,
+            on: "p0panel"
+          },
+          clickSource: {
+            $comp: "p0panel",
+            kind: "AudioSource"
+          },
+          resetValue: 1,
+          wholeNumbers: false
+        },
+        id: "p0_size",
+        object: "p0_size",
+        type: "SimpleUISlider"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: false,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_volume",
+          clickClip: {
+            $clip: 0,
+            on: "p0panel"
+          },
+          clickSource: {
+            $comp: "p0panel",
+            kind: "AudioSource"
+          },
+          wholeNumbers: false
+        },
+        id: "p0_volume",
+        object: "p0_volume",
+        type: "SimpleUISlider"
+      },
+      {
+        fields: {
+          Target: {
+            $obj: "p0_volumeContainer"
+          }
+        },
+        id: "p0_volumeOpen",
+        object: "p0_volumeToggle",
+        type: "ToggleActive"
+      },
+      {
+        fields: {
+          Contents: [
+            {
+              $obj: "p0contentGame"
+            },
+            {
+              $obj: "p0contentRules"
+            },
+            {
+              $obj: "p0contentPlayer"
+            },
+            {
+              $obj: "p0contentAI"
+            },
+            {
+              $obj: "p0contentVisual"
+            },
+            {
+              $obj: "p0contentCredits"
+            }
+          ],
+          EventName: "",
+          NetworkVariable: true,
+          Toggles: [
+            {
+              $obj: "p0tabGame"
+            },
+            {
+              $obj: "p0tabRules"
+            },
+            {
+              $obj: "p0tabPlayer"
+            },
+            {
+              $obj: "p0tabAI"
+            },
+            {
+              $obj: "p0tabVisual"
+            },
+            {
+              $obj: "p0tabCredits"
+            }
+          ],
+          UdonBehaviours: [
+            {
+              $beh: "p0"
+            }
+          ],
+          VariableName: "_settingsNavbar",
+          clickClip: {
+            $clip: 0,
+            on: "p0panel"
+          },
+          clickSource: {
+            $comp: "p0panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p0_nav",
+        object: "p0navbar",
+        type: "SimpleUIToggleGroup"
+      },
+      {
+        fields: {
+          EventName: "ToggleSettings",
+          NetworkVariable: false,
+          UdonBehaviours: [
+            {
+              $beh: "p0"
+            }
+          ],
+          VariableName: "",
+          clickClip: {
+            $clip: 0,
+            on: "p0panel"
+          },
+          clickSource: {
+            $comp: "p0panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p0_open",
+        object: "p0uiButton",
+        type: "SimpleUIInteract"
+      },
+      {
+        fields: {
+          AiBallSpawnLocal: {
+            $v3: [0, 0.42, -1.547]
+          },
+          BallSpawnLocal: {
+            $v3: [0.55215, 0.01, -1.311]
+          },
+          CupsAnchorLocal: {
+            $v3: [0, 0, -1.317]
+          },
+          CupsAnchorPath: "BeerPong/Players/Player (1)/[GamemodeNormal]Cups Anchor",
+          CupsManager: {
+            $beh: "cm1"
+          },
+          LastAimAssitDisplay: {
+            $comp: "p1lastAssist",
+            kind: "Text"
+          },
+          LogMinLevel: 1,
+          ScoreAnnouncement: {
+            $beh: "ann1"
+          },
+          UIAnimator: {
+            $comp: "p1uiAnim",
+            kind: "Animator"
+          },
+          UI_score_boards: [
+            {
+              $comp: "p1score",
+              kind: "Text"
+            }
+          ],
+          UiButtonRenderer: {
+            $comp: "p1uiButton",
+            kind: "Renderer"
+          },
+          UiImageAlphas: [1, 0.14118],
+          UiImagesUsingPlayerColor: [
+            {
+              $comp: "p1popupBg0",
+              kind: "Image"
+            },
+            {
+              $comp: "p1popupBg1",
+              kind: "Image"
+            }
+          ],
+          _adaptiveAimToggle: {
+            $obj: "p1adaptiveAim"
+          },
+          _aiNavButton: {
+            $obj: "p1tabAI"
+          },
+          _aiSettings: {
+            $obj: "p1aiSettings"
+          },
+          _aimAssistSettings: {
+            $obj: "p1aimAssistSettings"
+          },
+          _avatarThemeColorToggle: {
+            $obj: "p1avatarColor"
+          }
+        },
+        id: "p1",
+        object: "p1",
+        type: "Player"
+      },
+      {
+        fields: {
+          Glass: {
+            boundsExtents: {
+              $v3: [0.05207, 0.07598, 0.05207]
+            },
+            lossyScale: {
+              $v3: [1, 1, 1]
+            }
+          },
+          LogMinLevel: 1,
+          SidePlayer: {
+            $beh: "p1"
+          }
+        },
+        id: "cm1",
+        object: "p1cupsAnchor",
+        type: "CupsManager"
+      },
+      {
+        fields: {
+          _animator: {
+            $comp: "p1popup",
+            kind: "Animator"
+          },
+          _player: {
+            $beh: "p1"
+          },
+          _textScore: {
+            $comp: "p1popupScore",
+            kind: "TMP"
+          },
+          _textSkill: {
+            $comp: "p1popupAssist",
+            kind: "TMP"
+          }
+        },
+        id: "ann1",
+        object: "p1popup",
+        type: "PlayerScoreAnnouncement"
+      },
+      {
+        fields: {
+          EventName: "",
+          Label: {
+            $comp: "p1_modeLabel",
+            kind: "Text"
+          },
+          NetworkVariable: true,
+          Options: ["Normal", "King of the Pong", "Big Pong", "Mayhem"],
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_gameMode",
+          clickClip: {
+            $clip: 0,
+            on: "p1panel"
+          },
+          clickSource: {
+            $comp: "p1panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p1_mode",
+        object: "p1_mode",
+        type: "SimpleUIOptionSelector"
+      },
+      {
+        fields: {
+          EventName: "",
+          Handle: {
+            $comp: "p1_countHandle",
+            kind: "Text"
+          },
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_playerCount",
+          clickClip: {
+            $clip: 0,
+            on: "p1panel"
+          },
+          clickSource: {
+            $comp: "p1panel",
+            kind: "AudioSource"
+          },
+          wholeNumbers: true
+        },
+        id: "p1_count",
+        object: "p1_count",
+        type: "SimpleUISlider"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_doTeams",
+          clickClip: {
+            $clip: 0,
+            on: "p1panel"
+          },
+          clickSource: {
+            $comp: "p1panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p1_teams",
+        object: "p1_teams",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_useBarrier",
+          clickClip: {
+            $clip: 0,
+            on: "p1panel"
+          },
+          clickSource: {
+            $comp: "p1panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p1_barrier",
+        object: "p1_barrier",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_allowSelfFire",
+          clickClip: {
+            $clip: 0,
+            on: "p1panel"
+          },
+          clickSource: {
+            $comp: "p1panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p1_selfFire",
+        object: "p1_selfFire",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_allowFriendlyFire",
+          clickClip: {
+            $clip: 0,
+            on: "p1panel"
+          },
+          clickSource: {
+            $comp: "p1panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p1_friendlyFire",
+        object: "p1_friendlyFire",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_doAutoRespawnBalls",
+          clickClip: {
+            $clip: 0,
+            on: "p1panel"
+          },
+          clickSource: {
+            $comp: "p1panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p1_autoRespawn",
+        object: "p1_autoRespawn",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "ResetGlasses",
+          NetworkVariable: false,
+          UdonBehaviours: [
+            {
+              $beh: "cm1"
+            }
+          ],
+          VariableName: "_rows",
+          clickClip: {
+            $clip: 0,
+            on: "p1panel"
+          },
+          clickSource: {
+            $comp: "p1panel",
+            kind: "AudioSource"
+          },
+          wholeNumbers: true
+        },
+        id: "p1_rows",
+        object: "p1_rows",
+        type: "SimpleUISlider"
+      },
+      {
+        fields: {
+          EventName: "ResetGlasses",
+          Label: {
+            $comp: "p1_shapeLabel",
+            kind: "Text"
+          },
+          NetworkVariable: false,
+          Options: ["Triangle", "Square", "Circle", "HashTag"],
+          UdonBehaviours: [
+            {
+              $beh: "cm1"
+            }
+          ],
+          VariableName: "_shape",
+          clickClip: {
+            $clip: 0,
+            on: "p1panel"
+          },
+          clickSource: {
+            $comp: "p1panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p1_shape",
+        object: "p1_shape",
+        type: "SimpleUIOptionSelector"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "p1"
+            }
+          ],
+          VariableName: "_isAI",
+          clickClip: {
+            $clip: 0,
+            on: "p1panel"
+          },
+          clickSource: {
+            $comp: "p1panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p1_ai",
+        object: "p1_ai",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "p1"
+            }
+          ],
+          VariableName: "_useAdaptiveAISkill",
+          clickClip: {
+            $clip: 0,
+            on: "p1panel"
+          },
+          clickSource: {
+            $comp: "p1panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p1_aiAdaptive",
+        object: "p1_aiAdaptive",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "p1"
+            }
+          ],
+          VariableName: "_aiSkill",
+          clickClip: {
+            $clip: 0,
+            on: "p1panel"
+          },
+          clickSource: {
+            $comp: "p1panel",
+            kind: "AudioSource"
+          },
+          wholeNumbers: false
+        },
+        id: "p1_aiSkill",
+        object: "p1_aiSkill",
+        type: "SimpleUISlider"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_aimAssist",
+          clickClip: {
+            $clip: 0,
+            on: "p1panel"
+          },
+          clickSource: {
+            $comp: "p1panel",
+            kind: "AudioSource"
+          },
+          wholeNumbers: false
+        },
+        id: "p1_aimAssist",
+        object: "p1_aimAssist",
+        type: "SimpleUISlider"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_showPointsPopup",
+          clickClip: {
+            $clip: 0,
+            on: "p1panel"
+          },
+          clickSource: {
+            $comp: "p1panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p1_pointsPopup",
+        object: "p1_pointsPopup",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_size",
+          clickClip: {
+            $clip: 0,
+            on: "p1panel"
+          },
+          clickSource: {
+            $comp: "p1panel",
+            kind: "AudioSource"
+          },
+          resetValue: 1,
+          wholeNumbers: false
+        },
+        id: "p1_size",
+        object: "p1_size",
+        type: "SimpleUISlider"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: false,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_volume",
+          clickClip: {
+            $clip: 0,
+            on: "p1panel"
+          },
+          clickSource: {
+            $comp: "p1panel",
+            kind: "AudioSource"
+          },
+          wholeNumbers: false
+        },
+        id: "p1_volume",
+        object: "p1_volume",
+        type: "SimpleUISlider"
+      },
+      {
+        fields: {
+          Target: {
+            $obj: "p1_volumeContainer"
+          }
+        },
+        id: "p1_volumeOpen",
+        object: "p1_volumeToggle",
+        type: "ToggleActive"
+      },
+      {
+        fields: {
+          Contents: [
+            {
+              $obj: "p1contentGame"
+            },
+            {
+              $obj: "p1contentRules"
+            },
+            {
+              $obj: "p1contentPlayer"
+            },
+            {
+              $obj: "p1contentAI"
+            },
+            {
+              $obj: "p1contentVisual"
+            },
+            {
+              $obj: "p1contentCredits"
+            }
+          ],
+          EventName: "",
+          NetworkVariable: true,
+          Toggles: [
+            {
+              $obj: "p1tabGame"
+            },
+            {
+              $obj: "p1tabRules"
+            },
+            {
+              $obj: "p1tabPlayer"
+            },
+            {
+              $obj: "p1tabAI"
+            },
+            {
+              $obj: "p1tabVisual"
+            },
+            {
+              $obj: "p1tabCredits"
+            }
+          ],
+          UdonBehaviours: [
+            {
+              $beh: "p1"
+            }
+          ],
+          VariableName: "_settingsNavbar",
+          clickClip: {
+            $clip: 0,
+            on: "p1panel"
+          },
+          clickSource: {
+            $comp: "p1panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p1_nav",
+        object: "p1navbar",
+        type: "SimpleUIToggleGroup"
+      },
+      {
+        fields: {
+          EventName: "ToggleSettings",
+          NetworkVariable: false,
+          UdonBehaviours: [
+            {
+              $beh: "p1"
+            }
+          ],
+          VariableName: "",
+          clickClip: {
+            $clip: 0,
+            on: "p1panel"
+          },
+          clickSource: {
+            $comp: "p1panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p1_open",
+        object: "p1uiButton",
+        type: "SimpleUIInteract"
+      },
+      {
+        fields: {
+          AiBallSpawnLocal: {
+            $v3: [0, 0.42, -1.547]
+          },
+          BallSpawnLocal: {
+            $v3: [0.55215, 0.01, -1.311]
+          },
+          CupsAnchorLocal: {
+            $v3: [0, 0, -1.317]
+          },
+          CupsAnchorPath: "BeerPong/Players/Player (2)/[GamemodeNormal]Cups Anchor",
+          CupsManager: {
+            $beh: "cm2"
+          },
+          LastAimAssitDisplay: {
+            $comp: "p2lastAssist",
+            kind: "Text"
+          },
+          LogMinLevel: 1,
+          ScoreAnnouncement: {
+            $beh: "ann2"
+          },
+          UIAnimator: {
+            $comp: "p2uiAnim",
+            kind: "Animator"
+          },
+          UI_score_boards: [
+            {
+              $comp: "p2score",
+              kind: "Text"
+            }
+          ],
+          UiButtonRenderer: {
+            $comp: "p2uiButton",
+            kind: "Renderer"
+          },
+          UiImageAlphas: [1, 0.14118],
+          UiImagesUsingPlayerColor: [
+            {
+              $comp: "p2popupBg0",
+              kind: "Image"
+            },
+            {
+              $comp: "p2popupBg1",
+              kind: "Image"
+            }
+          ],
+          _adaptiveAimToggle: {
+            $obj: "p2adaptiveAim"
+          },
+          _aiNavButton: {
+            $obj: "p2tabAI"
+          },
+          _aiSettings: {
+            $obj: "p2aiSettings"
+          },
+          _aimAssistSettings: {
+            $obj: "p2aimAssistSettings"
+          },
+          _avatarThemeColorToggle: {
+            $obj: "p2avatarColor"
+          }
+        },
+        id: "p2",
+        object: "p2",
+        type: "Player"
+      },
+      {
+        fields: {
+          Glass: {
+            boundsExtents: {
+              $v3: [0.05207, 0.07598, 0.05207]
+            },
+            lossyScale: {
+              $v3: [1, 1, 1]
+            }
+          },
+          LogMinLevel: 1,
+          SidePlayer: {
+            $beh: "p2"
+          }
+        },
+        id: "cm2",
+        object: "p2cupsAnchor",
+        type: "CupsManager"
+      },
+      {
+        fields: {
+          _animator: {
+            $comp: "p2popup",
+            kind: "Animator"
+          },
+          _player: {
+            $beh: "p2"
+          },
+          _textScore: {
+            $comp: "p2popupScore",
+            kind: "TMP"
+          },
+          _textSkill: {
+            $comp: "p2popupAssist",
+            kind: "TMP"
+          }
+        },
+        id: "ann2",
+        object: "p2popup",
+        type: "PlayerScoreAnnouncement"
+      },
+      {
+        fields: {
+          EventName: "",
+          Label: {
+            $comp: "p2_modeLabel",
+            kind: "Text"
+          },
+          NetworkVariable: true,
+          Options: ["Normal", "King of the Pong", "Big Pong", "Mayhem"],
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_gameMode",
+          clickClip: {
+            $clip: 0,
+            on: "p2panel"
+          },
+          clickSource: {
+            $comp: "p2panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p2_mode",
+        object: "p2_mode",
+        type: "SimpleUIOptionSelector"
+      },
+      {
+        fields: {
+          EventName: "",
+          Handle: {
+            $comp: "p2_countHandle",
+            kind: "Text"
+          },
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_playerCount",
+          clickClip: {
+            $clip: 0,
+            on: "p2panel"
+          },
+          clickSource: {
+            $comp: "p2panel",
+            kind: "AudioSource"
+          },
+          wholeNumbers: true
+        },
+        id: "p2_count",
+        object: "p2_count",
+        type: "SimpleUISlider"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_doTeams",
+          clickClip: {
+            $clip: 0,
+            on: "p2panel"
+          },
+          clickSource: {
+            $comp: "p2panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p2_teams",
+        object: "p2_teams",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_useBarrier",
+          clickClip: {
+            $clip: 0,
+            on: "p2panel"
+          },
+          clickSource: {
+            $comp: "p2panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p2_barrier",
+        object: "p2_barrier",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_allowSelfFire",
+          clickClip: {
+            $clip: 0,
+            on: "p2panel"
+          },
+          clickSource: {
+            $comp: "p2panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p2_selfFire",
+        object: "p2_selfFire",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_allowFriendlyFire",
+          clickClip: {
+            $clip: 0,
+            on: "p2panel"
+          },
+          clickSource: {
+            $comp: "p2panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p2_friendlyFire",
+        object: "p2_friendlyFire",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_doAutoRespawnBalls",
+          clickClip: {
+            $clip: 0,
+            on: "p2panel"
+          },
+          clickSource: {
+            $comp: "p2panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p2_autoRespawn",
+        object: "p2_autoRespawn",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "ResetGlasses",
+          NetworkVariable: false,
+          UdonBehaviours: [
+            {
+              $beh: "cm2"
+            }
+          ],
+          VariableName: "_rows",
+          clickClip: {
+            $clip: 0,
+            on: "p2panel"
+          },
+          clickSource: {
+            $comp: "p2panel",
+            kind: "AudioSource"
+          },
+          wholeNumbers: true
+        },
+        id: "p2_rows",
+        object: "p2_rows",
+        type: "SimpleUISlider"
+      },
+      {
+        fields: {
+          EventName: "ResetGlasses",
+          Label: {
+            $comp: "p2_shapeLabel",
+            kind: "Text"
+          },
+          NetworkVariable: false,
+          Options: ["Triangle", "Square", "Circle", "HashTag"],
+          UdonBehaviours: [
+            {
+              $beh: "cm2"
+            }
+          ],
+          VariableName: "_shape",
+          clickClip: {
+            $clip: 0,
+            on: "p2panel"
+          },
+          clickSource: {
+            $comp: "p2panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p2_shape",
+        object: "p2_shape",
+        type: "SimpleUIOptionSelector"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "p2"
+            }
+          ],
+          VariableName: "_isAI",
+          clickClip: {
+            $clip: 0,
+            on: "p2panel"
+          },
+          clickSource: {
+            $comp: "p2panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p2_ai",
+        object: "p2_ai",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "p2"
+            }
+          ],
+          VariableName: "_useAdaptiveAISkill",
+          clickClip: {
+            $clip: 0,
+            on: "p2panel"
+          },
+          clickSource: {
+            $comp: "p2panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p2_aiAdaptive",
+        object: "p2_aiAdaptive",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "p2"
+            }
+          ],
+          VariableName: "_aiSkill",
+          clickClip: {
+            $clip: 0,
+            on: "p2panel"
+          },
+          clickSource: {
+            $comp: "p2panel",
+            kind: "AudioSource"
+          },
+          wholeNumbers: false
+        },
+        id: "p2_aiSkill",
+        object: "p2_aiSkill",
+        type: "SimpleUISlider"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_aimAssist",
+          clickClip: {
+            $clip: 0,
+            on: "p2panel"
+          },
+          clickSource: {
+            $comp: "p2panel",
+            kind: "AudioSource"
+          },
+          wholeNumbers: false
+        },
+        id: "p2_aimAssist",
+        object: "p2_aimAssist",
+        type: "SimpleUISlider"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_showPointsPopup",
+          clickClip: {
+            $clip: 0,
+            on: "p2panel"
+          },
+          clickSource: {
+            $comp: "p2panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p2_pointsPopup",
+        object: "p2_pointsPopup",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_size",
+          clickClip: {
+            $clip: 0,
+            on: "p2panel"
+          },
+          clickSource: {
+            $comp: "p2panel",
+            kind: "AudioSource"
+          },
+          resetValue: 1,
+          wholeNumbers: false
+        },
+        id: "p2_size",
+        object: "p2_size",
+        type: "SimpleUISlider"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: false,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_volume",
+          clickClip: {
+            $clip: 0,
+            on: "p2panel"
+          },
+          clickSource: {
+            $comp: "p2panel",
+            kind: "AudioSource"
+          },
+          wholeNumbers: false
+        },
+        id: "p2_volume",
+        object: "p2_volume",
+        type: "SimpleUISlider"
+      },
+      {
+        fields: {
+          Target: {
+            $obj: "p2_volumeContainer"
+          }
+        },
+        id: "p2_volumeOpen",
+        object: "p2_volumeToggle",
+        type: "ToggleActive"
+      },
+      {
+        fields: {
+          Contents: [
+            {
+              $obj: "p2contentGame"
+            },
+            {
+              $obj: "p2contentRules"
+            },
+            {
+              $obj: "p2contentPlayer"
+            },
+            {
+              $obj: "p2contentAI"
+            },
+            {
+              $obj: "p2contentVisual"
+            },
+            {
+              $obj: "p2contentCredits"
+            }
+          ],
+          EventName: "",
+          NetworkVariable: true,
+          Toggles: [
+            {
+              $obj: "p2tabGame"
+            },
+            {
+              $obj: "p2tabRules"
+            },
+            {
+              $obj: "p2tabPlayer"
+            },
+            {
+              $obj: "p2tabAI"
+            },
+            {
+              $obj: "p2tabVisual"
+            },
+            {
+              $obj: "p2tabCredits"
+            }
+          ],
+          UdonBehaviours: [
+            {
+              $beh: "p2"
+            }
+          ],
+          VariableName: "_settingsNavbar",
+          clickClip: {
+            $clip: 0,
+            on: "p2panel"
+          },
+          clickSource: {
+            $comp: "p2panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p2_nav",
+        object: "p2navbar",
+        type: "SimpleUIToggleGroup"
+      },
+      {
+        fields: {
+          EventName: "ToggleSettings",
+          NetworkVariable: false,
+          UdonBehaviours: [
+            {
+              $beh: "p2"
+            }
+          ],
+          VariableName: "",
+          clickClip: {
+            $clip: 0,
+            on: "p2panel"
+          },
+          clickSource: {
+            $comp: "p2panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p2_open",
+        object: "p2uiButton",
+        type: "SimpleUIInteract"
+      },
+      {
+        fields: {
+          AiBallSpawnLocal: {
+            $v3: [0, 0.42, -1.547]
+          },
+          BallSpawnLocal: {
+            $v3: [0.55215, 0.01, -1.311]
+          },
+          CupsAnchorLocal: {
+            $v3: [0, 0, -1.317]
+          },
+          CupsAnchorPath: "BeerPong/Players/Player (3)/[GamemodeNormal]Cups Anchor",
+          CupsManager: {
+            $beh: "cm3"
+          },
+          LastAimAssitDisplay: {
+            $comp: "p3lastAssist",
+            kind: "Text"
+          },
+          LogMinLevel: 1,
+          ScoreAnnouncement: {
+            $beh: "ann3"
+          },
+          UIAnimator: {
+            $comp: "p3uiAnim",
+            kind: "Animator"
+          },
+          UI_score_boards: [
+            {
+              $comp: "p3score",
+              kind: "Text"
+            }
+          ],
+          UiButtonRenderer: {
+            $comp: "p3uiButton",
+            kind: "Renderer"
+          },
+          UiImageAlphas: [1, 0.14118],
+          UiImagesUsingPlayerColor: [
+            {
+              $comp: "p3popupBg0",
+              kind: "Image"
+            },
+            {
+              $comp: "p3popupBg1",
+              kind: "Image"
+            }
+          ],
+          _adaptiveAimToggle: {
+            $obj: "p3adaptiveAim"
+          },
+          _aiNavButton: {
+            $obj: "p3tabAI"
+          },
+          _aiSettings: {
+            $obj: "p3aiSettings"
+          },
+          _aimAssistSettings: {
+            $obj: "p3aimAssistSettings"
+          },
+          _avatarThemeColorToggle: {
+            $obj: "p3avatarColor"
+          }
+        },
+        id: "p3",
+        object: "p3",
+        type: "Player"
+      },
+      {
+        fields: {
+          Glass: {
+            boundsExtents: {
+              $v3: [0.05207, 0.07598, 0.05207]
+            },
+            lossyScale: {
+              $v3: [1, 1, 1]
+            }
+          },
+          LogMinLevel: 1,
+          SidePlayer: {
+            $beh: "p3"
+          }
+        },
+        id: "cm3",
+        object: "p3cupsAnchor",
+        type: "CupsManager"
+      },
+      {
+        fields: {
+          _animator: {
+            $comp: "p3popup",
+            kind: "Animator"
+          },
+          _player: {
+            $beh: "p3"
+          },
+          _textScore: {
+            $comp: "p3popupScore",
+            kind: "TMP"
+          },
+          _textSkill: {
+            $comp: "p3popupAssist",
+            kind: "TMP"
+          }
+        },
+        id: "ann3",
+        object: "p3popup",
+        type: "PlayerScoreAnnouncement"
+      },
+      {
+        fields: {
+          EventName: "",
+          Label: {
+            $comp: "p3_modeLabel",
+            kind: "Text"
+          },
+          NetworkVariable: true,
+          Options: ["Normal", "King of the Pong", "Big Pong", "Mayhem"],
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_gameMode",
+          clickClip: {
+            $clip: 0,
+            on: "p3panel"
+          },
+          clickSource: {
+            $comp: "p3panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p3_mode",
+        object: "p3_mode",
+        type: "SimpleUIOptionSelector"
+      },
+      {
+        fields: {
+          EventName: "",
+          Handle: {
+            $comp: "p3_countHandle",
+            kind: "Text"
+          },
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_playerCount",
+          clickClip: {
+            $clip: 0,
+            on: "p3panel"
+          },
+          clickSource: {
+            $comp: "p3panel",
+            kind: "AudioSource"
+          },
+          wholeNumbers: true
+        },
+        id: "p3_count",
+        object: "p3_count",
+        type: "SimpleUISlider"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_doTeams",
+          clickClip: {
+            $clip: 0,
+            on: "p3panel"
+          },
+          clickSource: {
+            $comp: "p3panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p3_teams",
+        object: "p3_teams",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_useBarrier",
+          clickClip: {
+            $clip: 0,
+            on: "p3panel"
+          },
+          clickSource: {
+            $comp: "p3panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p3_barrier",
+        object: "p3_barrier",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_allowSelfFire",
+          clickClip: {
+            $clip: 0,
+            on: "p3panel"
+          },
+          clickSource: {
+            $comp: "p3panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p3_selfFire",
+        object: "p3_selfFire",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_allowFriendlyFire",
+          clickClip: {
+            $clip: 0,
+            on: "p3panel"
+          },
+          clickSource: {
+            $comp: "p3panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p3_friendlyFire",
+        object: "p3_friendlyFire",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_doAutoRespawnBalls",
+          clickClip: {
+            $clip: 0,
+            on: "p3panel"
+          },
+          clickSource: {
+            $comp: "p3panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p3_autoRespawn",
+        object: "p3_autoRespawn",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "ResetGlasses",
+          NetworkVariable: false,
+          UdonBehaviours: [
+            {
+              $beh: "cm3"
+            }
+          ],
+          VariableName: "_rows",
+          clickClip: {
+            $clip: 0,
+            on: "p3panel"
+          },
+          clickSource: {
+            $comp: "p3panel",
+            kind: "AudioSource"
+          },
+          wholeNumbers: true
+        },
+        id: "p3_rows",
+        object: "p3_rows",
+        type: "SimpleUISlider"
+      },
+      {
+        fields: {
+          EventName: "ResetGlasses",
+          Label: {
+            $comp: "p3_shapeLabel",
+            kind: "Text"
+          },
+          NetworkVariable: false,
+          Options: ["Triangle", "Square", "Circle", "HashTag"],
+          UdonBehaviours: [
+            {
+              $beh: "cm3"
+            }
+          ],
+          VariableName: "_shape",
+          clickClip: {
+            $clip: 0,
+            on: "p3panel"
+          },
+          clickSource: {
+            $comp: "p3panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p3_shape",
+        object: "p3_shape",
+        type: "SimpleUIOptionSelector"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "p3"
+            }
+          ],
+          VariableName: "_isAI",
+          clickClip: {
+            $clip: 0,
+            on: "p3panel"
+          },
+          clickSource: {
+            $comp: "p3panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p3_ai",
+        object: "p3_ai",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "p3"
+            }
+          ],
+          VariableName: "_useAdaptiveAISkill",
+          clickClip: {
+            $clip: 0,
+            on: "p3panel"
+          },
+          clickSource: {
+            $comp: "p3panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p3_aiAdaptive",
+        object: "p3_aiAdaptive",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "p3"
+            }
+          ],
+          VariableName: "_aiSkill",
+          clickClip: {
+            $clip: 0,
+            on: "p3panel"
+          },
+          clickSource: {
+            $comp: "p3panel",
+            kind: "AudioSource"
+          },
+          wholeNumbers: false
+        },
+        id: "p3_aiSkill",
+        object: "p3_aiSkill",
+        type: "SimpleUISlider"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_aimAssist",
+          clickClip: {
+            $clip: 0,
+            on: "p3panel"
+          },
+          clickSource: {
+            $comp: "p3panel",
+            kind: "AudioSource"
+          },
+          wholeNumbers: false
+        },
+        id: "p3_aimAssist",
+        object: "p3_aimAssist",
+        type: "SimpleUISlider"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_showPointsPopup",
+          clickClip: {
+            $clip: 0,
+            on: "p3panel"
+          },
+          clickSource: {
+            $comp: "p3panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p3_pointsPopup",
+        object: "p3_pointsPopup",
+        type: "SimpleUIToggle"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: true,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_size",
+          clickClip: {
+            $clip: 0,
+            on: "p3panel"
+          },
+          clickSource: {
+            $comp: "p3panel",
+            kind: "AudioSource"
+          },
+          resetValue: 1,
+          wholeNumbers: false
+        },
+        id: "p3_size",
+        object: "p3_size",
+        type: "SimpleUISlider"
+      },
+      {
+        fields: {
+          EventName: "",
+          NetworkVariable: false,
+          UdonBehaviours: [
+            {
+              $beh: "game"
+            }
+          ],
+          VariableName: "_volume",
+          clickClip: {
+            $clip: 0,
+            on: "p3panel"
+          },
+          clickSource: {
+            $comp: "p3panel",
+            kind: "AudioSource"
+          },
+          wholeNumbers: false
+        },
+        id: "p3_volume",
+        object: "p3_volume",
+        type: "SimpleUISlider"
+      },
+      {
+        fields: {
+          Target: {
+            $obj: "p3_volumeContainer"
+          }
+        },
+        id: "p3_volumeOpen",
+        object: "p3_volumeToggle",
+        type: "ToggleActive"
+      },
+      {
+        fields: {
+          Contents: [
+            {
+              $obj: "p3contentGame"
+            },
+            {
+              $obj: "p3contentRules"
+            },
+            {
+              $obj: "p3contentPlayer"
+            },
+            {
+              $obj: "p3contentAI"
+            },
+            {
+              $obj: "p3contentVisual"
+            },
+            {
+              $obj: "p3contentCredits"
+            }
+          ],
+          EventName: "",
+          NetworkVariable: true,
+          Toggles: [
+            {
+              $obj: "p3tabGame"
+            },
+            {
+              $obj: "p3tabRules"
+            },
+            {
+              $obj: "p3tabPlayer"
+            },
+            {
+              $obj: "p3tabAI"
+            },
+            {
+              $obj: "p3tabVisual"
+            },
+            {
+              $obj: "p3tabCredits"
+            }
+          ],
+          UdonBehaviours: [
+            {
+              $beh: "p3"
+            }
+          ],
+          VariableName: "_settingsNavbar",
+          clickClip: {
+            $clip: 0,
+            on: "p3panel"
+          },
+          clickSource: {
+            $comp: "p3panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p3_nav",
+        object: "p3navbar",
+        type: "SimpleUIToggleGroup"
+      },
+      {
+        fields: {
+          EventName: "ToggleSettings",
+          NetworkVariable: false,
+          UdonBehaviours: [
+            {
+              $beh: "p3"
+            }
+          ],
+          VariableName: "",
+          clickClip: {
+            $clip: 0,
+            on: "p3panel"
+          },
+          clickSource: {
+            $comp: "p3panel",
+            kind: "AudioSource"
+          }
+        },
+        id: "p3_open",
+        object: "p3uiButton",
+        type: "SimpleUIInteract"
+      },
+      {
+        fields: {
+          _audioSource: {
+            $comp: "ball0",
+            kind: "AudioSource"
+          },
+          _audio_collision_glass: {
+            $clip: 1,
+            on: "ball0"
+          },
+          _audio_collision_table: {
+            $clip: 0,
+            on: "ball0"
+          },
+          _audio_water_splash: {
+            $clip: 2,
+            on: "ball0"
+          },
+          _gameManager: {
+            $beh: "game"
+          },
+          _renderer: {
+            $comp: "ball0",
+            kind: "Renderer"
+          },
+          _splashParticles: {
+            $comp: "splash",
+            kind: "ParticleSystem"
+          },
+          _strengthIndicatorDesktop: {
+            $comp: "ball0Bar",
+            kind: "Renderer"
+          },
+          _throwVelocityMultiplierDekstop: 1,
+          _throwVelocityMultiplierVR: 1.5,
+          index: 0
+        },
+        id: "ball0",
+        object: "ball0",
+        type: "Ball"
+      },
+      {
+        fields: {
+          _audioSource: {
+            $comp: "ball1",
+            kind: "AudioSource"
+          },
+          _audio_collision_glass: {
+            $clip: 1,
+            on: "ball1"
+          },
+          _audio_collision_table: {
+            $clip: 0,
+            on: "ball1"
+          },
+          _audio_water_splash: {
+            $clip: 2,
+            on: "ball1"
+          },
+          _gameManager: {
+            $beh: "game"
+          },
+          _renderer: {
+            $comp: "ball1",
+            kind: "Renderer"
+          },
+          _splashParticles: {
+            $comp: "splash",
+            kind: "ParticleSystem"
+          },
+          _strengthIndicatorDesktop: {
+            $comp: "ball1Bar",
+            kind: "Renderer"
+          },
+          _throwVelocityMultiplierDekstop: 1,
+          _throwVelocityMultiplierVR: 1.5,
+          index: 1
+        },
+        id: "ball1",
+        object: "ball1",
+        type: "Ball"
+      },
+      {
+        fields: {
+          _audioSource: {
+            $comp: "ball2",
+            kind: "AudioSource"
+          },
+          _audio_collision_glass: {
+            $clip: 1,
+            on: "ball2"
+          },
+          _audio_collision_table: {
+            $clip: 0,
+            on: "ball2"
+          },
+          _audio_water_splash: {
+            $clip: 2,
+            on: "ball2"
+          },
+          _gameManager: {
+            $beh: "game"
+          },
+          _renderer: {
+            $comp: "ball2",
+            kind: "Renderer"
+          },
+          _splashParticles: {
+            $comp: "splash",
+            kind: "ParticleSystem"
+          },
+          _strengthIndicatorDesktop: {
+            $comp: "ball2Bar",
+            kind: "Renderer"
+          },
+          _throwVelocityMultiplierDekstop: 1,
+          _throwVelocityMultiplierVR: 1.5,
+          index: 2
+        },
+        id: "ball2",
+        object: "ball2",
+        type: "Ball"
+      },
+      {
+        fields: {
+          _audioSource: {
+            $comp: "ball3",
+            kind: "AudioSource"
+          },
+          _audio_collision_glass: {
+            $clip: 1,
+            on: "ball3"
+          },
+          _audio_collision_table: {
+            $clip: 0,
+            on: "ball3"
+          },
+          _audio_water_splash: {
+            $clip: 2,
+            on: "ball3"
+          },
+          _gameManager: {
+            $beh: "game"
+          },
+          _renderer: {
+            $comp: "ball3",
+            kind: "Renderer"
+          },
+          _splashParticles: {
+            $comp: "splash",
+            kind: "ParticleSystem"
+          },
+          _strengthIndicatorDesktop: {
+            $comp: "ball3Bar",
+            kind: "Renderer"
+          },
+          _throwVelocityMultiplierDekstop: 1,
+          _throwVelocityMultiplierVR: 1.5,
+          index: 3
+        },
+        id: "ball3",
+        object: "ball3",
+        type: "Ball"
+      }
+    ],
     bundles: {
-      windows: "",
-      android: ""
+      android: "",
+      windows: ""
     },
+    events: [
+      {
+        behaviour: "p0_mode",
+        kind: "uiButton",
+        method: "Prev",
+        object: "p0_modeLeft"
+      },
+      {
+        behaviour: "p0_mode",
+        kind: "uiButton",
+        method: "Next",
+        object: "p0_modeRight"
+      },
+      {
+        behaviour: "p0_count",
+        kind: "uiSlider",
+        method: "OnValueChanged",
+        object: "p0_count"
+      },
+      {
+        behaviour: "p0_teams",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p0_teams"
+      },
+      {
+        behaviour: "p0_barrier",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p0_barrier"
+      },
+      {
+        behaviour: "p0_selfFire",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p0_selfFire"
+      },
+      {
+        behaviour: "p0_friendlyFire",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p0_friendlyFire"
+      },
+      {
+        behaviour: "p0_autoRespawn",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p0_autoRespawn"
+      },
+      {
+        behaviour: "p0_rows",
+        kind: "uiSlider",
+        method: "OnValueChanged",
+        object: "p0_rows"
+      },
+      {
+        behaviour: "p0_shape",
+        kind: "uiButton",
+        method: "Prev",
+        object: "p0_shapeLeft"
+      },
+      {
+        behaviour: "p0_shape",
+        kind: "uiButton",
+        method: "Next",
+        object: "p0_shapeRight"
+      },
+      {
+        behaviour: "p0",
+        kind: "uiButton",
+        method: "ResetPlayer",
+        object: "p0_reset"
+      },
+      {
+        behaviour: "cm0",
+        kind: "uiButton",
+        method: "Rerack",
+        object: "p0_rerack"
+      },
+      {
+        behaviour: "p0",
+        kind: "uiButton",
+        method: "SyncSettingsToAllPlayers",
+        object: "p0_sync"
+      },
+      {
+        behaviour: "p0",
+        kind: "uiButton",
+        method: "ResetAllPlayers",
+        object: "p0_resetAll"
+      },
+      {
+        behaviour: "p0_ai",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p0_ai"
+      },
+      {
+        behaviour: "p0_aiAdaptive",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p0_aiAdaptive"
+      },
+      {
+        behaviour: "p0_aiSkill",
+        kind: "uiSlider",
+        method: "OnValueChanged",
+        object: "p0_aiSkill"
+      },
+      {
+        behaviour: "p0_aimAssist",
+        kind: "uiSlider",
+        method: "OnValueChanged",
+        object: "p0_aimAssist"
+      },
+      {
+        behaviour: "p0_pointsPopup",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p0_pointsPopup"
+      },
+      {
+        behaviour: "p0_size",
+        kind: "uiSlider",
+        method: "OnValueChanged",
+        object: "p0_size"
+      },
+      {
+        behaviour: "p0_size",
+        kind: "uiButton",
+        method: "ResetValue",
+        object: "p0_sizeReset"
+      },
+      {
+        behaviour: "p0_volume",
+        kind: "uiSlider",
+        method: "OnValueChanged",
+        object: "p0_volume"
+      },
+      {
+        behaviour: "p0_volumeOpen",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p0_volumeToggle"
+      },
+      {
+        behaviour: "p0_nav",
+        kind: "uiToggle",
+        method: "_Toggle0",
+        object: "p0tabGame"
+      },
+      {
+        behaviour: "p0_nav",
+        kind: "uiToggle",
+        method: "_Toggle1",
+        object: "p0tabRules"
+      },
+      {
+        behaviour: "p0_nav",
+        kind: "uiToggle",
+        method: "_Toggle2",
+        object: "p0tabPlayer"
+      },
+      {
+        behaviour: "p0_nav",
+        kind: "uiToggle",
+        method: "_Toggle3",
+        object: "p0tabAI"
+      },
+      {
+        behaviour: "p0_nav",
+        kind: "uiToggle",
+        method: "_Toggle4",
+        object: "p0tabVisual"
+      },
+      {
+        behaviour: "p0_nav",
+        kind: "uiToggle",
+        method: "_Toggle5",
+        object: "p0tabCredits"
+      },
+      {
+        behaviour: "p1_mode",
+        kind: "uiButton",
+        method: "Prev",
+        object: "p1_modeLeft"
+      },
+      {
+        behaviour: "p1_mode",
+        kind: "uiButton",
+        method: "Next",
+        object: "p1_modeRight"
+      },
+      {
+        behaviour: "p1_count",
+        kind: "uiSlider",
+        method: "OnValueChanged",
+        object: "p1_count"
+      },
+      {
+        behaviour: "p1_teams",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p1_teams"
+      },
+      {
+        behaviour: "p1_barrier",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p1_barrier"
+      },
+      {
+        behaviour: "p1_selfFire",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p1_selfFire"
+      },
+      {
+        behaviour: "p1_friendlyFire",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p1_friendlyFire"
+      },
+      {
+        behaviour: "p1_autoRespawn",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p1_autoRespawn"
+      },
+      {
+        behaviour: "p1_rows",
+        kind: "uiSlider",
+        method: "OnValueChanged",
+        object: "p1_rows"
+      },
+      {
+        behaviour: "p1_shape",
+        kind: "uiButton",
+        method: "Prev",
+        object: "p1_shapeLeft"
+      },
+      {
+        behaviour: "p1_shape",
+        kind: "uiButton",
+        method: "Next",
+        object: "p1_shapeRight"
+      },
+      {
+        behaviour: "p1",
+        kind: "uiButton",
+        method: "ResetPlayer",
+        object: "p1_reset"
+      },
+      {
+        behaviour: "cm1",
+        kind: "uiButton",
+        method: "Rerack",
+        object: "p1_rerack"
+      },
+      {
+        behaviour: "p1",
+        kind: "uiButton",
+        method: "SyncSettingsToAllPlayers",
+        object: "p1_sync"
+      },
+      {
+        behaviour: "p1",
+        kind: "uiButton",
+        method: "ResetAllPlayers",
+        object: "p1_resetAll"
+      },
+      {
+        behaviour: "p1_ai",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p1_ai"
+      },
+      {
+        behaviour: "p1_aiAdaptive",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p1_aiAdaptive"
+      },
+      {
+        behaviour: "p1_aiSkill",
+        kind: "uiSlider",
+        method: "OnValueChanged",
+        object: "p1_aiSkill"
+      },
+      {
+        behaviour: "p1_aimAssist",
+        kind: "uiSlider",
+        method: "OnValueChanged",
+        object: "p1_aimAssist"
+      },
+      {
+        behaviour: "p1_pointsPopup",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p1_pointsPopup"
+      },
+      {
+        behaviour: "p1_size",
+        kind: "uiSlider",
+        method: "OnValueChanged",
+        object: "p1_size"
+      },
+      {
+        behaviour: "p1_size",
+        kind: "uiButton",
+        method: "ResetValue",
+        object: "p1_sizeReset"
+      },
+      {
+        behaviour: "p1_volume",
+        kind: "uiSlider",
+        method: "OnValueChanged",
+        object: "p1_volume"
+      },
+      {
+        behaviour: "p1_volumeOpen",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p1_volumeToggle"
+      },
+      {
+        behaviour: "p1_nav",
+        kind: "uiToggle",
+        method: "_Toggle0",
+        object: "p1tabGame"
+      },
+      {
+        behaviour: "p1_nav",
+        kind: "uiToggle",
+        method: "_Toggle1",
+        object: "p1tabRules"
+      },
+      {
+        behaviour: "p1_nav",
+        kind: "uiToggle",
+        method: "_Toggle2",
+        object: "p1tabPlayer"
+      },
+      {
+        behaviour: "p1_nav",
+        kind: "uiToggle",
+        method: "_Toggle3",
+        object: "p1tabAI"
+      },
+      {
+        behaviour: "p1_nav",
+        kind: "uiToggle",
+        method: "_Toggle4",
+        object: "p1tabVisual"
+      },
+      {
+        behaviour: "p1_nav",
+        kind: "uiToggle",
+        method: "_Toggle5",
+        object: "p1tabCredits"
+      },
+      {
+        behaviour: "p2_mode",
+        kind: "uiButton",
+        method: "Prev",
+        object: "p2_modeLeft"
+      },
+      {
+        behaviour: "p2_mode",
+        kind: "uiButton",
+        method: "Next",
+        object: "p2_modeRight"
+      },
+      {
+        behaviour: "p2_count",
+        kind: "uiSlider",
+        method: "OnValueChanged",
+        object: "p2_count"
+      },
+      {
+        behaviour: "p2_teams",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p2_teams"
+      },
+      {
+        behaviour: "p2_barrier",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p2_barrier"
+      },
+      {
+        behaviour: "p2_selfFire",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p2_selfFire"
+      },
+      {
+        behaviour: "p2_friendlyFire",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p2_friendlyFire"
+      },
+      {
+        behaviour: "p2_autoRespawn",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p2_autoRespawn"
+      },
+      {
+        behaviour: "p2_rows",
+        kind: "uiSlider",
+        method: "OnValueChanged",
+        object: "p2_rows"
+      },
+      {
+        behaviour: "p2_shape",
+        kind: "uiButton",
+        method: "Prev",
+        object: "p2_shapeLeft"
+      },
+      {
+        behaviour: "p2_shape",
+        kind: "uiButton",
+        method: "Next",
+        object: "p2_shapeRight"
+      },
+      {
+        behaviour: "p2",
+        kind: "uiButton",
+        method: "ResetPlayer",
+        object: "p2_reset"
+      },
+      {
+        behaviour: "cm2",
+        kind: "uiButton",
+        method: "Rerack",
+        object: "p2_rerack"
+      },
+      {
+        behaviour: "p2",
+        kind: "uiButton",
+        method: "SyncSettingsToAllPlayers",
+        object: "p2_sync"
+      },
+      {
+        behaviour: "p2",
+        kind: "uiButton",
+        method: "ResetAllPlayers",
+        object: "p2_resetAll"
+      },
+      {
+        behaviour: "p2_ai",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p2_ai"
+      },
+      {
+        behaviour: "p2_aiAdaptive",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p2_aiAdaptive"
+      },
+      {
+        behaviour: "p2_aiSkill",
+        kind: "uiSlider",
+        method: "OnValueChanged",
+        object: "p2_aiSkill"
+      },
+      {
+        behaviour: "p2_aimAssist",
+        kind: "uiSlider",
+        method: "OnValueChanged",
+        object: "p2_aimAssist"
+      },
+      {
+        behaviour: "p2_pointsPopup",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p2_pointsPopup"
+      },
+      {
+        behaviour: "p2_size",
+        kind: "uiSlider",
+        method: "OnValueChanged",
+        object: "p2_size"
+      },
+      {
+        behaviour: "p2_size",
+        kind: "uiButton",
+        method: "ResetValue",
+        object: "p2_sizeReset"
+      },
+      {
+        behaviour: "p2_volume",
+        kind: "uiSlider",
+        method: "OnValueChanged",
+        object: "p2_volume"
+      },
+      {
+        behaviour: "p2_volumeOpen",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p2_volumeToggle"
+      },
+      {
+        behaviour: "p2_nav",
+        kind: "uiToggle",
+        method: "_Toggle0",
+        object: "p2tabGame"
+      },
+      {
+        behaviour: "p2_nav",
+        kind: "uiToggle",
+        method: "_Toggle1",
+        object: "p2tabRules"
+      },
+      {
+        behaviour: "p2_nav",
+        kind: "uiToggle",
+        method: "_Toggle2",
+        object: "p2tabPlayer"
+      },
+      {
+        behaviour: "p2_nav",
+        kind: "uiToggle",
+        method: "_Toggle3",
+        object: "p2tabAI"
+      },
+      {
+        behaviour: "p2_nav",
+        kind: "uiToggle",
+        method: "_Toggle4",
+        object: "p2tabVisual"
+      },
+      {
+        behaviour: "p2_nav",
+        kind: "uiToggle",
+        method: "_Toggle5",
+        object: "p2tabCredits"
+      },
+      {
+        behaviour: "p3_mode",
+        kind: "uiButton",
+        method: "Prev",
+        object: "p3_modeLeft"
+      },
+      {
+        behaviour: "p3_mode",
+        kind: "uiButton",
+        method: "Next",
+        object: "p3_modeRight"
+      },
+      {
+        behaviour: "p3_count",
+        kind: "uiSlider",
+        method: "OnValueChanged",
+        object: "p3_count"
+      },
+      {
+        behaviour: "p3_teams",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p3_teams"
+      },
+      {
+        behaviour: "p3_barrier",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p3_barrier"
+      },
+      {
+        behaviour: "p3_selfFire",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p3_selfFire"
+      },
+      {
+        behaviour: "p3_friendlyFire",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p3_friendlyFire"
+      },
+      {
+        behaviour: "p3_autoRespawn",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p3_autoRespawn"
+      },
+      {
+        behaviour: "p3_rows",
+        kind: "uiSlider",
+        method: "OnValueChanged",
+        object: "p3_rows"
+      },
+      {
+        behaviour: "p3_shape",
+        kind: "uiButton",
+        method: "Prev",
+        object: "p3_shapeLeft"
+      },
+      {
+        behaviour: "p3_shape",
+        kind: "uiButton",
+        method: "Next",
+        object: "p3_shapeRight"
+      },
+      {
+        behaviour: "p3",
+        kind: "uiButton",
+        method: "ResetPlayer",
+        object: "p3_reset"
+      },
+      {
+        behaviour: "cm3",
+        kind: "uiButton",
+        method: "Rerack",
+        object: "p3_rerack"
+      },
+      {
+        behaviour: "p3",
+        kind: "uiButton",
+        method: "SyncSettingsToAllPlayers",
+        object: "p3_sync"
+      },
+      {
+        behaviour: "p3",
+        kind: "uiButton",
+        method: "ResetAllPlayers",
+        object: "p3_resetAll"
+      },
+      {
+        behaviour: "p3_ai",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p3_ai"
+      },
+      {
+        behaviour: "p3_aiAdaptive",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p3_aiAdaptive"
+      },
+      {
+        behaviour: "p3_aiSkill",
+        kind: "uiSlider",
+        method: "OnValueChanged",
+        object: "p3_aiSkill"
+      },
+      {
+        behaviour: "p3_aimAssist",
+        kind: "uiSlider",
+        method: "OnValueChanged",
+        object: "p3_aimAssist"
+      },
+      {
+        behaviour: "p3_pointsPopup",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p3_pointsPopup"
+      },
+      {
+        behaviour: "p3_size",
+        kind: "uiSlider",
+        method: "OnValueChanged",
+        object: "p3_size"
+      },
+      {
+        behaviour: "p3_size",
+        kind: "uiButton",
+        method: "ResetValue",
+        object: "p3_sizeReset"
+      },
+      {
+        behaviour: "p3_volume",
+        kind: "uiSlider",
+        method: "OnValueChanged",
+        object: "p3_volume"
+      },
+      {
+        behaviour: "p3_volumeOpen",
+        kind: "uiToggle",
+        method: "OnValueChanged",
+        object: "p3_volumeToggle"
+      },
+      {
+        behaviour: "p3_nav",
+        kind: "uiToggle",
+        method: "_Toggle0",
+        object: "p3tabGame"
+      },
+      {
+        behaviour: "p3_nav",
+        kind: "uiToggle",
+        method: "_Toggle1",
+        object: "p3tabRules"
+      },
+      {
+        behaviour: "p3_nav",
+        kind: "uiToggle",
+        method: "_Toggle2",
+        object: "p3tabPlayer"
+      },
+      {
+        behaviour: "p3_nav",
+        kind: "uiToggle",
+        method: "_Toggle3",
+        object: "p3tabAI"
+      },
+      {
+        behaviour: "p3_nav",
+        kind: "uiToggle",
+        method: "_Toggle4",
+        object: "p3tabVisual"
+      },
+      {
+        behaviour: "p3_nav",
+        kind: "uiToggle",
+        method: "_Toggle5",
+        object: "p3tabCredits"
+      },
+      {
+        behaviour: "ball0",
+        kind: "collisionEnter",
+        method: "OnBallCollision",
+        object: "ball0"
+      },
+      {
+        behaviour: "ball1",
+        kind: "collisionEnter",
+        method: "OnBallCollision",
+        object: "ball1"
+      },
+      {
+        behaviour: "ball2",
+        kind: "collisionEnter",
+        method: "OnBallCollision",
+        object: "ball2"
+      },
+      {
+        behaviour: "ball3",
+        kind: "collisionEnter",
+        method: "OnBallCollision",
+        object: "ball3"
+      }
+    ],
+    hash: "431a1a7ebf73dfb4205af14fca2dc543f1894dba",
     objects: {
-      beerPong: {
-        path: "BeerPong",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      table: {
-        path: "BeerPong/table",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      table2: {
-        path: "BeerPong/table/[ThryBP]2Players",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      table3: {
-        path: "BeerPong/table/[ThryBP]3Players",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      table4: {
-        path: "BeerPong/table/[ThryBP]4Players",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      splash: {
-        path: "BeerPong/SplashParticles",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
       ball0: {
-        path: "BeerPong/Ball",
-        sync: "transform",
-        grab: true,
         click: false,
-        seat: false
+        grab: true,
+        path: "BeerPong/Ball",
+        seat: false,
+        sync: "transform"
       },
       ball0Bar: {
-        path: "BeerPong/Ball/StrengthBar",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Ball/StrengthBar",
+        seat: false,
+        sync: "none"
       },
       ball1: {
-        path: "BeerPong/Ball (1)",
-        sync: "transform",
-        grab: true,
         click: false,
-        seat: false
+        grab: true,
+        path: "BeerPong/Ball (1)",
+        seat: false,
+        sync: "transform"
       },
       ball1Bar: {
-        path: "BeerPong/Ball (1)/StrengthBar",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Ball (1)/StrengthBar",
+        seat: false,
+        sync: "none"
       },
       ball2: {
-        path: "BeerPong/Ball (2)",
-        sync: "transform",
-        grab: true,
         click: false,
-        seat: false
+        grab: true,
+        path: "BeerPong/Ball (2)",
+        seat: false,
+        sync: "transform"
       },
       ball2Bar: {
-        path: "BeerPong/Ball (2)/StrengthBar",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Ball (2)/StrengthBar",
+        seat: false,
+        sync: "none"
       },
       ball3: {
-        path: "BeerPong/Ball (3)",
-        sync: "transform",
-        grab: true,
         click: false,
-        seat: false
+        grab: true,
+        path: "BeerPong/Ball (3)",
+        seat: false,
+        sync: "transform"
       },
       ball3Bar: {
-        path: "BeerPong/Ball (3)/StrengthBar",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Ball (3)/StrengthBar",
+        seat: false,
+        sync: "none"
+      },
+      beerPong: {
+        click: false,
+        grab: false,
+        path: "BeerPong",
+        seat: false,
+        sync: "none"
+      },
+      canvas: {
+        active: false,
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Temp Scoreboard/Canvas",
+        seat: false,
+        sync: "none"
+      },
+      canvas2: {
+        active: false,
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Temp Scoreboard/Canvas",
+        seat: false,
+        sync: "none"
+      },
+      canvas3: {
+        active: false,
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Temp Scoreboard/Canvas",
+        seat: false,
+        sync: "none"
+      },
+      canvas4: {
+        active: false,
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Temp Scoreboard/Canvas",
+        seat: false,
+        sync: "none"
       },
       p0: {
+        click: false,
+        grab: false,
         path: "BeerPong/Players/Player",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0score: {
-        path: "BeerPong/Players/Player/ScoreTable/Points",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0uiButton: {
-        path: "BeerPong/Players/Player/Fixture UI/Button Open Settings",
-        sync: "none",
-        grab: false,
-        click: true,
-        seat: false
-      },
-      p0uiAnim: {
-        path: "BeerPong/Players/Player/Fixture UI",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0popup: {
-        path: "BeerPong/Players/Player/Temp Scoreboard",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0popupScore: {
-        path: "BeerPong/Players/Player/Temp Scoreboard/Canvas/Score",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0popupAssist: {
-        path: "BeerPong/Players/Player/Temp Scoreboard/Canvas/Player Aim Assist/Value",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0popupBg0: {
-        path: "BeerPong/Players/Player/Temp Scoreboard/Canvas/BG_scoreboard",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0popupBg1: {
-        path: "BeerPong/Players/Player/Temp Scoreboard/Canvas/BG_scoreboard/BG",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0lastAssist: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Last Aim Assist/Value",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0navbar: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/NavBar",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0tabGame: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/NavBar/Game",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0tabRules: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/NavBar/Rules",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0tabPlayer: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/NavBar/Player",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0tabAI: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/NavBar/AI",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0tabVisual: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/NavBar/Visual",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0tabCredits: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/NavBar/Credits",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0aiSettings: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AI",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0aimAssistSettings: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0avatarColor: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Visual/UseAvatarThemeColor",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0adaptiveAim: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AdaptiveAim",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0cupsAnchor: {
-        path: "BeerPong/Players/Player/[GamemodeNormal]Cups Anchor",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0_mode: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0_modeLabel: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Label",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0_modeLeft: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Left",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0_modeRight: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Right",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0_countHandle: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount/Handle Slide Area/Handle/Text",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0_count: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0_teams: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Teams",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0_barrier: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Barrier",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0_selfFire: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Rules/Self Fire",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0_friendlyFire: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Rules/Friendly Fire (Teams):",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0_autoRespawn: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Rules/Auto Respawn Balls",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0_rowsHandle: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows/Handle Slide Area/Handle/Text",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0_rows: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0_shape: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0_shapeLabel: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Label",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0_shapeLeft: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Left",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0_shapeRight: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Right",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0_reset: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Reset",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0_rerack: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Rerack",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0_sync: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Global/Sync",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0_resetAll: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Global/Reset",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
+        seat: false,
+        sync: "none"
       },
       p0_ai: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI",
+        seat: false,
+        sync: "none"
       },
       p0_aiAdaptive: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AI/Adaptive",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AI/Adaptive",
+        seat: false,
+        sync: "none"
       },
       p0_aiSkill: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI Skill",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI Skill",
+        seat: false,
+        sync: "none"
       },
       p0_aimAssist: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AimAssist",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AimAssist",
+        seat: false,
+        sync: "none"
+      },
+      p0_autoRespawn: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Rules/Auto Respawn Balls",
+        seat: false,
+        sync: "none"
+      },
+      p0_barrier: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Barrier",
+        seat: false,
+        sync: "none"
+      },
+      p0_count: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount",
+        seat: false,
+        sync: "none"
+      },
+      p0_countHandle: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount/Handle Slide Area/Handle/PlayerCountText",
+        seat: false,
+        sync: "none"
+      },
+      p0_friendlyFire: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Rules/Friendly Fire (Teams):",
+        seat: false,
+        sync: "none"
+      },
+      p0_mode: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode",
+        seat: false,
+        sync: "none"
+      },
+      p0_modeLabel: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Selection",
+        seat: false,
+        sync: "none"
+      },
+      p0_modeLeft: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Left",
+        seat: false,
+        sync: "none"
+      },
+      p0_modeRight: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Right",
+        seat: false,
+        sync: "none"
       },
       p0_pointsPopup: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Visual/Points Popup",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Visual/Points Popup",
+        seat: false,
+        sync: "none"
+      },
+      p0_rerack: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Rerack",
+        seat: false,
+        sync: "none"
+      },
+      p0_reset: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Reset",
+        seat: false,
+        sync: "none"
+      },
+      p0_resetAll: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Global/Reset",
+        seat: false,
+        sync: "none"
+      },
+      p0_rows: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows",
+        seat: false,
+        sync: "none"
+      },
+      p0_selfFire: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Rules/Self Fire",
+        seat: false,
+        sync: "none"
+      },
+      p0_shape: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape",
+        seat: false,
+        sync: "none"
+      },
+      p0_shapeLabel: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Selection",
+        seat: false,
+        sync: "none"
+      },
+      p0_shapeLeft: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Left",
+        seat: false,
+        sync: "none"
+      },
+      p0_shapeRight: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Right",
+        seat: false,
+        sync: "none"
       },
       p0_size: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Slider",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Slider",
+        seat: false,
+        sync: "none"
       },
       p0_sizeReset: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Reset",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Reset",
+        seat: false,
+        sync: "none"
+      },
+      p0_sync: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player/Global/Sync",
+        seat: false,
+        sync: "none"
+      },
+      p0_teams: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Teams",
+        seat: false,
+        sync: "none"
       },
       p0_volume: {
+        click: false,
+        grab: false,
         path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Volume/Container/Volume",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0_volumeToggle: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Volume/Toggle",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
+        seat: false,
+        sync: "none"
       },
       p0_volumeContainer: {
+        active: false,
+        click: false,
+        grab: false,
         path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Volume/Container",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
+        seat: false,
+        sync: "none"
       },
-      p0contentGame: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Game",
-        sync: "none",
-        grab: false,
+      p0_volumeToggle: {
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Volume/Toggle",
+        seat: false,
+        sync: "none"
       },
-      p0contentRules: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Rules",
-        sync: "none",
-        grab: false,
+      p0adaptiveAim: {
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AdaptiveAim",
+        seat: false,
+        sync: "none"
       },
-      p0contentPlayer: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player",
-        sync: "none",
-        grab: false,
+      p0aiSettings: {
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AI",
+        seat: false,
+        sync: "none"
+      },
+      p0aimAssistSettings: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist",
+        seat: false,
+        sync: "none"
+      },
+      p0avatarColor: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Visual/UseAvatarThemeColor",
+        seat: false,
+        sync: "none"
       },
       p0contentAI: {
+        active: false,
+        click: false,
+        grab: false,
         path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/AI",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p0contentVisual: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Visual",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
+        seat: false,
+        sync: "none"
       },
       p0contentCredits: {
-        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Credits",
-        sync: "none",
-        grab: false,
+        active: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Credits",
+        seat: false,
+        sync: "none"
+      },
+      p0contentGame: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Game",
+        seat: false,
+        sync: "none"
+      },
+      p0contentPlayer: {
+        active: false,
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Player",
+        seat: false,
+        sync: "none"
+      },
+      p0contentRules: {
+        active: false,
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Rules",
+        seat: false,
+        sync: "none"
+      },
+      p0contentVisual: {
+        active: false,
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Main/Visual",
+        seat: false,
+        sync: "none"
+      },
+      p0cupsAnchor: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/[GamemodeNormal]Cups Anchor",
+        seat: false,
+        sync: "none"
+      },
+      p0lastAssist: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/Last Aim Assist/Value",
+        seat: false,
+        sync: "none"
+      },
+      p0navbar: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/NavBar",
+        seat: false,
+        sync: "none"
+      },
+      p0panel: {
+        active: false,
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI",
+        seat: false,
+        sync: "none"
+      },
+      p0popup: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Temp Scoreboard",
+        seat: false,
+        sync: "none"
+      },
+      p0popupAssist: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Temp Scoreboard/Canvas/Player Aim Assist/Value",
+        seat: false,
+        sync: "none"
+      },
+      p0popupBg0: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Temp Scoreboard/Canvas/BG_scoreboard",
+        seat: false,
+        sync: "none"
+      },
+      p0popupBg1: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Temp Scoreboard/Canvas/BG_scoreboard/BG_scoreboard_1",
+        seat: false,
+        sync: "none"
+      },
+      p0popupScore: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Temp Scoreboard/Canvas/Score",
+        seat: false,
+        sync: "none"
+      },
+      p0score: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/ScoreTable/Points",
+        seat: false,
+        sync: "none"
+      },
+      p0tabAI: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/NavBar/AI",
+        seat: false,
+        sync: "none"
+      },
+      p0tabCredits: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/NavBar/Credits",
+        seat: false,
+        sync: "none"
+      },
+      p0tabGame: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/NavBar/Game",
+        seat: false,
+        sync: "none"
+      },
+      p0tabPlayer: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/NavBar/Player",
+        seat: false,
+        sync: "none"
+      },
+      p0tabRules: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/NavBar/Rules",
+        seat: false,
+        sync: "none"
+      },
+      p0tabVisual: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Slider/Panel/UI/NavBar/Visual",
+        seat: false,
+        sync: "none"
+      },
+      p0uiAnim: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI",
+        seat: false,
+        sync: "none"
+      },
+      p0uiButton: {
+        click: true,
+        grab: false,
+        path: "BeerPong/Players/Player/Fixture UI/Button Open Settings",
+        seat: false,
+        sync: "none"
       },
       p1: {
+        click: false,
+        grab: false,
         path: "BeerPong/Players/Player (1)",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1score: {
-        path: "BeerPong/Players/Player (1)/ScoreTable/Points",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1uiButton: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Button Open Settings",
-        sync: "none",
-        grab: false,
-        click: true,
-        seat: false
-      },
-      p1uiAnim: {
-        path: "BeerPong/Players/Player (1)/Fixture UI",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1popup: {
-        path: "BeerPong/Players/Player (1)/Temp Scoreboard",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1popupScore: {
-        path: "BeerPong/Players/Player (1)/Temp Scoreboard/Canvas/Score",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1popupAssist: {
-        path: "BeerPong/Players/Player (1)/Temp Scoreboard/Canvas/Player Aim Assist/Value",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1popupBg0: {
-        path: "BeerPong/Players/Player (1)/Temp Scoreboard/Canvas/BG_scoreboard",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1popupBg1: {
-        path: "BeerPong/Players/Player (1)/Temp Scoreboard/Canvas/BG_scoreboard/BG",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1lastAssist: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Last Aim Assist/Value",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1navbar: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1tabGame: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/Game",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1tabRules: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/Rules",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1tabPlayer: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/Player",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1tabAI: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/AI",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1tabVisual: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/Visual",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1tabCredits: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/Credits",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1aiSettings: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AI",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1aimAssistSettings: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1avatarColor: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Visual/UseAvatarThemeColor",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1adaptiveAim: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AdaptiveAim",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1cupsAnchor: {
-        path: "BeerPong/Players/Player (1)/[GamemodeNormal]Cups Anchor",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1_mode: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1_modeLabel: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Label",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1_modeLeft: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Left",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1_modeRight: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Right",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1_countHandle: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount/Handle Slide Area/Handle/Text",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1_count: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1_teams: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Teams",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1_barrier: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Barrier",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1_selfFire: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Rules/Self Fire",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1_friendlyFire: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Rules/Friendly Fire (Teams):",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1_autoRespawn: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Rules/Auto Respawn Balls",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1_rowsHandle: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows/Handle Slide Area/Handle/Text",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1_rows: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1_shape: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1_shapeLabel: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Label",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1_shapeLeft: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Left",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1_shapeRight: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Right",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1_reset: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Reset",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1_rerack: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Rerack",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1_sync: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Sync",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1_resetAll: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Reset",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
+        seat: false,
+        sync: "none"
       },
       p1_ai: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI",
+        seat: false,
+        sync: "none"
       },
       p1_aiAdaptive: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AI/Adaptive",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AI/Adaptive",
+        seat: false,
+        sync: "none"
       },
       p1_aiSkill: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI Skill",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI Skill",
+        seat: false,
+        sync: "none"
       },
       p1_aimAssist: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AimAssist",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AimAssist",
+        seat: false,
+        sync: "none"
+      },
+      p1_autoRespawn: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Rules/Auto Respawn Balls",
+        seat: false,
+        sync: "none"
+      },
+      p1_barrier: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Barrier",
+        seat: false,
+        sync: "none"
+      },
+      p1_count: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount",
+        seat: false,
+        sync: "none"
+      },
+      p1_countHandle: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount/Handle Slide Area/Handle/PlayerCountText",
+        seat: false,
+        sync: "none"
+      },
+      p1_friendlyFire: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Rules/Friendly Fire (Teams):",
+        seat: false,
+        sync: "none"
+      },
+      p1_mode: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode",
+        seat: false,
+        sync: "none"
+      },
+      p1_modeLabel: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Selection",
+        seat: false,
+        sync: "none"
+      },
+      p1_modeLeft: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Left",
+        seat: false,
+        sync: "none"
+      },
+      p1_modeRight: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Right",
+        seat: false,
+        sync: "none"
       },
       p1_pointsPopup: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Visual/Points Popup",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Visual/Points Popup",
+        seat: false,
+        sync: "none"
+      },
+      p1_rerack: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Rerack",
+        seat: false,
+        sync: "none"
+      },
+      p1_reset: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Reset",
+        seat: false,
+        sync: "none"
+      },
+      p1_resetAll: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Reset",
+        seat: false,
+        sync: "none"
+      },
+      p1_rows: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows",
+        seat: false,
+        sync: "none"
+      },
+      p1_selfFire: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Rules/Self Fire",
+        seat: false,
+        sync: "none"
+      },
+      p1_shape: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape",
+        seat: false,
+        sync: "none"
+      },
+      p1_shapeLabel: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Selection",
+        seat: false,
+        sync: "none"
+      },
+      p1_shapeLeft: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Left",
+        seat: false,
+        sync: "none"
+      },
+      p1_shapeRight: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Right",
+        seat: false,
+        sync: "none"
       },
       p1_size: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Slider",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Slider",
+        seat: false,
+        sync: "none"
       },
       p1_sizeReset: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Reset",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Reset",
+        seat: false,
+        sync: "none"
+      },
+      p1_sync: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Sync",
+        seat: false,
+        sync: "none"
+      },
+      p1_teams: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Teams",
+        seat: false,
+        sync: "none"
       },
       p1_volume: {
+        click: false,
+        grab: false,
         path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Volume/Container/Volume",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1_volumeToggle: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Volume/Toggle",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
+        seat: false,
+        sync: "none"
       },
       p1_volumeContainer: {
+        active: false,
+        click: false,
+        grab: false,
         path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Volume/Container",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
+        seat: false,
+        sync: "none"
       },
-      p1contentGame: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game",
-        sync: "none",
-        grab: false,
+      p1_volumeToggle: {
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Volume/Toggle",
+        seat: false,
+        sync: "none"
       },
-      p1contentRules: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Rules",
-        sync: "none",
-        grab: false,
+      p1adaptiveAim: {
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AdaptiveAim",
+        seat: false,
+        sync: "none"
       },
-      p1contentPlayer: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player",
-        sync: "none",
-        grab: false,
+      p1aiSettings: {
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AI",
+        seat: false,
+        sync: "none"
+      },
+      p1aimAssistSettings: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist",
+        seat: false,
+        sync: "none"
+      },
+      p1avatarColor: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Visual/UseAvatarThemeColor",
+        seat: false,
+        sync: "none"
       },
       p1contentAI: {
+        active: false,
+        click: false,
+        grab: false,
         path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/AI",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p1contentVisual: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Visual",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
+        seat: false,
+        sync: "none"
       },
       p1contentCredits: {
-        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Credits",
-        sync: "none",
-        grab: false,
+        active: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Credits",
+        seat: false,
+        sync: "none"
+      },
+      p1contentGame: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Game",
+        seat: false,
+        sync: "none"
+      },
+      p1contentPlayer: {
+        active: false,
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Player",
+        seat: false,
+        sync: "none"
+      },
+      p1contentRules: {
+        active: false,
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Rules",
+        seat: false,
+        sync: "none"
+      },
+      p1contentVisual: {
+        active: false,
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Main/Visual",
+        seat: false,
+        sync: "none"
+      },
+      p1cupsAnchor: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/[GamemodeNormal]Cups Anchor",
+        seat: false,
+        sync: "none"
+      },
+      p1lastAssist: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/Last Aim Assist/Value",
+        seat: false,
+        sync: "none"
+      },
+      p1navbar: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar",
+        seat: false,
+        sync: "none"
+      },
+      p1panel: {
+        active: false,
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI",
+        seat: false,
+        sync: "none"
+      },
+      p1popup: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Temp Scoreboard",
+        seat: false,
+        sync: "none"
+      },
+      p1popupAssist: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Temp Scoreboard/Canvas/Player Aim Assist/Value",
+        seat: false,
+        sync: "none"
+      },
+      p1popupBg0: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Temp Scoreboard/Canvas/BG_scoreboard",
+        seat: false,
+        sync: "none"
+      },
+      p1popupBg1: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Temp Scoreboard/Canvas/BG_scoreboard/BG_scoreboard_1",
+        seat: false,
+        sync: "none"
+      },
+      p1popupScore: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Temp Scoreboard/Canvas/Score",
+        seat: false,
+        sync: "none"
+      },
+      p1score: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/ScoreTable/Points",
+        seat: false,
+        sync: "none"
+      },
+      p1tabAI: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/AI",
+        seat: false,
+        sync: "none"
+      },
+      p1tabCredits: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/Credits",
+        seat: false,
+        sync: "none"
+      },
+      p1tabGame: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/Game",
+        seat: false,
+        sync: "none"
+      },
+      p1tabPlayer: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/Player",
+        seat: false,
+        sync: "none"
+      },
+      p1tabRules: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/Rules",
+        seat: false,
+        sync: "none"
+      },
+      p1tabVisual: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Slider/Panel/UI/NavBar/Visual",
+        seat: false,
+        sync: "none"
+      },
+      p1uiAnim: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI",
+        seat: false,
+        sync: "none"
+      },
+      p1uiButton: {
+        click: true,
+        grab: false,
+        path: "BeerPong/Players/Player (1)/Fixture UI/Button Open Settings",
+        seat: false,
+        sync: "none"
       },
       p2: {
+        click: false,
+        grab: false,
         path: "BeerPong/Players/Player (2)",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2score: {
-        path: "BeerPong/Players/Player (2)/ScoreTable/Points",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2uiButton: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Button Open Settings",
-        sync: "none",
-        grab: false,
-        click: true,
-        seat: false
-      },
-      p2uiAnim: {
-        path: "BeerPong/Players/Player (2)/Fixture UI",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2popup: {
-        path: "BeerPong/Players/Player (2)/Temp Scoreboard",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2popupScore: {
-        path: "BeerPong/Players/Player (2)/Temp Scoreboard/Canvas/Score",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2popupAssist: {
-        path: "BeerPong/Players/Player (2)/Temp Scoreboard/Canvas/Player Aim Assist/Value",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2popupBg0: {
-        path: "BeerPong/Players/Player (2)/Temp Scoreboard/Canvas/BG_scoreboard",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2popupBg1: {
-        path: "BeerPong/Players/Player (2)/Temp Scoreboard/Canvas/BG_scoreboard/BG",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2lastAssist: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Last Aim Assist/Value",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2navbar: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2tabGame: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/Game",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2tabRules: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/Rules",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2tabPlayer: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/Player",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2tabAI: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/AI",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2tabVisual: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/Visual",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2tabCredits: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/Credits",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2aiSettings: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AI",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2aimAssistSettings: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2avatarColor: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Visual/UseAvatarThemeColor",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2adaptiveAim: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AdaptiveAim",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2cupsAnchor: {
-        path: "BeerPong/Players/Player (2)/[GamemodeNormal]Cups Anchor",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2_mode: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2_modeLabel: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Label",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2_modeLeft: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Left",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2_modeRight: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Right",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2_countHandle: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount/Handle Slide Area/Handle/Text",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2_count: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2_teams: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Teams",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2_barrier: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Barrier",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2_selfFire: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Rules/Self Fire",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2_friendlyFire: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Rules/Friendly Fire (Teams):",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2_autoRespawn: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Rules/Auto Respawn Balls",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2_rowsHandle: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows/Handle Slide Area/Handle/Text",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2_rows: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2_shape: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2_shapeLabel: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Label",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2_shapeLeft: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Left",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2_shapeRight: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Right",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2_reset: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Reset",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2_rerack: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Rerack",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2_sync: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Sync",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2_resetAll: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Reset",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
+        seat: false,
+        sync: "none"
       },
       p2_ai: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI",
+        seat: false,
+        sync: "none"
       },
       p2_aiAdaptive: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AI/Adaptive",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AI/Adaptive",
+        seat: false,
+        sync: "none"
       },
       p2_aiSkill: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI Skill",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI Skill",
+        seat: false,
+        sync: "none"
       },
       p2_aimAssist: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AimAssist",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AimAssist",
+        seat: false,
+        sync: "none"
+      },
+      p2_autoRespawn: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Rules/Auto Respawn Balls",
+        seat: false,
+        sync: "none"
+      },
+      p2_barrier: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Barrier",
+        seat: false,
+        sync: "none"
+      },
+      p2_count: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount",
+        seat: false,
+        sync: "none"
+      },
+      p2_countHandle: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount/Handle Slide Area/Handle/PlayerCountText",
+        seat: false,
+        sync: "none"
+      },
+      p2_friendlyFire: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Rules/Friendly Fire (Teams):",
+        seat: false,
+        sync: "none"
+      },
+      p2_mode: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode",
+        seat: false,
+        sync: "none"
+      },
+      p2_modeLabel: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Selection",
+        seat: false,
+        sync: "none"
+      },
+      p2_modeLeft: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Left",
+        seat: false,
+        sync: "none"
+      },
+      p2_modeRight: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Right",
+        seat: false,
+        sync: "none"
       },
       p2_pointsPopup: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Visual/Points Popup",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Visual/Points Popup",
+        seat: false,
+        sync: "none"
+      },
+      p2_rerack: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Rerack",
+        seat: false,
+        sync: "none"
+      },
+      p2_reset: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Reset",
+        seat: false,
+        sync: "none"
+      },
+      p2_resetAll: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Reset",
+        seat: false,
+        sync: "none"
+      },
+      p2_rows: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows",
+        seat: false,
+        sync: "none"
+      },
+      p2_selfFire: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Rules/Self Fire",
+        seat: false,
+        sync: "none"
+      },
+      p2_shape: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape",
+        seat: false,
+        sync: "none"
+      },
+      p2_shapeLabel: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Selection",
+        seat: false,
+        sync: "none"
+      },
+      p2_shapeLeft: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Left",
+        seat: false,
+        sync: "none"
+      },
+      p2_shapeRight: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Right",
+        seat: false,
+        sync: "none"
       },
       p2_size: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Slider",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Slider",
+        seat: false,
+        sync: "none"
       },
       p2_sizeReset: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Reset",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Reset",
+        seat: false,
+        sync: "none"
+      },
+      p2_sync: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Sync",
+        seat: false,
+        sync: "none"
+      },
+      p2_teams: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Teams",
+        seat: false,
+        sync: "none"
       },
       p2_volume: {
+        click: false,
+        grab: false,
         path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Volume/Container/Volume",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2_volumeToggle: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Volume/Toggle",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
+        seat: false,
+        sync: "none"
       },
       p2_volumeContainer: {
+        active: false,
+        click: false,
+        grab: false,
         path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Volume/Container",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
+        seat: false,
+        sync: "none"
       },
-      p2contentGame: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game",
-        sync: "none",
-        grab: false,
+      p2_volumeToggle: {
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Volume/Toggle",
+        seat: false,
+        sync: "none"
       },
-      p2contentRules: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Rules",
-        sync: "none",
-        grab: false,
+      p2adaptiveAim: {
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AdaptiveAim",
+        seat: false,
+        sync: "none"
       },
-      p2contentPlayer: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player",
-        sync: "none",
-        grab: false,
+      p2aiSettings: {
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AI",
+        seat: false,
+        sync: "none"
+      },
+      p2aimAssistSettings: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist",
+        seat: false,
+        sync: "none"
+      },
+      p2avatarColor: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Visual/UseAvatarThemeColor",
+        seat: false,
+        sync: "none"
       },
       p2contentAI: {
+        active: false,
+        click: false,
+        grab: false,
         path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/AI",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p2contentVisual: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Visual",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
+        seat: false,
+        sync: "none"
       },
       p2contentCredits: {
-        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Credits",
-        sync: "none",
-        grab: false,
+        active: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Credits",
+        seat: false,
+        sync: "none"
+      },
+      p2contentGame: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Game",
+        seat: false,
+        sync: "none"
+      },
+      p2contentPlayer: {
+        active: false,
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Player",
+        seat: false,
+        sync: "none"
+      },
+      p2contentRules: {
+        active: false,
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Rules",
+        seat: false,
+        sync: "none"
+      },
+      p2contentVisual: {
+        active: false,
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Main/Visual",
+        seat: false,
+        sync: "none"
+      },
+      p2cupsAnchor: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/[GamemodeNormal]Cups Anchor",
+        seat: false,
+        sync: "none"
+      },
+      p2lastAssist: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/Last Aim Assist/Value",
+        seat: false,
+        sync: "none"
+      },
+      p2navbar: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar",
+        seat: false,
+        sync: "none"
+      },
+      p2panel: {
+        active: false,
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI",
+        seat: false,
+        sync: "none"
+      },
+      p2popup: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Temp Scoreboard",
+        seat: false,
+        sync: "none"
+      },
+      p2popupAssist: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Temp Scoreboard/Canvas/Player Aim Assist/Value",
+        seat: false,
+        sync: "none"
+      },
+      p2popupBg0: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Temp Scoreboard/Canvas/BG_scoreboard",
+        seat: false,
+        sync: "none"
+      },
+      p2popupBg1: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Temp Scoreboard/Canvas/BG_scoreboard/BG_scoreboard_1",
+        seat: false,
+        sync: "none"
+      },
+      p2popupScore: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Temp Scoreboard/Canvas/Score",
+        seat: false,
+        sync: "none"
+      },
+      p2score: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/ScoreTable/Points",
+        seat: false,
+        sync: "none"
+      },
+      p2tabAI: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/AI",
+        seat: false,
+        sync: "none"
+      },
+      p2tabCredits: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/Credits",
+        seat: false,
+        sync: "none"
+      },
+      p2tabGame: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/Game",
+        seat: false,
+        sync: "none"
+      },
+      p2tabPlayer: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/Player",
+        seat: false,
+        sync: "none"
+      },
+      p2tabRules: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/Rules",
+        seat: false,
+        sync: "none"
+      },
+      p2tabVisual: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Slider/Panel/UI/NavBar/Visual",
+        seat: false,
+        sync: "none"
+      },
+      p2uiAnim: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI",
+        seat: false,
+        sync: "none"
+      },
+      p2uiButton: {
+        click: true,
+        grab: false,
+        path: "BeerPong/Players/Player (2)/Fixture UI/Button Open Settings",
+        seat: false,
+        sync: "none"
       },
       p3: {
+        click: false,
+        grab: false,
         path: "BeerPong/Players/Player (3)",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3score: {
-        path: "BeerPong/Players/Player (3)/ScoreTable/Points",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3uiButton: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Button Open Settings",
-        sync: "none",
-        grab: false,
-        click: true,
-        seat: false
-      },
-      p3uiAnim: {
-        path: "BeerPong/Players/Player (3)/Fixture UI",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3popup: {
-        path: "BeerPong/Players/Player (3)/Temp Scoreboard",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3popupScore: {
-        path: "BeerPong/Players/Player (3)/Temp Scoreboard/Canvas/Score",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3popupAssist: {
-        path: "BeerPong/Players/Player (3)/Temp Scoreboard/Canvas/Player Aim Assist/Value",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3popupBg0: {
-        path: "BeerPong/Players/Player (3)/Temp Scoreboard/Canvas/BG_scoreboard",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3popupBg1: {
-        path: "BeerPong/Players/Player (3)/Temp Scoreboard/Canvas/BG_scoreboard/BG",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3lastAssist: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Last Aim Assist/Value",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3navbar: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3tabGame: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/Game",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3tabRules: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/Rules",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3tabPlayer: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/Player",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3tabAI: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/AI",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3tabVisual: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/Visual",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3tabCredits: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/Credits",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3aiSettings: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AI",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3aimAssistSettings: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3avatarColor: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Visual/UseAvatarThemeColor",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3adaptiveAim: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AdaptiveAim",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3cupsAnchor: {
-        path: "BeerPong/Players/Player (3)/[GamemodeNormal]Cups Anchor",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3_mode: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3_modeLabel: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Label",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3_modeLeft: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Left",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3_modeRight: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Right",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3_countHandle: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount/Handle Slide Area/Handle/Text",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3_count: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3_teams: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Teams",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3_barrier: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Barrier",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3_selfFire: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Rules/Self Fire",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3_friendlyFire: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Rules/Friendly Fire (Teams):",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3_autoRespawn: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Rules/Auto Respawn Balls",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3_rowsHandle: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows/Handle Slide Area/Handle/Text",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3_rows: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3_shape: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3_shapeLabel: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Label",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3_shapeLeft: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Left",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3_shapeRight: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Right",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3_reset: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Reset",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3_rerack: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Rerack",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3_sync: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Sync",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3_resetAll: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Reset",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
+        seat: false,
+        sync: "none"
       },
       p3_ai: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI",
+        seat: false,
+        sync: "none"
       },
       p3_aiAdaptive: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AI/Adaptive",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AI/Adaptive",
+        seat: false,
+        sync: "none"
       },
       p3_aiSkill: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI Skill",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AI/AI Skill",
+        seat: false,
+        sync: "none"
       },
       p3_aimAssist: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AimAssist",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AimAssist",
+        seat: false,
+        sync: "none"
+      },
+      p3_autoRespawn: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Rules/Auto Respawn Balls",
+        seat: false,
+        sync: "none"
+      },
+      p3_barrier: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Barrier",
+        seat: false,
+        sync: "none"
+      },
+      p3_count: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount",
+        seat: false,
+        sync: "none"
+      },
+      p3_countHandle: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/PlayerCount/Handle Slide Area/Handle/PlayerCountText",
+        seat: false,
+        sync: "none"
+      },
+      p3_friendlyFire: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Rules/Friendly Fire (Teams):",
+        seat: false,
+        sync: "none"
+      },
+      p3_mode: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode",
+        seat: false,
+        sync: "none"
+      },
+      p3_modeLabel: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Selection",
+        seat: false,
+        sync: "none"
+      },
+      p3_modeLeft: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Left",
+        seat: false,
+        sync: "none"
+      },
+      p3_modeRight: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/Gamemode/Right",
+        seat: false,
+        sync: "none"
       },
       p3_pointsPopup: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Visual/Points Popup",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Visual/Points Popup",
+        seat: false,
+        sync: "none"
+      },
+      p3_rerack: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Rerack",
+        seat: false,
+        sync: "none"
+      },
+      p3_reset: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Buttons/Reset",
+        seat: false,
+        sync: "none"
+      },
+      p3_resetAll: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Reset",
+        seat: false,
+        sync: "none"
+      },
+      p3_rows: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Rows",
+        seat: false,
+        sync: "none"
+      },
+      p3_selfFire: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Rules/Self Fire",
+        seat: false,
+        sync: "none"
+      },
+      p3_shape: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape",
+        seat: false,
+        sync: "none"
+      },
+      p3_shapeLabel: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Selection",
+        seat: false,
+        sync: "none"
+      },
+      p3_shapeLeft: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Left",
+        seat: false,
+        sync: "none"
+      },
+      p3_shapeRight: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Options/Shape/Right",
+        seat: false,
+        sync: "none"
       },
       p3_size: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Slider",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Slider",
+        seat: false,
+        sync: "none"
       },
       p3_sizeReset: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Reset",
-        sync: "none",
-        grab: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Visual/Size/Reset",
+        seat: false,
+        sync: "none"
+      },
+      p3_sync: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player/Global/Sync",
+        seat: false,
+        sync: "none"
+      },
+      p3_teams: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Teams",
+        seat: false,
+        sync: "none"
       },
       p3_volume: {
+        click: false,
+        grab: false,
         path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Volume/Container/Volume",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3_volumeToggle: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Volume/Toggle",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
+        seat: false,
+        sync: "none"
       },
       p3_volumeContainer: {
+        active: false,
+        click: false,
+        grab: false,
         path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Volume/Container",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
+        seat: false,
+        sync: "none"
       },
-      p3contentGame: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game",
-        sync: "none",
-        grab: false,
+      p3_volumeToggle: {
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Volume/Toggle",
+        seat: false,
+        sync: "none"
       },
-      p3contentRules: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Rules",
-        sync: "none",
-        grab: false,
+      p3adaptiveAim: {
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist/AdaptiveAim",
+        seat: false,
+        sync: "none"
       },
-      p3contentPlayer: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player",
-        sync: "none",
-        grab: false,
+      p3aiSettings: {
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AI",
+        seat: false,
+        sync: "none"
+      },
+      p3aimAssistSettings: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI/AimAssist",
+        seat: false,
+        sync: "none"
+      },
+      p3avatarColor: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Visual/UseAvatarThemeColor",
+        seat: false,
+        sync: "none"
       },
       p3contentAI: {
+        active: false,
+        click: false,
+        grab: false,
         path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/AI",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
-      },
-      p3contentVisual: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Visual",
-        sync: "none",
-        grab: false,
-        click: false,
-        seat: false
+        seat: false,
+        sync: "none"
       },
       p3contentCredits: {
-        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Credits",
-        sync: "none",
-        grab: false,
+        active: false,
         click: false,
-        seat: false
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Credits",
+        seat: false,
+        sync: "none"
+      },
+      p3contentGame: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Game",
+        seat: false,
+        sync: "none"
+      },
+      p3contentPlayer: {
+        active: false,
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Player",
+        seat: false,
+        sync: "none"
+      },
+      p3contentRules: {
+        active: false,
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Rules",
+        seat: false,
+        sync: "none"
+      },
+      p3contentVisual: {
+        active: false,
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Main/Visual",
+        seat: false,
+        sync: "none"
+      },
+      p3cupsAnchor: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/[GamemodeNormal]Cups Anchor",
+        seat: false,
+        sync: "none"
+      },
+      p3lastAssist: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/Last Aim Assist/Value",
+        seat: false,
+        sync: "none"
+      },
+      p3navbar: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar",
+        seat: false,
+        sync: "none"
+      },
+      p3panel: {
+        active: false,
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI",
+        seat: false,
+        sync: "none"
+      },
+      p3popup: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Temp Scoreboard",
+        seat: false,
+        sync: "none"
+      },
+      p3popupAssist: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Temp Scoreboard/Canvas/Player Aim Assist/Value",
+        seat: false,
+        sync: "none"
+      },
+      p3popupBg0: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Temp Scoreboard/Canvas/BG_scoreboard",
+        seat: false,
+        sync: "none"
+      },
+      p3popupBg1: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Temp Scoreboard/Canvas/BG_scoreboard/BG_scoreboard_1",
+        seat: false,
+        sync: "none"
+      },
+      p3popupScore: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Temp Scoreboard/Canvas/Score",
+        seat: false,
+        sync: "none"
+      },
+      p3score: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/ScoreTable/Points",
+        seat: false,
+        sync: "none"
+      },
+      p3tabAI: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/AI",
+        seat: false,
+        sync: "none"
+      },
+      p3tabCredits: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/Credits",
+        seat: false,
+        sync: "none"
+      },
+      p3tabGame: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/Game",
+        seat: false,
+        sync: "none"
+      },
+      p3tabPlayer: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/Player",
+        seat: false,
+        sync: "none"
+      },
+      p3tabRules: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/Rules",
+        seat: false,
+        sync: "none"
+      },
+      p3tabVisual: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Slider/Panel/UI/NavBar/Visual",
+        seat: false,
+        sync: "none"
+      },
+      p3uiAnim: {
+        click: false,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI",
+        seat: false,
+        sync: "none"
+      },
+      p3uiButton: {
+        click: true,
+        grab: false,
+        path: "BeerPong/Players/Player (3)/Fixture UI/Button Open Settings",
+        seat: false,
+        sync: "none"
+      },
+      splash: {
+        click: false,
+        grab: false,
+        path: "BeerPong/SplashParticles",
+        seat: false,
+        sync: "none"
+      },
+      table: {
+        click: false,
+        grab: false,
+        path: "BeerPong/table",
+        seat: false,
+        sync: "none"
+      },
+      table2: {
+        click: false,
+        grab: false,
+        path: "BeerPong/table/[ThryBP]2Players",
+        seat: false,
+        sync: "none"
+      },
+      table3: {
+        active: false,
+        click: false,
+        grab: false,
+        path: "BeerPong/table/[ThryBP]3Players",
+        seat: false,
+        sync: "none"
+      },
+      table4: {
+        active: false,
+        click: false,
+        grab: false,
+        path: "BeerPong/table/[ThryBP]4Players",
+        seat: false,
+        sync: "none"
       }
     },
     refs: [
@@ -10053,14 +13542,6 @@ ${label}`)));
       "table3",
       "table4",
       "splash",
-      "ball0",
-      "ball0Bar",
-      "ball1",
-      "ball1Bar",
-      "ball2",
-      "ball2Bar",
-      "ball3",
-      "ball3Bar",
       "p0",
       "p0score",
       "p0uiButton",
@@ -10082,6 +13563,7 @@ ${label}`)));
       "p0aimAssistSettings",
       "p0avatarColor",
       "p0adaptiveAim",
+      "p0panel",
       "p0_mode",
       "p0_modeLabel",
       "p0_modeLeft",
@@ -10093,7 +13575,6 @@ ${label}`)));
       "p0_selfFire",
       "p0_friendlyFire",
       "p0_autoRespawn",
-      "p0_rowsHandle",
       "p0_rows",
       "p0_shape",
       "p0_shapeLabel",
@@ -10140,6 +13621,7 @@ ${label}`)));
       "p1aimAssistSettings",
       "p1avatarColor",
       "p1adaptiveAim",
+      "p1panel",
       "p1_mode",
       "p1_modeLabel",
       "p1_modeLeft",
@@ -10151,7 +13633,6 @@ ${label}`)));
       "p1_selfFire",
       "p1_friendlyFire",
       "p1_autoRespawn",
-      "p1_rowsHandle",
       "p1_rows",
       "p1_shape",
       "p1_shapeLabel",
@@ -10198,6 +13679,7 @@ ${label}`)));
       "p2aimAssistSettings",
       "p2avatarColor",
       "p2adaptiveAim",
+      "p2panel",
       "p2_mode",
       "p2_modeLabel",
       "p2_modeLeft",
@@ -10209,7 +13691,6 @@ ${label}`)));
       "p2_selfFire",
       "p2_friendlyFire",
       "p2_autoRespawn",
-      "p2_rowsHandle",
       "p2_rows",
       "p2_shape",
       "p2_shapeLabel",
@@ -10256,6 +13737,7 @@ ${label}`)));
       "p3aimAssistSettings",
       "p3avatarColor",
       "p3adaptiveAim",
+      "p3panel",
       "p3_mode",
       "p3_modeLabel",
       "p3_modeLeft",
@@ -10267,7 +13749,6 @@ ${label}`)));
       "p3_selfFire",
       "p3_friendlyFire",
       "p3_autoRespawn",
-      "p3_rowsHandle",
       "p3_rows",
       "p3_shape",
       "p3_shapeLabel",
@@ -10292,3058 +13773,18 @@ ${label}`)));
       "p3contentPlayer",
       "p3contentAI",
       "p3contentVisual",
-      "p3contentCredits"
+      "p3contentCredits",
+      "ball0",
+      "ball0Bar",
+      "ball1",
+      "ball1Bar",
+      "ball2",
+      "ball2Bar",
+      "ball3",
+      "ball3Bar"
     ],
-    behaviours: [
-      {
-        id: "game",
-        type: "Game",
-        object: "beerPong",
-        fields: {
-          _initialPlayerColors: [
-            {
-              $color: [
-                0.237,
-                0.745,
-                0,
-                1
-              ]
-            },
-            {
-              $color: [
-                0.745,
-                0,
-                0.218,
-                1
-              ]
-            },
-            {
-              $color: [
-                0,
-                0.569,
-                0.764,
-                1
-              ]
-            },
-            {
-              $color: [
-                0.84,
-                0.698,
-                0,
-                1
-              ]
-            }
-          ],
-          _allowAvatarThemeColorUsage: true,
-          _allowAimAssist: true,
-          _allowAI: true,
-          PlayersList: [
-            {
-              $beh: "p0"
-            },
-            {
-              $beh: "p1"
-            },
-            {
-              $beh: "p2"
-            },
-            {
-              $beh: "p3"
-            }
-          ],
-          _tablesAnimator: {
-            $comp: "table",
-            kind: "Animator"
-          },
-          Balls: [
-            {
-              $beh: "ball0"
-            },
-            {
-              $beh: "ball1"
-            },
-            {
-              $beh: "ball2"
-            },
-            {
-              $beh: "ball3"
-            }
-          ],
-          _teamIndicatorMaterialIndex: 3,
-          _tables: [
-            null,
-            null,
-            {
-              $comp: "table2",
-              kind: "Renderer"
-            },
-            {
-              $comp: "table3",
-              kind: "Renderer"
-            },
-            {
-              $comp: "table4",
-              kind: "Renderer"
-            }
-          ],
-          _twoTeamPositions: [
-            {
-              position: {
-                $v3: [
-                  0,
-                  0.8,
-                  0
-                ]
-              },
-              yaw: 0
-            },
-            {
-              position: {
-                $v3: [
-                  0,
-                  0.8,
-                  0
-                ]
-              },
-              yaw: 180
-            }
-          ],
-          _threeTeamPositions: [
-            {
-              position: {
-                $v3: [
-                  0,
-                  0.8,
-                  0
-                ]
-              },
-              yaw: 0
-            },
-            {
-              position: {
-                $v3: [
-                  0,
-                  0.8,
-                  0
-                ]
-              },
-              yaw: 240
-            },
-            {
-              position: {
-                $v3: [
-                  0,
-                  0.8,
-                  0
-                ]
-              },
-              yaw: 120
-            }
-          ],
-          _fourTeamPositions: [
-            {
-              position: {
-                $v3: [
-                  0,
-                  0.8,
-                  0
-                ]
-              },
-              yaw: 0
-            },
-            {
-              position: {
-                $v3: [
-                  0,
-                  0.8,
-                  0
-                ]
-              },
-              yaw: 180
-            },
-            {
-              position: {
-                $v3: [
-                  0,
-                  0.8,
-                  0
-                ]
-              },
-              yaw: 90
-            },
-            {
-              position: {
-                $v3: [
-                  0,
-                  0.8,
-                  0
-                ]
-              },
-              yaw: 270
-            }
-          ],
-          _respawnHeightLocal: {
-            $v3: [
-              0,
-              0.4,
-              0
-            ]
-          },
-          _kingOfTheHillLocal: {
-            $v3: [
-              0,
-              0.8,
-              0
-            ]
-          },
-          KingOfTheHillPath: "BeerPong/KingOfTheHillPosition",
-          ballRadiusLocal: 0.03,
-          LogMinLevel: 1
-        }
-      },
-      {
-        id: "p0",
-        type: "Player",
-        object: "p0",
-        fields: {
-          CupsManager: {
-            $beh: "cm0"
-          },
-          ScoreAnnouncement: {
-            $beh: "ann0"
-          },
-          UIAnimator: {
-            $comp: "p0uiAnim",
-            kind: "Animator"
-          },
-          UiButtonRenderer: {
-            $comp: "p0uiButton",
-            kind: "Renderer"
-          },
-          LastAimAssitDisplay: {
-            $comp: "p0lastAssist",
-            kind: "Text"
-          },
-          UI_score_boards: [
-            {
-              $comp: "p0score",
-              kind: "Text"
-            }
-          ],
-          UiImagesUsingPlayerColor: [
-            {
-              $comp: "p0popupBg0",
-              kind: "Image"
-            },
-            {
-              $comp: "p0popupBg1",
-              kind: "Image"
-            }
-          ],
-          UiImageAlphas: [
-            1,
-            1
-          ],
-          _avatarThemeColorToggle: {
-            $obj: "p0avatarColor"
-          },
-          _aiNavButton: {
-            $obj: "p0tabAI"
-          },
-          _aiSettings: {
-            $obj: "p0aiSettings"
-          },
-          _aimAssistSettings: {
-            $obj: "p0aimAssistSettings"
-          },
-          _adaptiveAimToggle: {
-            $obj: "p0adaptiveAim"
-          },
-          BallSpawnLocal: {
-            $v3: [
-              0.552,
-              0.01,
-              -1.311
-            ]
-          },
-          AiBallSpawnLocal: {
-            $v3: [
-              0,
-              0.42,
-              -1.547
-            ]
-          },
-          CupsAnchorLocal: {
-            $v3: [
-              0,
-              0,
-              -1.317
-            ]
-          },
-          CupsAnchorPath: "BeerPong/Players/Player/[GamemodeNormal]Cups Anchor"
-        }
-      },
-      {
-        id: "cm0",
-        type: "CupsManager",
-        object: "p0cupsAnchor",
-        fields: {
-          Glass: {
-            boundsExtents: {
-              $v3: [
-                0.052,
-                0.076,
-                0.052
-              ]
-            },
-            lossyScale: {
-              $v3: [
-                1,
-                1,
-                1
-              ]
-            }
-          },
-          SidePlayer: {
-            $beh: "p0"
-          },
-          LogMinLevel: 1
-        }
-      },
-      {
-        id: "ann0",
-        type: "PlayerScoreAnnouncement",
-        object: "p0popup",
-        fields: {
-          _animator: {
-            $comp: "p0popup",
-            kind: "Animator"
-          },
-          _textScore: {
-            $comp: "p0popupScore",
-            kind: "TMP"
-          },
-          _textSkill: {
-            $comp: "p0popupAssist",
-            kind: "TMP"
-          },
-          _player: {
-            $beh: "p0"
-          }
-        }
-      },
-      {
-        id: "p0_mode",
-        type: "SimpleUIOptionSelector",
-        object: "p0_mode",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_gameMode",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ],
-          Options: [
-            "Normal",
-            "King of the Pong",
-            "Big Pong",
-            "Mayhem"
-          ],
-          Label: {
-            $comp: "p0_modeLabel",
-            kind: "Text"
-          }
-        }
-      },
-      {
-        id: "p0_count",
-        type: "SimpleUISlider",
-        object: "p0_count",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_playerCount",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ],
-          wholeNumbers: true,
-          Handle: {
-            $comp: "p0_countHandle",
-            kind: "Text"
-          }
-        }
-      },
-      {
-        id: "p0_teams",
-        type: "SimpleUIToggle",
-        object: "p0_teams",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_doTeams",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ]
-        }
-      },
-      {
-        id: "p0_barrier",
-        type: "SimpleUIToggle",
-        object: "p0_barrier",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_useBarrier",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ]
-        }
-      },
-      {
-        id: "p0_selfFire",
-        type: "SimpleUIToggle",
-        object: "p0_selfFire",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_allowSelfFire",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ]
-        }
-      },
-      {
-        id: "p0_friendlyFire",
-        type: "SimpleUIToggle",
-        object: "p0_friendlyFire",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_allowFriendlyFire",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ]
-        }
-      },
-      {
-        id: "p0_autoRespawn",
-        type: "SimpleUIToggle",
-        object: "p0_autoRespawn",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_doAutoRespawnBalls",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ]
-        }
-      },
-      {
-        id: "p0_rows",
-        type: "SimpleUISlider",
-        object: "p0_rows",
-        fields: {
-          NetworkVariable: false,
-          EventName: "ResetGlasses",
-          VariableName: "_rows",
-          UdonBehaviours: [
-            {
-              $beh: "cm0"
-            }
-          ],
-          wholeNumbers: true,
-          Handle: {
-            $comp: "p0_rowsHandle",
-            kind: "Text"
-          }
-        }
-      },
-      {
-        id: "p0_shape",
-        type: "SimpleUIOptionSelector",
-        object: "p0_shape",
-        fields: {
-          NetworkVariable: false,
-          EventName: "ResetGlasses",
-          VariableName: "_shape",
-          UdonBehaviours: [
-            {
-              $beh: "cm0"
-            }
-          ],
-          Options: [
-            "Triangle",
-            "Square",
-            "Circle",
-            "HashTag"
-          ],
-          Label: {
-            $comp: "p0_shapeLabel",
-            kind: "Text"
-          }
-        }
-      },
-      {
-        id: "p0_ai",
-        type: "SimpleUIToggle",
-        object: "p0_ai",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_isAI",
-          UdonBehaviours: [
-            {
-              $beh: "p0"
-            }
-          ]
-        }
-      },
-      {
-        id: "p0_aiAdaptive",
-        type: "SimpleUIToggle",
-        object: "p0_aiAdaptive",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_useAdaptiveAISkill",
-          UdonBehaviours: [
-            {
-              $beh: "p0"
-            }
-          ]
-        }
-      },
-      {
-        id: "p0_aiSkill",
-        type: "SimpleUISlider",
-        object: "p0_aiSkill",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_aiSkill",
-          UdonBehaviours: [
-            {
-              $beh: "p0"
-            }
-          ],
-          wholeNumbers: false
-        }
-      },
-      {
-        id: "p0_aimAssist",
-        type: "SimpleUISlider",
-        object: "p0_aimAssist",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_aimAssist",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ],
-          wholeNumbers: false
-        }
-      },
-      {
-        id: "p0_pointsPopup",
-        type: "SimpleUIToggle",
-        object: "p0_pointsPopup",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_showPointsPopup",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ]
-        }
-      },
-      {
-        id: "p0_size",
-        type: "SimpleUISlider",
-        object: "p0_size",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_size",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ],
-          wholeNumbers: false,
-          resetValue: 1
-        }
-      },
-      {
-        id: "p0_volume",
-        type: "SimpleUISlider",
-        object: "p0_volume",
-        fields: {
-          NetworkVariable: false,
-          EventName: "",
-          VariableName: "_volume",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ],
-          wholeNumbers: false
-        }
-      },
-      {
-        id: "p0_volumeOpen",
-        type: "ToggleActive",
-        object: "p0_volumeToggle",
-        fields: {
-          Target: {
-            $obj: "p0_volumeContainer"
-          }
-        }
-      },
-      {
-        id: "p0_nav",
-        type: "SimpleUIToggleGroup",
-        object: "p0navbar",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_settingsNavbar",
-          UdonBehaviours: [
-            {
-              $beh: "p0"
-            }
-          ],
-          Toggles: [
-            {
-              $obj: "p0tabGame"
-            },
-            {
-              $obj: "p0tabRules"
-            },
-            {
-              $obj: "p0tabPlayer"
-            },
-            {
-              $obj: "p0tabAI"
-            },
-            {
-              $obj: "p0tabVisual"
-            },
-            {
-              $obj: "p0tabCredits"
-            }
-          ],
-          Contents: [
-            {
-              $obj: "p0contentGame"
-            },
-            {
-              $obj: "p0contentRules"
-            },
-            {
-              $obj: "p0contentPlayer"
-            },
-            {
-              $obj: "p0contentAI"
-            },
-            {
-              $obj: "p0contentVisual"
-            },
-            {
-              $obj: "p0contentCredits"
-            }
-          ]
-        }
-      },
-      {
-        id: "p0_open",
-        type: "SimpleUIInteract",
-        object: "p0uiButton",
-        fields: {
-          NetworkVariable: false,
-          EventName: "ToggleSettings",
-          VariableName: "",
-          UdonBehaviours: [
-            {
-              $beh: "p0"
-            }
-          ]
-        }
-      },
-      {
-        id: "p1",
-        type: "Player",
-        object: "p1",
-        fields: {
-          CupsManager: {
-            $beh: "cm1"
-          },
-          ScoreAnnouncement: {
-            $beh: "ann1"
-          },
-          UIAnimator: {
-            $comp: "p1uiAnim",
-            kind: "Animator"
-          },
-          UiButtonRenderer: {
-            $comp: "p1uiButton",
-            kind: "Renderer"
-          },
-          LastAimAssitDisplay: {
-            $comp: "p1lastAssist",
-            kind: "Text"
-          },
-          UI_score_boards: [
-            {
-              $comp: "p1score",
-              kind: "Text"
-            }
-          ],
-          UiImagesUsingPlayerColor: [
-            {
-              $comp: "p1popupBg0",
-              kind: "Image"
-            },
-            {
-              $comp: "p1popupBg1",
-              kind: "Image"
-            }
-          ],
-          UiImageAlphas: [
-            1,
-            1
-          ],
-          _avatarThemeColorToggle: {
-            $obj: "p1avatarColor"
-          },
-          _aiNavButton: {
-            $obj: "p1tabAI"
-          },
-          _aiSettings: {
-            $obj: "p1aiSettings"
-          },
-          _aimAssistSettings: {
-            $obj: "p1aimAssistSettings"
-          },
-          _adaptiveAimToggle: {
-            $obj: "p1adaptiveAim"
-          },
-          BallSpawnLocal: {
-            $v3: [
-              0.552,
-              0.01,
-              -1.311
-            ]
-          },
-          AiBallSpawnLocal: {
-            $v3: [
-              0,
-              0.42,
-              -1.547
-            ]
-          },
-          CupsAnchorLocal: {
-            $v3: [
-              0,
-              0,
-              -1.317
-            ]
-          },
-          CupsAnchorPath: "BeerPong/Players/Player (1)/[GamemodeNormal]Cups Anchor"
-        }
-      },
-      {
-        id: "cm1",
-        type: "CupsManager",
-        object: "p1cupsAnchor",
-        fields: {
-          Glass: {
-            boundsExtents: {
-              $v3: [
-                0.052,
-                0.076,
-                0.052
-              ]
-            },
-            lossyScale: {
-              $v3: [
-                1,
-                1,
-                1
-              ]
-            }
-          },
-          SidePlayer: {
-            $beh: "p1"
-          },
-          LogMinLevel: 1
-        }
-      },
-      {
-        id: "ann1",
-        type: "PlayerScoreAnnouncement",
-        object: "p1popup",
-        fields: {
-          _animator: {
-            $comp: "p1popup",
-            kind: "Animator"
-          },
-          _textScore: {
-            $comp: "p1popupScore",
-            kind: "TMP"
-          },
-          _textSkill: {
-            $comp: "p1popupAssist",
-            kind: "TMP"
-          },
-          _player: {
-            $beh: "p1"
-          }
-        }
-      },
-      {
-        id: "p1_mode",
-        type: "SimpleUIOptionSelector",
-        object: "p1_mode",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_gameMode",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ],
-          Options: [
-            "Normal",
-            "King of the Pong",
-            "Big Pong",
-            "Mayhem"
-          ],
-          Label: {
-            $comp: "p1_modeLabel",
-            kind: "Text"
-          }
-        }
-      },
-      {
-        id: "p1_count",
-        type: "SimpleUISlider",
-        object: "p1_count",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_playerCount",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ],
-          wholeNumbers: true,
-          Handle: {
-            $comp: "p1_countHandle",
-            kind: "Text"
-          }
-        }
-      },
-      {
-        id: "p1_teams",
-        type: "SimpleUIToggle",
-        object: "p1_teams",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_doTeams",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ]
-        }
-      },
-      {
-        id: "p1_barrier",
-        type: "SimpleUIToggle",
-        object: "p1_barrier",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_useBarrier",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ]
-        }
-      },
-      {
-        id: "p1_selfFire",
-        type: "SimpleUIToggle",
-        object: "p1_selfFire",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_allowSelfFire",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ]
-        }
-      },
-      {
-        id: "p1_friendlyFire",
-        type: "SimpleUIToggle",
-        object: "p1_friendlyFire",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_allowFriendlyFire",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ]
-        }
-      },
-      {
-        id: "p1_autoRespawn",
-        type: "SimpleUIToggle",
-        object: "p1_autoRespawn",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_doAutoRespawnBalls",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ]
-        }
-      },
-      {
-        id: "p1_rows",
-        type: "SimpleUISlider",
-        object: "p1_rows",
-        fields: {
-          NetworkVariable: false,
-          EventName: "ResetGlasses",
-          VariableName: "_rows",
-          UdonBehaviours: [
-            {
-              $beh: "cm1"
-            }
-          ],
-          wholeNumbers: true,
-          Handle: {
-            $comp: "p1_rowsHandle",
-            kind: "Text"
-          }
-        }
-      },
-      {
-        id: "p1_shape",
-        type: "SimpleUIOptionSelector",
-        object: "p1_shape",
-        fields: {
-          NetworkVariable: false,
-          EventName: "ResetGlasses",
-          VariableName: "_shape",
-          UdonBehaviours: [
-            {
-              $beh: "cm1"
-            }
-          ],
-          Options: [
-            "Triangle",
-            "Square",
-            "Circle",
-            "HashTag"
-          ],
-          Label: {
-            $comp: "p1_shapeLabel",
-            kind: "Text"
-          }
-        }
-      },
-      {
-        id: "p1_ai",
-        type: "SimpleUIToggle",
-        object: "p1_ai",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_isAI",
-          UdonBehaviours: [
-            {
-              $beh: "p1"
-            }
-          ]
-        }
-      },
-      {
-        id: "p1_aiAdaptive",
-        type: "SimpleUIToggle",
-        object: "p1_aiAdaptive",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_useAdaptiveAISkill",
-          UdonBehaviours: [
-            {
-              $beh: "p1"
-            }
-          ]
-        }
-      },
-      {
-        id: "p1_aiSkill",
-        type: "SimpleUISlider",
-        object: "p1_aiSkill",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_aiSkill",
-          UdonBehaviours: [
-            {
-              $beh: "p1"
-            }
-          ],
-          wholeNumbers: false
-        }
-      },
-      {
-        id: "p1_aimAssist",
-        type: "SimpleUISlider",
-        object: "p1_aimAssist",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_aimAssist",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ],
-          wholeNumbers: false
-        }
-      },
-      {
-        id: "p1_pointsPopup",
-        type: "SimpleUIToggle",
-        object: "p1_pointsPopup",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_showPointsPopup",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ]
-        }
-      },
-      {
-        id: "p1_size",
-        type: "SimpleUISlider",
-        object: "p1_size",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_size",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ],
-          wholeNumbers: false,
-          resetValue: 1
-        }
-      },
-      {
-        id: "p1_volume",
-        type: "SimpleUISlider",
-        object: "p1_volume",
-        fields: {
-          NetworkVariable: false,
-          EventName: "",
-          VariableName: "_volume",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ],
-          wholeNumbers: false
-        }
-      },
-      {
-        id: "p1_volumeOpen",
-        type: "ToggleActive",
-        object: "p1_volumeToggle",
-        fields: {
-          Target: {
-            $obj: "p1_volumeContainer"
-          }
-        }
-      },
-      {
-        id: "p1_nav",
-        type: "SimpleUIToggleGroup",
-        object: "p1navbar",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_settingsNavbar",
-          UdonBehaviours: [
-            {
-              $beh: "p1"
-            }
-          ],
-          Toggles: [
-            {
-              $obj: "p1tabGame"
-            },
-            {
-              $obj: "p1tabRules"
-            },
-            {
-              $obj: "p1tabPlayer"
-            },
-            {
-              $obj: "p1tabAI"
-            },
-            {
-              $obj: "p1tabVisual"
-            },
-            {
-              $obj: "p1tabCredits"
-            }
-          ],
-          Contents: [
-            {
-              $obj: "p1contentGame"
-            },
-            {
-              $obj: "p1contentRules"
-            },
-            {
-              $obj: "p1contentPlayer"
-            },
-            {
-              $obj: "p1contentAI"
-            },
-            {
-              $obj: "p1contentVisual"
-            },
-            {
-              $obj: "p1contentCredits"
-            }
-          ]
-        }
-      },
-      {
-        id: "p1_open",
-        type: "SimpleUIInteract",
-        object: "p1uiButton",
-        fields: {
-          NetworkVariable: false,
-          EventName: "ToggleSettings",
-          VariableName: "",
-          UdonBehaviours: [
-            {
-              $beh: "p1"
-            }
-          ]
-        }
-      },
-      {
-        id: "p2",
-        type: "Player",
-        object: "p2",
-        fields: {
-          CupsManager: {
-            $beh: "cm2"
-          },
-          ScoreAnnouncement: {
-            $beh: "ann2"
-          },
-          UIAnimator: {
-            $comp: "p2uiAnim",
-            kind: "Animator"
-          },
-          UiButtonRenderer: {
-            $comp: "p2uiButton",
-            kind: "Renderer"
-          },
-          LastAimAssitDisplay: {
-            $comp: "p2lastAssist",
-            kind: "Text"
-          },
-          UI_score_boards: [
-            {
-              $comp: "p2score",
-              kind: "Text"
-            }
-          ],
-          UiImagesUsingPlayerColor: [
-            {
-              $comp: "p2popupBg0",
-              kind: "Image"
-            },
-            {
-              $comp: "p2popupBg1",
-              kind: "Image"
-            }
-          ],
-          UiImageAlphas: [
-            1,
-            1
-          ],
-          _avatarThemeColorToggle: {
-            $obj: "p2avatarColor"
-          },
-          _aiNavButton: {
-            $obj: "p2tabAI"
-          },
-          _aiSettings: {
-            $obj: "p2aiSettings"
-          },
-          _aimAssistSettings: {
-            $obj: "p2aimAssistSettings"
-          },
-          _adaptiveAimToggle: {
-            $obj: "p2adaptiveAim"
-          },
-          BallSpawnLocal: {
-            $v3: [
-              0.552,
-              0.01,
-              -1.311
-            ]
-          },
-          AiBallSpawnLocal: {
-            $v3: [
-              0,
-              0.42,
-              -1.547
-            ]
-          },
-          CupsAnchorLocal: {
-            $v3: [
-              0,
-              0,
-              -1.317
-            ]
-          },
-          CupsAnchorPath: "BeerPong/Players/Player (2)/[GamemodeNormal]Cups Anchor"
-        }
-      },
-      {
-        id: "cm2",
-        type: "CupsManager",
-        object: "p2cupsAnchor",
-        fields: {
-          Glass: {
-            boundsExtents: {
-              $v3: [
-                0.052,
-                0.076,
-                0.052
-              ]
-            },
-            lossyScale: {
-              $v3: [
-                1,
-                1,
-                1
-              ]
-            }
-          },
-          SidePlayer: {
-            $beh: "p2"
-          },
-          LogMinLevel: 1
-        }
-      },
-      {
-        id: "ann2",
-        type: "PlayerScoreAnnouncement",
-        object: "p2popup",
-        fields: {
-          _animator: {
-            $comp: "p2popup",
-            kind: "Animator"
-          },
-          _textScore: {
-            $comp: "p2popupScore",
-            kind: "TMP"
-          },
-          _textSkill: {
-            $comp: "p2popupAssist",
-            kind: "TMP"
-          },
-          _player: {
-            $beh: "p2"
-          }
-        }
-      },
-      {
-        id: "p2_mode",
-        type: "SimpleUIOptionSelector",
-        object: "p2_mode",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_gameMode",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ],
-          Options: [
-            "Normal",
-            "King of the Pong",
-            "Big Pong",
-            "Mayhem"
-          ],
-          Label: {
-            $comp: "p2_modeLabel",
-            kind: "Text"
-          }
-        }
-      },
-      {
-        id: "p2_count",
-        type: "SimpleUISlider",
-        object: "p2_count",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_playerCount",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ],
-          wholeNumbers: true,
-          Handle: {
-            $comp: "p2_countHandle",
-            kind: "Text"
-          }
-        }
-      },
-      {
-        id: "p2_teams",
-        type: "SimpleUIToggle",
-        object: "p2_teams",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_doTeams",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ]
-        }
-      },
-      {
-        id: "p2_barrier",
-        type: "SimpleUIToggle",
-        object: "p2_barrier",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_useBarrier",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ]
-        }
-      },
-      {
-        id: "p2_selfFire",
-        type: "SimpleUIToggle",
-        object: "p2_selfFire",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_allowSelfFire",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ]
-        }
-      },
-      {
-        id: "p2_friendlyFire",
-        type: "SimpleUIToggle",
-        object: "p2_friendlyFire",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_allowFriendlyFire",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ]
-        }
-      },
-      {
-        id: "p2_autoRespawn",
-        type: "SimpleUIToggle",
-        object: "p2_autoRespawn",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_doAutoRespawnBalls",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ]
-        }
-      },
-      {
-        id: "p2_rows",
-        type: "SimpleUISlider",
-        object: "p2_rows",
-        fields: {
-          NetworkVariable: false,
-          EventName: "ResetGlasses",
-          VariableName: "_rows",
-          UdonBehaviours: [
-            {
-              $beh: "cm2"
-            }
-          ],
-          wholeNumbers: true,
-          Handle: {
-            $comp: "p2_rowsHandle",
-            kind: "Text"
-          }
-        }
-      },
-      {
-        id: "p2_shape",
-        type: "SimpleUIOptionSelector",
-        object: "p2_shape",
-        fields: {
-          NetworkVariable: false,
-          EventName: "ResetGlasses",
-          VariableName: "_shape",
-          UdonBehaviours: [
-            {
-              $beh: "cm2"
-            }
-          ],
-          Options: [
-            "Triangle",
-            "Square",
-            "Circle",
-            "HashTag"
-          ],
-          Label: {
-            $comp: "p2_shapeLabel",
-            kind: "Text"
-          }
-        }
-      },
-      {
-        id: "p2_ai",
-        type: "SimpleUIToggle",
-        object: "p2_ai",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_isAI",
-          UdonBehaviours: [
-            {
-              $beh: "p2"
-            }
-          ]
-        }
-      },
-      {
-        id: "p2_aiAdaptive",
-        type: "SimpleUIToggle",
-        object: "p2_aiAdaptive",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_useAdaptiveAISkill",
-          UdonBehaviours: [
-            {
-              $beh: "p2"
-            }
-          ]
-        }
-      },
-      {
-        id: "p2_aiSkill",
-        type: "SimpleUISlider",
-        object: "p2_aiSkill",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_aiSkill",
-          UdonBehaviours: [
-            {
-              $beh: "p2"
-            }
-          ],
-          wholeNumbers: false
-        }
-      },
-      {
-        id: "p2_aimAssist",
-        type: "SimpleUISlider",
-        object: "p2_aimAssist",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_aimAssist",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ],
-          wholeNumbers: false
-        }
-      },
-      {
-        id: "p2_pointsPopup",
-        type: "SimpleUIToggle",
-        object: "p2_pointsPopup",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_showPointsPopup",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ]
-        }
-      },
-      {
-        id: "p2_size",
-        type: "SimpleUISlider",
-        object: "p2_size",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_size",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ],
-          wholeNumbers: false,
-          resetValue: 1
-        }
-      },
-      {
-        id: "p2_volume",
-        type: "SimpleUISlider",
-        object: "p2_volume",
-        fields: {
-          NetworkVariable: false,
-          EventName: "",
-          VariableName: "_volume",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ],
-          wholeNumbers: false
-        }
-      },
-      {
-        id: "p2_volumeOpen",
-        type: "ToggleActive",
-        object: "p2_volumeToggle",
-        fields: {
-          Target: {
-            $obj: "p2_volumeContainer"
-          }
-        }
-      },
-      {
-        id: "p2_nav",
-        type: "SimpleUIToggleGroup",
-        object: "p2navbar",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_settingsNavbar",
-          UdonBehaviours: [
-            {
-              $beh: "p2"
-            }
-          ],
-          Toggles: [
-            {
-              $obj: "p2tabGame"
-            },
-            {
-              $obj: "p2tabRules"
-            },
-            {
-              $obj: "p2tabPlayer"
-            },
-            {
-              $obj: "p2tabAI"
-            },
-            {
-              $obj: "p2tabVisual"
-            },
-            {
-              $obj: "p2tabCredits"
-            }
-          ],
-          Contents: [
-            {
-              $obj: "p2contentGame"
-            },
-            {
-              $obj: "p2contentRules"
-            },
-            {
-              $obj: "p2contentPlayer"
-            },
-            {
-              $obj: "p2contentAI"
-            },
-            {
-              $obj: "p2contentVisual"
-            },
-            {
-              $obj: "p2contentCredits"
-            }
-          ]
-        }
-      },
-      {
-        id: "p2_open",
-        type: "SimpleUIInteract",
-        object: "p2uiButton",
-        fields: {
-          NetworkVariable: false,
-          EventName: "ToggleSettings",
-          VariableName: "",
-          UdonBehaviours: [
-            {
-              $beh: "p2"
-            }
-          ]
-        }
-      },
-      {
-        id: "p3",
-        type: "Player",
-        object: "p3",
-        fields: {
-          CupsManager: {
-            $beh: "cm3"
-          },
-          ScoreAnnouncement: {
-            $beh: "ann3"
-          },
-          UIAnimator: {
-            $comp: "p3uiAnim",
-            kind: "Animator"
-          },
-          UiButtonRenderer: {
-            $comp: "p3uiButton",
-            kind: "Renderer"
-          },
-          LastAimAssitDisplay: {
-            $comp: "p3lastAssist",
-            kind: "Text"
-          },
-          UI_score_boards: [
-            {
-              $comp: "p3score",
-              kind: "Text"
-            }
-          ],
-          UiImagesUsingPlayerColor: [
-            {
-              $comp: "p3popupBg0",
-              kind: "Image"
-            },
-            {
-              $comp: "p3popupBg1",
-              kind: "Image"
-            }
-          ],
-          UiImageAlphas: [
-            1,
-            1
-          ],
-          _avatarThemeColorToggle: {
-            $obj: "p3avatarColor"
-          },
-          _aiNavButton: {
-            $obj: "p3tabAI"
-          },
-          _aiSettings: {
-            $obj: "p3aiSettings"
-          },
-          _aimAssistSettings: {
-            $obj: "p3aimAssistSettings"
-          },
-          _adaptiveAimToggle: {
-            $obj: "p3adaptiveAim"
-          },
-          BallSpawnLocal: {
-            $v3: [
-              0.552,
-              0.01,
-              -1.311
-            ]
-          },
-          AiBallSpawnLocal: {
-            $v3: [
-              0,
-              0.42,
-              -1.547
-            ]
-          },
-          CupsAnchorLocal: {
-            $v3: [
-              0,
-              0,
-              -1.317
-            ]
-          },
-          CupsAnchorPath: "BeerPong/Players/Player (3)/[GamemodeNormal]Cups Anchor"
-        }
-      },
-      {
-        id: "cm3",
-        type: "CupsManager",
-        object: "p3cupsAnchor",
-        fields: {
-          Glass: {
-            boundsExtents: {
-              $v3: [
-                0.052,
-                0.076,
-                0.052
-              ]
-            },
-            lossyScale: {
-              $v3: [
-                1,
-                1,
-                1
-              ]
-            }
-          },
-          SidePlayer: {
-            $beh: "p3"
-          },
-          LogMinLevel: 1
-        }
-      },
-      {
-        id: "ann3",
-        type: "PlayerScoreAnnouncement",
-        object: "p3popup",
-        fields: {
-          _animator: {
-            $comp: "p3popup",
-            kind: "Animator"
-          },
-          _textScore: {
-            $comp: "p3popupScore",
-            kind: "TMP"
-          },
-          _textSkill: {
-            $comp: "p3popupAssist",
-            kind: "TMP"
-          },
-          _player: {
-            $beh: "p3"
-          }
-        }
-      },
-      {
-        id: "p3_mode",
-        type: "SimpleUIOptionSelector",
-        object: "p3_mode",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_gameMode",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ],
-          Options: [
-            "Normal",
-            "King of the Pong",
-            "Big Pong",
-            "Mayhem"
-          ],
-          Label: {
-            $comp: "p3_modeLabel",
-            kind: "Text"
-          }
-        }
-      },
-      {
-        id: "p3_count",
-        type: "SimpleUISlider",
-        object: "p3_count",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_playerCount",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ],
-          wholeNumbers: true,
-          Handle: {
-            $comp: "p3_countHandle",
-            kind: "Text"
-          }
-        }
-      },
-      {
-        id: "p3_teams",
-        type: "SimpleUIToggle",
-        object: "p3_teams",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_doTeams",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ]
-        }
-      },
-      {
-        id: "p3_barrier",
-        type: "SimpleUIToggle",
-        object: "p3_barrier",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_useBarrier",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ]
-        }
-      },
-      {
-        id: "p3_selfFire",
-        type: "SimpleUIToggle",
-        object: "p3_selfFire",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_allowSelfFire",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ]
-        }
-      },
-      {
-        id: "p3_friendlyFire",
-        type: "SimpleUIToggle",
-        object: "p3_friendlyFire",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_allowFriendlyFire",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ]
-        }
-      },
-      {
-        id: "p3_autoRespawn",
-        type: "SimpleUIToggle",
-        object: "p3_autoRespawn",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_doAutoRespawnBalls",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ]
-        }
-      },
-      {
-        id: "p3_rows",
-        type: "SimpleUISlider",
-        object: "p3_rows",
-        fields: {
-          NetworkVariable: false,
-          EventName: "ResetGlasses",
-          VariableName: "_rows",
-          UdonBehaviours: [
-            {
-              $beh: "cm3"
-            }
-          ],
-          wholeNumbers: true,
-          Handle: {
-            $comp: "p3_rowsHandle",
-            kind: "Text"
-          }
-        }
-      },
-      {
-        id: "p3_shape",
-        type: "SimpleUIOptionSelector",
-        object: "p3_shape",
-        fields: {
-          NetworkVariable: false,
-          EventName: "ResetGlasses",
-          VariableName: "_shape",
-          UdonBehaviours: [
-            {
-              $beh: "cm3"
-            }
-          ],
-          Options: [
-            "Triangle",
-            "Square",
-            "Circle",
-            "HashTag"
-          ],
-          Label: {
-            $comp: "p3_shapeLabel",
-            kind: "Text"
-          }
-        }
-      },
-      {
-        id: "p3_ai",
-        type: "SimpleUIToggle",
-        object: "p3_ai",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_isAI",
-          UdonBehaviours: [
-            {
-              $beh: "p3"
-            }
-          ]
-        }
-      },
-      {
-        id: "p3_aiAdaptive",
-        type: "SimpleUIToggle",
-        object: "p3_aiAdaptive",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_useAdaptiveAISkill",
-          UdonBehaviours: [
-            {
-              $beh: "p3"
-            }
-          ]
-        }
-      },
-      {
-        id: "p3_aiSkill",
-        type: "SimpleUISlider",
-        object: "p3_aiSkill",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_aiSkill",
-          UdonBehaviours: [
-            {
-              $beh: "p3"
-            }
-          ],
-          wholeNumbers: false
-        }
-      },
-      {
-        id: "p3_aimAssist",
-        type: "SimpleUISlider",
-        object: "p3_aimAssist",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_aimAssist",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ],
-          wholeNumbers: false
-        }
-      },
-      {
-        id: "p3_pointsPopup",
-        type: "SimpleUIToggle",
-        object: "p3_pointsPopup",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_showPointsPopup",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ]
-        }
-      },
-      {
-        id: "p3_size",
-        type: "SimpleUISlider",
-        object: "p3_size",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_size",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ],
-          wholeNumbers: false,
-          resetValue: 1
-        }
-      },
-      {
-        id: "p3_volume",
-        type: "SimpleUISlider",
-        object: "p3_volume",
-        fields: {
-          NetworkVariable: false,
-          EventName: "",
-          VariableName: "_volume",
-          UdonBehaviours: [
-            {
-              $beh: "game"
-            }
-          ],
-          wholeNumbers: false
-        }
-      },
-      {
-        id: "p3_volumeOpen",
-        type: "ToggleActive",
-        object: "p3_volumeToggle",
-        fields: {
-          Target: {
-            $obj: "p3_volumeContainer"
-          }
-        }
-      },
-      {
-        id: "p3_nav",
-        type: "SimpleUIToggleGroup",
-        object: "p3navbar",
-        fields: {
-          NetworkVariable: true,
-          EventName: "",
-          VariableName: "_settingsNavbar",
-          UdonBehaviours: [
-            {
-              $beh: "p3"
-            }
-          ],
-          Toggles: [
-            {
-              $obj: "p3tabGame"
-            },
-            {
-              $obj: "p3tabRules"
-            },
-            {
-              $obj: "p3tabPlayer"
-            },
-            {
-              $obj: "p3tabAI"
-            },
-            {
-              $obj: "p3tabVisual"
-            },
-            {
-              $obj: "p3tabCredits"
-            }
-          ],
-          Contents: [
-            {
-              $obj: "p3contentGame"
-            },
-            {
-              $obj: "p3contentRules"
-            },
-            {
-              $obj: "p3contentPlayer"
-            },
-            {
-              $obj: "p3contentAI"
-            },
-            {
-              $obj: "p3contentVisual"
-            },
-            {
-              $obj: "p3contentCredits"
-            }
-          ]
-        }
-      },
-      {
-        id: "p3_open",
-        type: "SimpleUIInteract",
-        object: "p3uiButton",
-        fields: {
-          NetworkVariable: false,
-          EventName: "ToggleSettings",
-          VariableName: "",
-          UdonBehaviours: [
-            {
-              $beh: "p3"
-            }
-          ]
-        }
-      },
-      {
-        id: "ball0",
-        type: "Ball",
-        object: "ball0",
-        fields: {
-          index: 0,
-          _throwVelocityMultiplierVR: 1.5,
-          _throwVelocityMultiplierDekstop: 1,
-          _gameManager: {
-            $beh: "game"
-          },
-          _renderer: {
-            $comp: "ball0",
-            kind: "Renderer"
-          },
-          _splashParticles: {
-            $comp: "splash",
-            kind: "ParticleSystem"
-          },
-          _audioSource: {
-            $comp: "ball0",
-            kind: "AudioSource"
-          },
-          _strengthIndicatorDesktop: {
-            $comp: "ball0Bar",
-            kind: "Renderer"
-          },
-          _audio_collision_table: {
-            $clip: 0
-          },
-          _audio_collision_glass: {
-            $clip: 1
-          },
-          _audio_water_splash: {
-            $clip: 2
-          }
-        }
-      },
-      {
-        id: "ball1",
-        type: "Ball",
-        object: "ball1",
-        fields: {
-          index: 1,
-          _throwVelocityMultiplierVR: 1.5,
-          _throwVelocityMultiplierDekstop: 1,
-          _gameManager: {
-            $beh: "game"
-          },
-          _renderer: {
-            $comp: "ball1",
-            kind: "Renderer"
-          },
-          _splashParticles: {
-            $comp: "splash",
-            kind: "ParticleSystem"
-          },
-          _audioSource: {
-            $comp: "ball1",
-            kind: "AudioSource"
-          },
-          _strengthIndicatorDesktop: {
-            $comp: "ball1Bar",
-            kind: "Renderer"
-          },
-          _audio_collision_table: {
-            $clip: 0
-          },
-          _audio_collision_glass: {
-            $clip: 1
-          },
-          _audio_water_splash: {
-            $clip: 2
-          }
-        }
-      },
-      {
-        id: "ball2",
-        type: "Ball",
-        object: "ball2",
-        fields: {
-          index: 2,
-          _throwVelocityMultiplierVR: 1.5,
-          _throwVelocityMultiplierDekstop: 1,
-          _gameManager: {
-            $beh: "game"
-          },
-          _renderer: {
-            $comp: "ball2",
-            kind: "Renderer"
-          },
-          _splashParticles: {
-            $comp: "splash",
-            kind: "ParticleSystem"
-          },
-          _audioSource: {
-            $comp: "ball2",
-            kind: "AudioSource"
-          },
-          _strengthIndicatorDesktop: {
-            $comp: "ball2Bar",
-            kind: "Renderer"
-          },
-          _audio_collision_table: {
-            $clip: 0
-          },
-          _audio_collision_glass: {
-            $clip: 1
-          },
-          _audio_water_splash: {
-            $clip: 2
-          }
-        }
-      },
-      {
-        id: "ball3",
-        type: "Ball",
-        object: "ball3",
-        fields: {
-          index: 3,
-          _throwVelocityMultiplierVR: 1.5,
-          _throwVelocityMultiplierDekstop: 1,
-          _gameManager: {
-            $beh: "game"
-          },
-          _renderer: {
-            $comp: "ball3",
-            kind: "Renderer"
-          },
-          _splashParticles: {
-            $comp: "splash",
-            kind: "ParticleSystem"
-          },
-          _audioSource: {
-            $comp: "ball3",
-            kind: "AudioSource"
-          },
-          _strengthIndicatorDesktop: {
-            $comp: "ball3Bar",
-            kind: "Renderer"
-          },
-          _audio_collision_table: {
-            $clip: 0
-          },
-          _audio_collision_glass: {
-            $clip: 1
-          },
-          _audio_water_splash: {
-            $clip: 2
-          }
-        }
-      }
-    ],
-    events: [
-      {
-        object: "p0_modeLeft",
-        kind: "uiButton",
-        behaviour: "p0_mode",
-        method: "Prev"
-      },
-      {
-        object: "p0_modeRight",
-        kind: "uiButton",
-        behaviour: "p0_mode",
-        method: "Next"
-      },
-      {
-        object: "p0_count",
-        kind: "uiSlider",
-        behaviour: "p0_count",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p0_teams",
-        kind: "uiToggle",
-        behaviour: "p0_teams",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p0_barrier",
-        kind: "uiToggle",
-        behaviour: "p0_barrier",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p0_selfFire",
-        kind: "uiToggle",
-        behaviour: "p0_selfFire",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p0_friendlyFire",
-        kind: "uiToggle",
-        behaviour: "p0_friendlyFire",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p0_autoRespawn",
-        kind: "uiToggle",
-        behaviour: "p0_autoRespawn",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p0_rows",
-        kind: "uiSlider",
-        behaviour: "p0_rows",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p0_shapeLeft",
-        kind: "uiButton",
-        behaviour: "p0_shape",
-        method: "Prev"
-      },
-      {
-        object: "p0_shapeRight",
-        kind: "uiButton",
-        behaviour: "p0_shape",
-        method: "Next"
-      },
-      {
-        object: "p0_reset",
-        kind: "uiButton",
-        behaviour: "p0",
-        method: "ResetPlayer"
-      },
-      {
-        object: "p0_rerack",
-        kind: "uiButton",
-        behaviour: "cm0",
-        method: "Rerack"
-      },
-      {
-        object: "p0_sync",
-        kind: "uiButton",
-        behaviour: "p0",
-        method: "SyncSettingsToAllPlayers"
-      },
-      {
-        object: "p0_resetAll",
-        kind: "uiButton",
-        behaviour: "p0",
-        method: "ResetAllPlayers"
-      },
-      {
-        object: "p0_ai",
-        kind: "uiToggle",
-        behaviour: "p0_ai",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p0_aiAdaptive",
-        kind: "uiToggle",
-        behaviour: "p0_aiAdaptive",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p0_aiSkill",
-        kind: "uiSlider",
-        behaviour: "p0_aiSkill",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p0_aimAssist",
-        kind: "uiSlider",
-        behaviour: "p0_aimAssist",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p0_pointsPopup",
-        kind: "uiToggle",
-        behaviour: "p0_pointsPopup",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p0_size",
-        kind: "uiSlider",
-        behaviour: "p0_size",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p0_sizeReset",
-        kind: "uiButton",
-        behaviour: "p0_size",
-        method: "ResetValue"
-      },
-      {
-        object: "p0_volume",
-        kind: "uiSlider",
-        behaviour: "p0_volume",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p0_volumeToggle",
-        kind: "uiToggle",
-        behaviour: "p0_volumeOpen",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p0tabGame",
-        kind: "uiToggle",
-        behaviour: "p0_nav",
-        method: "_Toggle0"
-      },
-      {
-        object: "p0tabRules",
-        kind: "uiToggle",
-        behaviour: "p0_nav",
-        method: "_Toggle1"
-      },
-      {
-        object: "p0tabPlayer",
-        kind: "uiToggle",
-        behaviour: "p0_nav",
-        method: "_Toggle2"
-      },
-      {
-        object: "p0tabAI",
-        kind: "uiToggle",
-        behaviour: "p0_nav",
-        method: "_Toggle3"
-      },
-      {
-        object: "p0tabVisual",
-        kind: "uiToggle",
-        behaviour: "p0_nav",
-        method: "_Toggle4"
-      },
-      {
-        object: "p0tabCredits",
-        kind: "uiToggle",
-        behaviour: "p0_nav",
-        method: "_Toggle5"
-      },
-      {
-        object: "p1_modeLeft",
-        kind: "uiButton",
-        behaviour: "p1_mode",
-        method: "Prev"
-      },
-      {
-        object: "p1_modeRight",
-        kind: "uiButton",
-        behaviour: "p1_mode",
-        method: "Next"
-      },
-      {
-        object: "p1_count",
-        kind: "uiSlider",
-        behaviour: "p1_count",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p1_teams",
-        kind: "uiToggle",
-        behaviour: "p1_teams",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p1_barrier",
-        kind: "uiToggle",
-        behaviour: "p1_barrier",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p1_selfFire",
-        kind: "uiToggle",
-        behaviour: "p1_selfFire",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p1_friendlyFire",
-        kind: "uiToggle",
-        behaviour: "p1_friendlyFire",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p1_autoRespawn",
-        kind: "uiToggle",
-        behaviour: "p1_autoRespawn",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p1_rows",
-        kind: "uiSlider",
-        behaviour: "p1_rows",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p1_shapeLeft",
-        kind: "uiButton",
-        behaviour: "p1_shape",
-        method: "Prev"
-      },
-      {
-        object: "p1_shapeRight",
-        kind: "uiButton",
-        behaviour: "p1_shape",
-        method: "Next"
-      },
-      {
-        object: "p1_reset",
-        kind: "uiButton",
-        behaviour: "p1",
-        method: "ResetPlayer"
-      },
-      {
-        object: "p1_rerack",
-        kind: "uiButton",
-        behaviour: "cm1",
-        method: "Rerack"
-      },
-      {
-        object: "p1_sync",
-        kind: "uiButton",
-        behaviour: "p1",
-        method: "SyncSettingsToAllPlayers"
-      },
-      {
-        object: "p1_resetAll",
-        kind: "uiButton",
-        behaviour: "p1",
-        method: "ResetAllPlayers"
-      },
-      {
-        object: "p1_ai",
-        kind: "uiToggle",
-        behaviour: "p1_ai",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p1_aiAdaptive",
-        kind: "uiToggle",
-        behaviour: "p1_aiAdaptive",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p1_aiSkill",
-        kind: "uiSlider",
-        behaviour: "p1_aiSkill",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p1_aimAssist",
-        kind: "uiSlider",
-        behaviour: "p1_aimAssist",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p1_pointsPopup",
-        kind: "uiToggle",
-        behaviour: "p1_pointsPopup",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p1_size",
-        kind: "uiSlider",
-        behaviour: "p1_size",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p1_sizeReset",
-        kind: "uiButton",
-        behaviour: "p1_size",
-        method: "ResetValue"
-      },
-      {
-        object: "p1_volume",
-        kind: "uiSlider",
-        behaviour: "p1_volume",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p1_volumeToggle",
-        kind: "uiToggle",
-        behaviour: "p1_volumeOpen",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p1tabGame",
-        kind: "uiToggle",
-        behaviour: "p1_nav",
-        method: "_Toggle0"
-      },
-      {
-        object: "p1tabRules",
-        kind: "uiToggle",
-        behaviour: "p1_nav",
-        method: "_Toggle1"
-      },
-      {
-        object: "p1tabPlayer",
-        kind: "uiToggle",
-        behaviour: "p1_nav",
-        method: "_Toggle2"
-      },
-      {
-        object: "p1tabAI",
-        kind: "uiToggle",
-        behaviour: "p1_nav",
-        method: "_Toggle3"
-      },
-      {
-        object: "p1tabVisual",
-        kind: "uiToggle",
-        behaviour: "p1_nav",
-        method: "_Toggle4"
-      },
-      {
-        object: "p1tabCredits",
-        kind: "uiToggle",
-        behaviour: "p1_nav",
-        method: "_Toggle5"
-      },
-      {
-        object: "p2_modeLeft",
-        kind: "uiButton",
-        behaviour: "p2_mode",
-        method: "Prev"
-      },
-      {
-        object: "p2_modeRight",
-        kind: "uiButton",
-        behaviour: "p2_mode",
-        method: "Next"
-      },
-      {
-        object: "p2_count",
-        kind: "uiSlider",
-        behaviour: "p2_count",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p2_teams",
-        kind: "uiToggle",
-        behaviour: "p2_teams",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p2_barrier",
-        kind: "uiToggle",
-        behaviour: "p2_barrier",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p2_selfFire",
-        kind: "uiToggle",
-        behaviour: "p2_selfFire",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p2_friendlyFire",
-        kind: "uiToggle",
-        behaviour: "p2_friendlyFire",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p2_autoRespawn",
-        kind: "uiToggle",
-        behaviour: "p2_autoRespawn",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p2_rows",
-        kind: "uiSlider",
-        behaviour: "p2_rows",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p2_shapeLeft",
-        kind: "uiButton",
-        behaviour: "p2_shape",
-        method: "Prev"
-      },
-      {
-        object: "p2_shapeRight",
-        kind: "uiButton",
-        behaviour: "p2_shape",
-        method: "Next"
-      },
-      {
-        object: "p2_reset",
-        kind: "uiButton",
-        behaviour: "p2",
-        method: "ResetPlayer"
-      },
-      {
-        object: "p2_rerack",
-        kind: "uiButton",
-        behaviour: "cm2",
-        method: "Rerack"
-      },
-      {
-        object: "p2_sync",
-        kind: "uiButton",
-        behaviour: "p2",
-        method: "SyncSettingsToAllPlayers"
-      },
-      {
-        object: "p2_resetAll",
-        kind: "uiButton",
-        behaviour: "p2",
-        method: "ResetAllPlayers"
-      },
-      {
-        object: "p2_ai",
-        kind: "uiToggle",
-        behaviour: "p2_ai",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p2_aiAdaptive",
-        kind: "uiToggle",
-        behaviour: "p2_aiAdaptive",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p2_aiSkill",
-        kind: "uiSlider",
-        behaviour: "p2_aiSkill",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p2_aimAssist",
-        kind: "uiSlider",
-        behaviour: "p2_aimAssist",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p2_pointsPopup",
-        kind: "uiToggle",
-        behaviour: "p2_pointsPopup",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p2_size",
-        kind: "uiSlider",
-        behaviour: "p2_size",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p2_sizeReset",
-        kind: "uiButton",
-        behaviour: "p2_size",
-        method: "ResetValue"
-      },
-      {
-        object: "p2_volume",
-        kind: "uiSlider",
-        behaviour: "p2_volume",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p2_volumeToggle",
-        kind: "uiToggle",
-        behaviour: "p2_volumeOpen",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p2tabGame",
-        kind: "uiToggle",
-        behaviour: "p2_nav",
-        method: "_Toggle0"
-      },
-      {
-        object: "p2tabRules",
-        kind: "uiToggle",
-        behaviour: "p2_nav",
-        method: "_Toggle1"
-      },
-      {
-        object: "p2tabPlayer",
-        kind: "uiToggle",
-        behaviour: "p2_nav",
-        method: "_Toggle2"
-      },
-      {
-        object: "p2tabAI",
-        kind: "uiToggle",
-        behaviour: "p2_nav",
-        method: "_Toggle3"
-      },
-      {
-        object: "p2tabVisual",
-        kind: "uiToggle",
-        behaviour: "p2_nav",
-        method: "_Toggle4"
-      },
-      {
-        object: "p2tabCredits",
-        kind: "uiToggle",
-        behaviour: "p2_nav",
-        method: "_Toggle5"
-      },
-      {
-        object: "p3_modeLeft",
-        kind: "uiButton",
-        behaviour: "p3_mode",
-        method: "Prev"
-      },
-      {
-        object: "p3_modeRight",
-        kind: "uiButton",
-        behaviour: "p3_mode",
-        method: "Next"
-      },
-      {
-        object: "p3_count",
-        kind: "uiSlider",
-        behaviour: "p3_count",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p3_teams",
-        kind: "uiToggle",
-        behaviour: "p3_teams",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p3_barrier",
-        kind: "uiToggle",
-        behaviour: "p3_barrier",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p3_selfFire",
-        kind: "uiToggle",
-        behaviour: "p3_selfFire",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p3_friendlyFire",
-        kind: "uiToggle",
-        behaviour: "p3_friendlyFire",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p3_autoRespawn",
-        kind: "uiToggle",
-        behaviour: "p3_autoRespawn",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p3_rows",
-        kind: "uiSlider",
-        behaviour: "p3_rows",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p3_shapeLeft",
-        kind: "uiButton",
-        behaviour: "p3_shape",
-        method: "Prev"
-      },
-      {
-        object: "p3_shapeRight",
-        kind: "uiButton",
-        behaviour: "p3_shape",
-        method: "Next"
-      },
-      {
-        object: "p3_reset",
-        kind: "uiButton",
-        behaviour: "p3",
-        method: "ResetPlayer"
-      },
-      {
-        object: "p3_rerack",
-        kind: "uiButton",
-        behaviour: "cm3",
-        method: "Rerack"
-      },
-      {
-        object: "p3_sync",
-        kind: "uiButton",
-        behaviour: "p3",
-        method: "SyncSettingsToAllPlayers"
-      },
-      {
-        object: "p3_resetAll",
-        kind: "uiButton",
-        behaviour: "p3",
-        method: "ResetAllPlayers"
-      },
-      {
-        object: "p3_ai",
-        kind: "uiToggle",
-        behaviour: "p3_ai",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p3_aiAdaptive",
-        kind: "uiToggle",
-        behaviour: "p3_aiAdaptive",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p3_aiSkill",
-        kind: "uiSlider",
-        behaviour: "p3_aiSkill",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p3_aimAssist",
-        kind: "uiSlider",
-        behaviour: "p3_aimAssist",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p3_pointsPopup",
-        kind: "uiToggle",
-        behaviour: "p3_pointsPopup",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p3_size",
-        kind: "uiSlider",
-        behaviour: "p3_size",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p3_sizeReset",
-        kind: "uiButton",
-        behaviour: "p3_size",
-        method: "ResetValue"
-      },
-      {
-        object: "p3_volume",
-        kind: "uiSlider",
-        behaviour: "p3_volume",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p3_volumeToggle",
-        kind: "uiToggle",
-        behaviour: "p3_volumeOpen",
-        method: "OnValueChanged"
-      },
-      {
-        object: "p3tabGame",
-        kind: "uiToggle",
-        behaviour: "p3_nav",
-        method: "_Toggle0"
-      },
-      {
-        object: "p3tabRules",
-        kind: "uiToggle",
-        behaviour: "p3_nav",
-        method: "_Toggle1"
-      },
-      {
-        object: "p3tabPlayer",
-        kind: "uiToggle",
-        behaviour: "p3_nav",
-        method: "_Toggle2"
-      },
-      {
-        object: "p3tabAI",
-        kind: "uiToggle",
-        behaviour: "p3_nav",
-        method: "_Toggle3"
-      },
-      {
-        object: "p3tabVisual",
-        kind: "uiToggle",
-        behaviour: "p3_nav",
-        method: "_Toggle4"
-      },
-      {
-        object: "p3tabCredits",
-        kind: "uiToggle",
-        behaviour: "p3_nav",
-        method: "_Toggle5"
-      },
-      {
-        object: "ball0",
-        kind: "collisionEnter",
-        behaviour: "ball0",
-        method: "OnBallCollision"
-      },
-      {
-        object: "ball1",
-        kind: "collisionEnter",
-        behaviour: "ball1",
-        method: "OnBallCollision"
-      },
-      {
-        object: "ball2",
-        kind: "collisionEnter",
-        behaviour: "ball2",
-        method: "OnBallCollision"
-      },
-      {
-        object: "ball3",
-        kind: "collisionEnter",
-        behaviour: "ball3",
-        method: "OnBallCollision"
-      }
-    ]
+    schema: 1,
+    slug: "beer-pong"
   };
 
   // portkit/src/platform/bs.ts
