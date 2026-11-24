@@ -1,5 +1,7 @@
-// The beer-pong kit: BeerPong.prefab (Thryrallo/UdonPrefabs, MIT; table and cup art by TsunaMoo) made into a kit the
-// snippet script loads. What changes against upstream, and why, is in altspace/PORT.md (sections 0 and 10).
+// The beer-pong kit: BeerPong.prefab (Thryrallo/UdonPrefabs, MIT) made into a kit the snippet script loads, with the
+// table, its fittings and the cups replaced by the port's own models (tools/make_models.py: upstream's table and cup
+// art has no licence of its own, PORT.md 0.8). What changes against upstream, and why, is in altspace/PORT.md
+// (sections 0 and 10).
 //
 // The object model is the one ts/tools/make-bindings.ts wrote provisionally from PORT.md section 5: the same object
 // keys, behaviour ids (bindings.lock.json was seeded with them) and fields, now with the numbers measured here.
@@ -25,6 +27,27 @@ namespace BeerPong
         const string MaterialFolder = "Assets/Kit/Materials";
         const string FontFolder = "Assets/Kit/Fonts";
         const string SoundFolder = "Assets/Kit/Sounds";
+        const string ModelFolder = "Assets/Kit/Models";
+        const string TextureFolder = "Assets/Kit/Textures";
+        /// <summary>The font atlas's name: not "Dosis", which the font's OFL reserves for unmodified versions (an atlas is modified).</summary>
+        public const string FontAssetName = "PongDisplay SDF";
+
+        /// <summary>
+        /// Upstream's table and cup art (TsunaMoo's models, textures and their material set-ups) has no licence of its own
+        /// (PORT.md 0.8): replaced by generated models; a kit that still refers to any of these files is refused.
+        /// </summary>
+        static readonly string[] Replaced =
+        {
+            "Assets/Upstream/_Internal/BeerPong/3dmodels/table.dae", "Assets/Upstream/_Internal/BeerPong/3dmodels/glass.dae",
+            "Assets/Upstream/_Internal/BeerPong/3dmodels/arrow.dae",
+            "Assets/Upstream/_Internal/BeerPong/materials/plen_DefaultMaterial_BaseMap.png",
+            "Assets/Upstream/_Internal/BeerPong/materials/plen_DefaultMaterial_Normal.png",
+            "Assets/Upstream/_Internal/BeerPong/materials/GlassLOD2.png",
+            "Assets/Upstream/_Internal/BeerPong/materials/Wood30.mat", "Assets/Upstream/_Internal/BeerPong/materials/Wood30 1.mat",
+            "Assets/Upstream/_Internal/BeerPong/materials/Metall.mat", "Assets/Upstream/_Internal/BeerPong/materials/DarkMetall.mat",
+            "Assets/Upstream/_Internal/BeerPong/materials/Glass.mat", "Assets/Upstream/_Internal/BeerPong/materials/Glass LOD2.mat",
+            "Assets/Upstream/_Internal/BeerPong/materials/Fluid.mat", "Assets/Upstream/_Internal/BeerPong/materials/PlayerIndicator.mat",
+        };
         /// <summary>The upstream copy under the kit's root: the Game's object, which the page scales with the table's Size.</summary>
         public const string Top = "BeerPong";
         public const string CupTemplate = "CupTemplate";
@@ -40,8 +63,8 @@ namespace BeerPong
             "Throw the ball into the other side's cups: grab it and let go in a headset, or hold F to charge a throw on a desktop. " +
             "2, 3 or 4 sides, teams, barriers, racks of 3 to 11 rows in four shapes, re-racks, rim shots, King of the Hill (176 cups), " +
             "Big Pong and Mayhem, AI opponents and adjustable aim assist, from a settings panel on each side. A port of the beer pong " +
-            "table in Thryrallo's UdonPrefabs (https://github.com/Thryrallo/UdonPrefabs, MIT); table and cup models and textures by " +
-            "TsunaMoo (https://tsunamoo.booth.pm/). Sounds CC0 (Kenney, ezwa); Dosis font SIL OFL 1.1.";
+            "table in Thryrallo's UdonPrefabs (https://github.com/Thryrallo/UdonPrefabs, MIT); the table and cup models and the wood " +
+            "texture are the port's own. Sounds CC0 (Kenney, ezwa); text in an atlas of the Dosis font (SIL OFL 1.1).";
         public override string SnippetPosition => "0 0 0";
         /// <summary>PORT.md 8.2: what a fresh table starts with.</summary>
         public override IReadOnlyList<(string name, string value)> SnippetSettings => new[]
@@ -133,13 +156,17 @@ namespace BeerPong
 
             foreach (var c in bp.GetComponentsInChildren<Collider>(true).Where(c => !c.enabled))
                 stage.Report.AppendLine($"   collider off in the prefab: {KitStage.KitPath(c.transform, stage.Root.transform)} {c.GetType().Name}");
+            GeneratedArt();
             Materials();
             Labels();
             TextureSizes();
             var dosisSource = AssetDatabase.LoadAssetAtPath<Font>("Assets/Upstream/_Internal/_Assets/Dosis-VariableFont_wght.ttf") ?? throw new Exception("Dosis is missing");
             Directory.CreateDirectory(FontFolder);
             string ascii = new string(Enumerable.Range(32, 95).Select(i => (char)i).ToArray()) + "äöüÄÖÜß°…";
-            dosis = KitText.StaticFontAsset(dosisSource, ascii, $"{FontFolder}/Dosis SDF.asset", 90, 1024);
+            dosis = KitText.StaticFontAsset(dosisSource, ascii, $"{FontFolder}/{FontAssetName}.asset", 90, 1024);
+            dosis.name = FontAssetName;
+            var face = dosis.faceInfo;
+            if (face.familyName != "PongDisplay") { face.familyName = "PongDisplay"; dosis.faceInfo = face; EditorUtility.SetDirty(dosis); AssetDatabase.SaveAssets(); }
 
             // ---- the table, effects, balls ----
             O(bp, "beerPong", refToo: false);
@@ -569,6 +596,27 @@ namespace BeerPong
             var fallback = KitText.DefaultFont();
             foreach (var tmp in bp.GetComponentsInChildren<TMP_Text>(true))
                 if (tmp.font == null) tmp.font = fallback;
+            RefuseReplaced(s);
+        }
+
+        /// <summary>Every asset the kit's objects refer to (meshes, materials, their textures, fonts), checked against Replaced.</summary>
+        void RefuseReplaced(KitStage s)
+        {
+            var used = new HashSet<string>();
+            void Add(Object o) { if (o != null) { var path = AssetDatabase.GetAssetPath(o); if (!string.IsNullOrEmpty(path)) used.Add(path); } }
+            foreach (var f in bp.GetComponentsInChildren<MeshFilter>(true)) Add(f.sharedMesh);
+            foreach (var c in bp.GetComponentsInChildren<MeshCollider>(true)) Add(c.sharedMesh);
+            foreach (var r in bp.GetComponentsInChildren<Renderer>(true))
+                foreach (var m in r.sharedMaterials.Where(m => m != null))
+                {
+                    Add(m);
+                    foreach (var name in m.GetTexturePropertyNames()) Add(m.GetTexture(name));
+                }
+            foreach (var t in bp.GetComponentsInChildren<TMP_Text>(true)) { Add(t.font); if (t.font != null) Add(t.font.sourceFontFile); }
+            foreach (var path in used.ToList()) foreach (var dep in AssetDatabase.GetDependencies(path, true)) used.Add(dep);
+            var bad = used.Where(p => Replaced.Contains(p) || (p.StartsWith("Assets/Upstream/") && (p.EndsWith(".dae") || p.EndsWith(".fbx")))).ToList();
+            if (bad.Count > 0) throw new Exception("the kit still refers to upstream art that is replaced (PORT.md 0.8): " + string.Join(", ", bad));
+            s.Report.AppendLine($"   no replaced upstream art: {used.Count} assets checked; models: {string.Join(", ", used.Where(p => p.StartsWith(ModelFolder)))}");
         }
 
         /// <summary>Labels hold localisation keys upstream ("bp:rows"); the English of beerpong_localization.csv goes in (item 92).</summary>
@@ -616,16 +664,21 @@ namespace BeerPong
 
         const string CreditsText =
             "<b>Beer Pong</b>: a port of the beer pong table in Thryrallo's UdonPrefabs (github.com/Thryrallo/UdonPrefabs), MIT licence, " +
-            "Copyright (c) 2022 Thryrallo. Table and cup models and textures: TsunaMoo (tsunamoo.booth.pm), in the same repository.\n" +
-            "Changed for Altspace: URP materials, TextMesh Pro text, a physics ball owned by the thrower, a charge bar by the ball.\n" +
+            "Copyright (c) 2022 Thryrallo.\n" +
+            "Changed for Altspace: the port's own table and cup models and wood texture, URP materials, TextMesh Pro text, a physics ball " +
+            "owned by the thrower, a charge bar by the ball.\n" +
             "Sounds: Kenney Impact Sounds and Interface Sounds (kenney.nl, CC0); water splash by ezwa (OpenGameArt, CC0).\n" +
-            "Font: Dosis by Edgar Tolentino, Pablo Impallari and Igino Marini, SIL Open Font License 1.1.";
+            "Font: an atlas of Dosis, Copyright (c) 2011 Edgar Tolentino and Pablo Impallari, Copyright (c) 2011 Igino Marini, " +
+            "SIL Open Font License 1.1.";
 
         void Credits()
         {
             foreach (var name in PlayerNames)
             {
                 var credits = F(bp.transform, $"Players/{name}/Fixture UI/Slider/Panel/UI/Main/Credits");
+                // upstream's credit for the table and cup art, which this kit does not ship (PORT.md 0.8)
+                var artCredit = credits.Find("Tsuna");
+                if (artCredit != null) Object.DestroyImmediate(artCredit.gameObject);
                 var go = stage.Create("PortCredits", credits);
                 go.layer = 5;
                 var rect = go.AddComponent<RectTransform>();
@@ -644,6 +697,150 @@ namespace BeerPong
                 text.raycastTarget = false;
                 text.text = CreditsText;
             }
+        }
+
+        // ------------------------------------------------------------------ the port's own models (tools/make_models.py)
+
+        readonly Dictionary<string, Material> artMaterials = new Dictionary<string, Material>();
+
+        /// <summary>
+        /// The table, the barrier, the settings fittings and the cup template draw and collide with the generated models, in
+        /// upstream's objects (their transforms, animations and box colliders stay), with materials made here.
+        /// </summary>
+        void GeneratedArt()
+        {
+            var meshes = new Dictionary<string, Mesh>();
+            foreach (var file in new[] { "bp_table.fbx", "bp_cup.fbx" })
+            {
+                string path = $"{ModelFolder}/{file}";
+                ModelImport(path);
+                foreach (var mesh in AssetDatabase.LoadAllAssetsAtPath(path).OfType<Mesh>()) meshes[mesh.name] = mesh;
+            }
+            Mesh M(string name) => meshes.TryGetValue(name, out var m) ? m : throw new Exception($"no mesh {name} in {ModelFolder}: run tools/make_models.py");
+            CheckSize(M("bp_table2"), new Vector3(0f, 0.41f, 0f), new Vector3(0.757f, 0.41f, 1.4795f));
+            CheckSize(M("bp_table2_collider"), new Vector3(0f, 0.40985f, 0f), new Vector3(0.757f, 0.40985f, 1.4795f));
+            CheckSize(M("bp_cup_lod0"), new Vector3(0f, 0.076f, 0f), new Vector3(0.0521f, 0.076f, 0.0521f));
+            CheckSize(M("bp_settings_button"), new Vector3(-0.553f, 0.82055f, -1.3108f), new Vector3(0.0155f, 0.00605f, 0.0155f));
+
+            var wood = WoodTexture();
+            var metal = ArtMaterial("BP Metal", new Color(0.72f, 0.74f, 0.77f), 0.85f, 0.62f);
+            var woodMat = ArtMaterial("BP Wood", Color.white, 0f, 0.38f, wood);
+            var shell = ArtMaterial("BP Shell", new Color(0.12f, 0.13f, 0.14f), 0.6f, 0.5f);
+            var indicator = ArtMaterial("BP Indicator", Color.white, 0f, 0.5f, emission: Color.white);
+            var glass = ArtMaterial("BP Glass", new Color(0.82f, 0.9f, 0.95f, 0.28f), 0f, 0.92f, transparent: true);
+            var cupRim = ArtMaterial("BP Cup", Color.white, 0f, 0.55f);
+            var liquid = ArtMaterial("BP Liquid", new Color(0.86f, 0.56f, 0.12f), 0f, 0.85f);
+            var button = ArtMaterial("BP Button", Color.white, 0f, 0.5f);
+
+            void Draw(Transform t, string mesh, params Material[] materials)
+            {
+                var filter = t.GetComponent<MeshFilter>() ?? throw new Exception($"no MeshFilter on {t.name}");
+                filter.sharedMesh = M(mesh);
+                t.GetComponent<MeshRenderer>().sharedMaterials = materials;
+            }
+            var root = bp.transform;
+            var table = F(root, "table");
+            foreach (var leftover in new[] { "Fixture1", "[ThryBP]2Players/Button1" })
+            {
+                var t = table.Find(leftover);
+                if (t != null) Object.DestroyImmediate(t.gameObject);     // inactive spares upstream never shows
+            }
+            for (int n = 2; n <= 4; n++)
+            {
+                var model = F(table, $"[ThryBP]{n}Players");
+                Draw(model, $"bp_table{n}", metal, woodMat, shell, indicator);
+                var hull = model.GetComponent<MeshCollider>();
+                hull.sharedMesh = M($"bp_table{n}_collider");
+                hull.convex = true;
+                var divider = F(model, $"{n}Divider");
+                Draw(divider, $"bp_divider{n}_rail", metal);
+                Draw(F(divider, "Mesh"), $"bp_divider{n}_pane", metal, glass);
+            }
+            foreach (var name in PlayerNames)
+            {
+                var fixture = F(root, $"Players/{name}/Fixture UI");
+                Draw(fixture, "bp_fixture", metal);
+                Draw(F(fixture, "Slider"), "bp_fixture_slider", metal);
+                Draw(F(fixture, "Slider/Panel"), "bp_fixture_panel", metal, woodMat);
+                Draw(F(fixture, "Button Open Settings"), "bp_settings_button", button);
+            }
+            var cup = F(root, "[ThryBP]glass");
+            for (int lod = 0; lod < 3; lod++)
+            {
+                Draw(F(cup, $"Glass_LOD{lod}"), $"bp_cup_lod{lod}", cupRim, glass);
+                Draw(F(cup, $"Liquid_LOD{lod}"), $"bp_liquid_lod{lod}", liquid);
+            }
+            foreach (var c in cup.GetComponents<MeshCollider>()) { c.sharedMesh = M("bp_cup_collider"); c.convex = true; }
+            var lods = cup.GetComponent<LODGroup>();
+            if (lods != null) lods.RecalculateBounds();
+            stage.Report.AppendLine($"   generated art: {meshes.Count} meshes from {ModelFolder}, {artMaterials.Count} materials");
+        }
+
+        /// <summary>Import settings of a generated model: meshes only (materials are made here), readable (convex colliders scaled at run time).</summary>
+        static void ModelImport(string path)
+        {
+            var mi = AssetImporter.GetAtPath(path) as ModelImporter ?? throw new Exception($"no model at {path}: run altspace/tools/make_models.py");
+            bool changed = false;
+            void Want<T>(T now, T want, Action<T> set) { if (!Equals(now, want)) { set(want); changed = true; } }
+            Want(mi.materialImportMode, ModelImporterMaterialImportMode.None, v => mi.materialImportMode = v);
+            Want(mi.importAnimation, false, v => mi.importAnimation = v);
+            Want(mi.animationType, ModelImporterAnimationType.None, v => mi.animationType = v);
+            Want(mi.importCameras, false, v => mi.importCameras = v);
+            Want(mi.importLights, false, v => mi.importLights = v);
+            Want(mi.isReadable, true, v => mi.isReadable = v);
+            Want(mi.globalScale, 1f, v => mi.globalScale = v);
+            Want(mi.useFileScale, true, v => mi.useFileScale = v);
+            Want(mi.importNormals, ModelImporterNormals.Import, v => mi.importNormals = v);
+            Want(mi.importTangents, ModelImporterTangents.None, v => mi.importTangents = v);
+            Want(mi.meshCompression, ModelImporterMeshCompression.Off, v => mi.meshCompression = v);
+            Want(mi.bakeAxisConversion, false, v => mi.bakeAxisConversion = v);
+            if (changed) mi.SaveAndReimport();
+        }
+
+        /// <summary>A generated mesh has upstream's size where it matters (bounds centre and extents, 2 mm): the axis change came through.</summary>
+        void CheckSize(Mesh mesh, Vector3 centre, Vector3 extents)
+        {
+            var b = mesh.bounds;
+            stage.Report.AppendLine($"   {mesh.name}: bounds centre {b.center:F4}, extents {b.extents:F4}");
+            if ((b.center - centre).magnitude > 0.002f || (b.extents - extents).magnitude > 0.002f)
+                throw new Exception($"{mesh.name} is not where upstream's was: centre {b.center:F4} (want {centre:F4}), extents {b.extents:F4} (want {extents:F4})");
+        }
+
+        static Texture2D WoodTexture()
+        {
+            string path = $"{TextureFolder}/bp_wood.png";
+            var importer = AssetImporter.GetAtPath(path) as TextureImporter ?? throw new Exception($"no {path}: run altspace/tools/make_models.py");
+            if (importer.maxTextureSize != 1024 || importer.wrapMode != TextureWrapMode.Repeat || !importer.mipmapEnabled)
+            {
+                importer.maxTextureSize = 1024;
+                importer.wrapMode = TextureWrapMode.Repeat;
+                importer.mipmapEnabled = true;
+                importer.sRGBTexture = true;
+                importer.SaveAndReimport();
+            }
+            return AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+        }
+
+        Material ArtMaterial(string name, Color colour, float metallic, float smoothness, Texture2D map = null, bool transparent = false, Color? emission = null)
+        {
+            if (artMaterials.TryGetValue(name, out var done)) return done;
+            var m = new Material(Shader.Find("Universal Render Pipeline/Lit")) { name = name };
+            m.SetColor("_BaseColor", colour);
+            if (map != null) m.SetTexture("_BaseMap", map);
+            m.SetFloat("_Metallic", metallic);
+            m.SetFloat("_Smoothness", smoothness);
+            if (transparent) { m.SetFloat("_Surface", 1f); m.SetFloat("_Blend", 0f); }
+            if (emission.HasValue)
+            {
+                m.EnableKeyword("_EMISSION");
+                m.SetColor("_EmissionColor", emission.Value);
+                m.globalIlluminationFlags = MaterialGlobalIlluminationFlags.None;
+            }
+            m.enableInstancing = false;
+            m = SaveMaterial(m);
+            BaseShaderGUI.SetMaterialKeywords(m, UnityEditor.Rendering.Universal.ShaderGUI.LitGUI.SetMaterialKeywords);
+            EditorUtility.SetDirty(m);
+            return artMaterials[name] = m;
         }
 
         // ------------------------------------------------------------------ materials and textures

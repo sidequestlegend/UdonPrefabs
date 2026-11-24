@@ -1,6 +1,7 @@
 # Beer pong: port analysis
 
-Analysis written 2026-11-24 before any work; section 0 is the port's status since (editor-verified, rungs 0-4). In the analysis nothing was built, compiled, run or opened in Unity. Every statement
+Analysis written 2026-11-24 before any work; section 0 is the port's status since (editor-verified, rungs 0-4; the
+review fix pass of 2026-11-25 is 0.0). In the analysis nothing was built, compiled, run or opened in Unity. Every statement
 about upstream was read from the clone at `C:\workspace\AltspaceGames\beer-pong`; statements about
 the platform come from `portkit/README.md`, the approved plan and the SDK 4.0.29 `Docs/` folder.
 Where something could not be determined it says so.
@@ -13,10 +14,31 @@ Prefab objects are given by hierarchy path inside `BeerPong.prefab` (repo root, 
 
 ---
 
-## 0. Port status (2026-11-24): editor-verified rungs 0-4
+## 0. Port status (2026-11-25): editor-verified rungs 0-4, after the review fix pass
 
 This section is the state of the port; where it differs from the analysis below (written before the work), it wins.
 Rungs 0-4 pass in the editor (evidence and how to rerun: `TESTS.md`). Nothing has run in the app or on a Quest.
+
+### 0.0 Review fix pass (2026-11-25)
+
+An independent review (`REVIEW-FINDINGS.md`, beer-pong) found nine problems; the port was also re-synced to portkit
+`812f285`. Every Node test named here failed before its fix (checked by undoing each fix).
+
+| # | Finding | Done | Test |
+|---|---|---|---|
+| 1 | BLOCKER: TsunaMoo's table and cup models and textures ship with no licence of their own | Replaced by the port's own models and wood texture (`tools/make_models.py`, Blender 5.2 headless): the 2-, 3- and 4-side tables with upstream's outline, top height and convex collider shape, the barrier rails and panes, the settings fitting and button, the cup (same radius profile, 3 LODs, collider) and its drink; materials made by the kit builder. Upstream's files are not in the kit, the notices or the credits (the Credits tab's TsunaMoo entry is removed); the kit builder refuses a kit that still refers to any of them (`Replaced`, checked in `Finishing`). Why: 0.8 | rung 2 (`no replaced upstream art`), rung 3 (`bpmesh`: the table, fittings and cups draw and collide with `bp_*` meshes), and every rung 3 and 4 hit (the new colliders) |
+| 2 | Two hits on one rack at nearly the same moment lose a removal (several balls: King of the Hill, Mayhem) | A hit's removal is a request to the referee (`CupsManager.RequestRemoveCup`, a command), which removes each requested cup from its own copy of the rack, one request at a time; a cup already gone or replaced is left alone, nonsense refused | `review.test.ts` 1-4 (two balls 0/100/300 ms apart in one tier: both go; one cup asked twice; bad requests) |
+| 3 | A fresh 3- or 4-side table teleports its starter (the start position is known since the re-sync) | No teleport while a fresh table sets itself up (`Game._startingUp`); a side-count change on the panel still moves the changer with their side | `review.test.ts` 5-6; Play mode `start3.json` |
+| 4 | Big Pong's adaptive AI skill becomes Infinity or NaN (a side with no cups) | A side with no cups uses a cup ratio of 1 (`Game.GetAdaptiveAIStrength`) | `review.test.ts` 7 |
+| 5 | The published script exposed the game's cheat hooks (`removeCup`, `aimShootNearest`, ...) through `window.__pk1.debug`; no trust section | The kit now puts a game's hooks in the registry only on a test page (`window.__pk1_debug = true`); the game's hooks change nothing until one is called (the report counter installs lazily). Trust section: 0.9 | `review.test.ts` 8 |
+| 6 | Tests weaker than their names (the AI test never lands a hit) | New: Big Pong's 3 s hit (2 points, cup stays), a Mayhem hit (other colour +1, own colour -1, own side ignored), team points (+1 to both team-mates, -3 for a team-mate's cup, friendly fire off), the AI's aim at skill 1 in King of the Hill and Big Pong (into a cup at the centre), an AI hit that scores but counts neither throw nor hit | `review.test.ts` 9-14 |
+| 7 | PORT.md contradictions (item 93; 10.1 and 10.3 superseded) | Item 93 is **C** (ported, with a CC0 click); 10.1, 10.2 and 10.3 now say what was done and what was superseded | |
+| 8 | Kit copy behind; `rbLaunch` is standard | Re-synced; the game op `bpLaunch` and the ball graph's own launch are gone, a throw is `this.Host.rbLaunch`. The kit keeps one pending launch per kit, so `Game.Launch` sends one at a time, 0.15 s apart (an AI driving several balls) | `review.test.ts` 15; Play mode: the aimed throw's body has the throw's velocity 150 ms after `rbLaunch` |
+| 9 | Dosis is an OFL Reserved Font Name | The atlas is `PongDisplay SDF` (family name `PongDisplay`); the notices name both copyright lines and the reserved name | rung 2 bundle listing |
+
+Also from the brief: full licence texts in `Assets/Kit/Licenses/` (UdonPrefabs MIT, Dosis OFL, Material Icons
+Apache-2.0, CC0 1.0; the kit adds Liberation Sans's OFL); the script's banner is UdonPrefabs' MIT notice, then
+portkit's; Play-mode digests are compared at equal `version()`.
 
 ### 0.1 Decisions (coordinator, after the analysis)
 
@@ -50,14 +72,16 @@ Rungs 0-4 pass in the editor (evidence and how to rerun: `TESTS.md`). Nothing ha
 | `ts/src/ThryBehaviour.ts` | `_Scripts/ThryBehaviour.cs`, `Logging.cs`, `Helpers.cs` (Duplicate) | |
 | `ts/src/SimpleUI*.ts` (7 files) | `_Internal/UI/` | the editor post-processes that fill `_simpleUIReferences`, `LinkedInputs` and `UdonBehaviours` are redone at run time from bindings; the tab bar switches its contents itself (`Contents`); the click (item 93) |
 | `ts/src/ToggleActive.ts` | none | the Volume toggle's UnityEvent (`SetActive` on its slider), which the kit no longer carries |
-| `ts/src/PortOps.ts` | none | the game's own relay ops: `cupPlace`, `cupInside`, `bpLaunch` (sent with `this.Host.op`) |
+| `ts/src/PortOps.ts` | none | the game's own relay ops: `cupPlace`, `cupInside` (sent with `this.Host.op`); a throw is the kit's `rbLaunch` (`Game.Launch`) |
 | `ts/src/CSharp.ts` | none | C#'s `(int)` cast and `ToString("D4")` / `("F0")` |
 | `ts/golden/` -> `ts/vectors/upstream.json` | `CupsManager.cs` | upstream's file compiled **unchanged** with dotnet 8 against `portkit/golden/UdonStubs.cs` (`npm run golden`) |
-| `ts/test/` | | 19 tests (5 rules / vectors, 14 fake-room scenarios) |
+| `ts/test/` | | 34 tests (5 rules / vectors, 14 fake-room scenarios, 15 for the review's findings in `review.test.ts`) |
+| `tools/make_models.py` -> `Assets/Kit/Models/bp_table.fbx`, `bp_cup.fbx`, `Assets/Kit/Textures/bp_wood.png` | none (upstream's sizes only) | the port's own table, fittings, cups and wood (0.8) |
+| `Assets/Kit/Licenses/` | | full licence texts the notices name |
 | `Assets/Kit/Editor/BeerPongKitBuilder.cs` | `BeerPong.prefab` | the kit (0.3) |
 | `Assets/Kit/Editor/BallGraph.cs` | `Ball.cs` | the per-ball graph (0.3) |
 | `Assets/Kit/Editor/BeerPongProbe.cs`, `BeerPongDump.cs` | none | Play-mode readers and a hierarchy dump (editor only) |
-| `Assets/WebRoot/playtest/bp-playtest.js`, `playtest/*.json` | none | rungs 3 and 4 |
+| `Assets/WebRoot/playtest/bp-playtest.js`, `playtest/*.json` | none | rungs 3 (`single`, `start3`) and 4 (`multi`) |
 
 Not translated: `UI/Localization.cs`, `UI/LocalizationMenu.cs` (labels ship in English, from the CSV, item 92),
 `HandCollider.cs` (the knock-out reads the page's hand poses instead), `VRDesktopToggler.cs` (the charge bar shows only
@@ -76,11 +100,13 @@ while charging, which only a desktop throw does).
   `Glass_LOD0..2` renderers (the rim); `despawn` removes it; `cupInside|@<cup>|1/0` switches its throw collider and inner
   colliders (Ball.cs:172-173).
 - **The ball**: kinematic at rest (the page sends `rbVelocity 0` and `rbKinematic 1`; every client but the owner keeps
-  it kinematic), dynamic in flight. A throw is the game op `bpLaunch|<ball>|v`: the body leaves kinematic and the ball
-  graph sets the velocity. The SDK's synced-object handoff (`SyncedObjectPhysicsHandoff`, in Local Multiplayer a mirror
-  of the app's) gives a body leaving kinematic its tracked velocity, zero at rest, in its first physics step, over
-  anything set before (seen in Play mode: the ball fell from rest). So the graph notes where the ball is in the first
-  step and in the second puts it where the throw has taken it by then, with the throw's velocity of that moment.
+  it kinematic), dynamic in flight. A throw is the kit's standard `rbLaunch|<ball>|v` (it was the game op `bpLaunch`
+  until portkit made it standard): the body leaves kinematic at once and gets the velocity on the second physics step,
+  because the SDK's synced-object handoff (`SyncedObjectPhysicsHandoff`, in Local Multiplayer a mirror of the app's)
+  gives a body leaving kinematic its tracked velocity, zero at rest, in its first physics step (seen in Play mode: the
+  ball fell from rest). The kit keeps one pending launch per kit, so one page sends one launch at a time, 0.15 s apart
+  (`Game.Launch`; a launch still waiting is dropped when its ball is respawned). Unlike `bpLaunch`, the ball is not moved
+  forward by the first step's flight (it starts 20 ms late, from where it was).
   Collider switched on (upstream does it at run time, Ball.cs:121), gravity on, drag 0, angular drag 0.5,
   interpolated, continuous dynamic collision (speculative contacts fired near cups the ball never touched). It rests on
   the table: upstream's spawn point (0.01 above the table base) is inside the table's convex collider.
@@ -92,9 +118,18 @@ while charging, which only a desktop throw does).
 - **uGUI panels**: a `GraphicRaycaster` and the UI layer on each settings canvas; every UnityEvent call is removed (164:
   their targets were Udon); toggles, sliders and buttons reach the page through the relay graph; the page sets them with
   `uiSetToggle` / `uiSetSlider`. Labels: the English column of `beerpong_localization.csv`. Legacy Text becomes
-  TextMesh Pro in Dosis (a static font asset); the popups keep Liberation Sans.
-- **Materials**: the built-in Standard and particle materials remade as URP Lit / Particles Unlit, with URP's own keyword
-  setup; Android textures at most 1024 px (ASTC 6x6). The charge bar (upstream's screen-space `StrengthIndicator.shader`
+  TextMesh Pro in a static atlas of Dosis named `PongDisplay SDF` (the OFL reserves the name "Dosis" for unmodified
+  versions); the popups keep Liberation Sans.
+- **The port's own models** (0.8): `GeneratedArt()` puts the meshes of `Assets/Kit/Models/` (import: meshes only,
+  readable, no tangents) into upstream's objects, so their transforms, the divider animation and the box colliders stay:
+  the tables (`MeshCollider` convex, on a hull mesh of the same outline, 0 to 0.8197 m), the barrier rails and panes,
+  each side's fitting and table-edge button, and the cup template's three LODs, drinks and convex collider. It checks
+  the sizes against upstream's (bounds of `bp_table2`, its collider, `bp_cup_lod0` and the button, within 2 mm) and
+  makes the materials: `BP Metal`, `BP Wood` (the generated texture), `BP Shell`, `BP Indicator` (slot 3, recoloured with
+  emission), `BP Glass`, `BP Cup` (slot 0 of each LOD, the side colour), `BP Liquid`, `BP Button`. The two spares upstream
+  never shows (`table/Fixture1`, `[ThryBP]2Players/Button1`) are removed.
+- **Materials**: the remaining built-in Standard and particle materials (the ball, the score particles) remade as URP
+  Lit / Particles Unlit, with URP's own keyword setup; Android textures at most 1024 px (ASTC 6x6). The charge bar (upstream's screen-space `StrengthIndicator.shader`
   is not portable) is a small URP Unlit bar above each ball, alpha-clipped by `_Cutoff`. The splash: one burst of 20
   (Ball.cs:186-189), particles living 1 s instead of 2 (they are under the table by then; the kit's bounds stay tight).
 - Removed from the kit: the reflection probe, the throw indicator, localisation objects, the screen-space strength bar.
@@ -105,9 +140,9 @@ while charging, which only a desktop throw does).
 
 | Status | Count | Items |
 |---|---|---|
-| Ported and covered by a Node test | 67 | 1, 2, 3, 5, 6, 9, 11, 12, 13, 17, 19, 20, 22, 23, 24, 28, 30, 31, 32, 33, 35, 37, 39, 41, 44, 45, 46, 47, 48, 50, 51, 52, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 66, 67, 68, 69, 70, 71, 72, 74, 76, 79, 80, 84, 85, 86, 87, 88, 89, 90, 91, 94, 96, 97, 98, 101 (of these, checked again in Play mode: 3, 12, 13, 17, 20, 30, 32, 33, 39, 48, 50, 58, 59, 61, 86, 87, 88, 94) |
+| Ported and covered by a Node test | 73 | 1, 2, 3, 4, 5, 6, 9, 11, 12, 13, 17, 19, 20, 22, 23, 24, 28, 30, 31, 32, 33, 35, 37, 39, 41, 42, 44, 45, 46, 47, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 66, 67, 68, 69, 70, 71, 72, 74, 76, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 94, 96, 97, 98, 101 (of these, checked again in Play mode: 3, 4 (no teleport at start-up), 12, 13, 17, 20, 30, 32, 33, 39, 48, 50, 58, 59, 61, 86, 87, 88, 94) |
 | Ported, checked in Play mode, no Node test | 3 | 7 (dividers: Barrier raises the divider), 29 (below the respawn height: `bpLow`), 53 (cup positions: measured, the copies stand in their racks) |
-| Ported, not yet covered by a test | 17 | 4 (teleport), 8 (table indicator colour), 15, 36 (knock-out from hand poses), 40, 42, 43, 49, 65, 73, 75, 81, 82, 83, 93 (click and pulse), 99, 100 |
+| Ported, not yet covered by a test | 11 | 8 (table indicator colour), 15, 36 (knock-out from hand poses), 40, 43, 65, 73, 75, 93 (click and pulse), 99, 100 |
 | On the Unity side (owner's physics, platform sync, kit graph), checked in Play mode | 5 | 21 (charge bar), 25, 26, 34 (flight and bounces are the owner's physics), 38 (in the cup: inner colliders, contacts seen) |
 | On the Unity side, not checked | 3 | 14 (held ball by transform sync: flights were seen, a held ball not), 27 (sounds: `audioScaled` records in Node, nobody listened), 95 (late join during a flight) |
 | Left out | 5 | 10, 16, 18, 77, 78 |
@@ -138,6 +173,11 @@ while charging, which only a desktop throw does).
 15. Volume started at 1.0 until the slider moved (item 91): the `volume` setting (0.5) applies at start.
 16. Teams on/off made every receiving client take ownership of sides 2-3 to recolour them (Game.cs:559-579): only the
     Game's owner does.
+17. Two hits on one rack at nearly the same moment lost a removal: each hitter took the rack and wrote its whole grid
+    (CupsManager.cs:169-184 via Game.cs:416-426; only modes with several balls). The referee merges removal requests
+    (review finding 2).
+18. The adaptive AI skill divided by the side's own cup count (Game.cs:349), 0 for every side but the first in Big
+    Pong: skill Infinity (clamped to 1) or NaN. A cup ratio of 1 for a side with no cups (review finding 4).
 
 Other changes (not bugs): cups appear at once (item 60); timers of a state run on the synced clock; the AI does not
 pull a ball out of a person's hand; the tab bar ignores a tab turning off (upstream briefly synced -1); the rim spiral
@@ -152,7 +192,7 @@ Every local workaround the first job listed is gone or now uses the kit:
 | First job's workaround | Now |
 |---|---|
 | `PortOps.ts` reached the relay host's private sender | `this.Host.op(...)` for the game ops; standard `spawn`, `despawn`, `rbKinematic`, `rbVelocity`, `uiSetToggle`, `uiSetSlider`, `audioVolume`, `audioScaled`; Size through the Game object's own transform |
-| tests filtered "unknown op" notes | `room.defineRelayOp` for `cupPlace`, `cupInside`, `bpLaunch` |
+| tests filtered "unknown op" notes | `room.defineRelayOp` for `cupPlace`, `cupInside` (and `bpLaunch` until the re-sync to `812f285`, which made `rbLaunch` standard) |
 | `gameObject.host?.releaseGrab()` | `GameObject.ReleaseGrab()` (the fake room raises the drop itself) |
 | "a hold in which the key was used is a desktop throw" | also `this.Input.IsVR === false` |
 | `src/Unity.ts` (Angle, Reflect, LookRotation, an unchecked xorshift) | the kit's `Vector3.Angle` / `Reflect` and `UnityRandom` (checked against Unity); `CSharp.ts` keeps the C# formatting helpers |
@@ -168,10 +208,12 @@ Kit gaps found (portkit not edited; each worked around here):
 
 1. **`rbVelocity` is lost on a body that has just left kinematic**, in the same batch as `rbKinematic 0` and also from a
    FixedUpdate in the following frame: the SDK's `SyncedObjectPhysicsHandoff` re-applies its tracked velocity (zero at
-   rest) in the first physics step after the flip. Workaround: game op `bpLaunch` and the ball graph's second-step
-   launch. Proposed fix in `portkit/unity/Editor/Graphs/RelayGraph.cs`: a standard `rbLaunch` op (kinematic off, the
-   velocity kept in an Object variable) plus a small generated per-body graph, or a documented rule that a launch
-   velocity goes in the second physics step; and the README op table's `rbVelocity` row should say so.
+   rest) in the first physics step after the flip. Fixed in portkit `f3eaaa1` (standard `rbLaunch`); the game uses it
+   since the re-sync to `812f285`. Left: `rbLaunch` keeps **one pending launch per kit** (graph variables), so two
+   launches within two physics steps lose the first one's velocity; the game spaces its launches 0.15 s apart
+   (`Game.Launch`). Proposed in `portkit/unity/Editor/Graphs/RelayGraph.cs`: keep the pending velocity and step count in
+   Object variables on the target (as the README's `rbLaunch` row already says, `PkLaunch`), and have the FixedUpdate
+   walk the targets with a pending launch.
 2. **`rbVelocity` and `rbKinematic` were never exercised in Play mode** by the spikes (README/GAPS row says spawn, scale,
    uiSetToggle, uiSetSlider, despawn were); (1) is what that would have found.
 3. **Kit photos and footprints count every renderer of the prefab**, including objects the bindings write
@@ -186,7 +228,7 @@ Kit gaps found (portkit not edited; each worked around here):
 
 - Everything in the app and on a Quest (rung 5): VR release velocity from a real hand, laser clicks on the uGUI panels,
   haptics, sounds, frame time with 176 cups (each with its own material instances on three renderers), and whether the
-  app's synced-object handoff behaves as the editor's mirror of it (the `bpLaunch` second step relies on it).
+  app's synced-object handoff behaves as the editor's mirror of it (the `rbLaunch` second step relies on it).
 - Whether the platform's `drop` comes before or after the graph's `bpRelease` in the app (both orders are handled).
 - Measured in Play mode: a moving physics ball's pose reaches the page about every frame (585 reports in 2.00 s,
   longest gap 7.4 ms), but a ball at rest sends none (gaps of 0.7 to 4.3 s), so the page's own "still for 1 s" rule
@@ -204,17 +246,50 @@ Kit gaps found (portkit not edited; each worked around here):
 
 | Asset | Upstream | Status |
 |---|---|---|
-| Table and cup models, wood and glass textures (TsunaMoo) | MIT by inclusion, credit asked | kept, credited (Credits tab, snippet description, `THIRD-PARTY-NOTICES.md`) |
+| Table and cup models, wood and glass textures (`table.dae`, `glass.dae`, `plen_DefaultMaterial_*.png`, `GlassLOD2.png`) and their material set-ups | none of their own: the README credits TsunaMoo, who sells models on Booth; no terms found | **replaced** (decision of 2026-11-25, review finding 1): the port's own models and wood texture, `tools/make_models.py` (Blender 5.2, headless, from nothing; only upstream's sizes reused, so colliders, anchors and animations stay), MIT (this port). Why: a bundle never carries what cannot be verified, and "MIT by inclusion" cannot be verified for art its author sells elsewhere. Upstream's files are not in the kit, the notices or the credits; the kit builder refuses a kit that refers to them |
 | `collide 1.mp3` (table bounce) | unknown origin (converter sites) | replaced: Kenney Impact Sounds `impactWood_light_000.ogg`, CC0 (`Assets/Kit/Sounds/bp_table.ogg`) |
 | `pling (3).mp3` (cup) | unknown origin | replaced: Kenney Impact Sounds `impactGlass_light_000.ogg`, CC0 (`bp_glass.ogg`) |
 | `splonk.mp3` (splash) | unknown origin | replaced: "6 Short water splashes" by ezwa (OpenGameArt, CC0), `water_splash-03`, as Ogg (`bp_splash.ogg`) |
 | `click.mp3` | unknown origin | replaced: Kenney Interface Sounds `click_001.ogg`, CC0 (`bp_click.ogg`) |
 | Flag images | unknown origin | not shipped (the language menu is not ported) |
-| Dosis font | SIL OFL 1.1 (`OFL.txt` in the repo) | kept; the OFL text is in `THIRD-PARTY-NOTICES.md`, which every bundle carries |
-| `outline_done_white_48dp.png` (toggle ticks) | not stated | identified: Google Material Icons "done" (outlined, 48 dp at 2x), alpha identical pixel for pixel to the file in google/material-design-icons; Apache-2.0, its licence text in the notices |
+| Dosis font | SIL OFL 1.1 (`OFL.txt` in the repo), Reserved Font Name "Dosis" | the atlas drawn from it is named `PongDisplay SDF` (a modified version may not carry the reserved name); copyright lines in the notices, the OFL text in `Assets/Kit/Licenses/Dosis-OFL.txt`; the TTF itself is not in the kit |
+| `outline_done_white_48dp.png` (toggle ticks) | not stated | identified: Google Material Icons "done" (outlined, 48 dp at 2x), alpha identical pixel for pixel to the file in google/material-design-icons; Apache-2.0, its licence text in `Assets/Kit/Licenses/` |
 | Other UI textures (`circle`, `circle_border`, `triangle`, `VolumeHighIcon`, `logo`, `GoodJob`, `throwStrengthText`) | not stated; the author's own, presumably (MIT by inclusion) | kept as upstream (`throwStrengthText` is not in the kit) |
 
-Licences were read on the download pages and in each pack's own `License.txt` / `info.txt` on 2026-11-24.
+Licences were read on the download pages and in each pack's own `License.txt` / `info.txt` on 2026-11-24. Every
+bundle carries `THIRD-PARTY-NOTICES.md` and the full texts in `Assets/Kit/Licenses/` (UdonPrefabs MIT, Dosis OFL,
+Material Icons Apache-2.0, CC0 1.0) plus TextMesh Pro's Liberation Sans OFL (added by the kit build).
+
+### 0.9 Trust: what a modified client can still do
+
+The game keeps upstream's trust model, in which the thrower's client decides its own throw (VRChat: the ball's owner's
+PhysX decides the hit, `Ball.cs:1000`), and adds what the platform lets a port add:
+
+- **Not possible any more:** call the game's test helpers on a published page (removing a cup, aiming a throw,
+  sending raw relay records): the runtime exposes them only on a test page (0.0, finding 5). Lose another player's
+  cup removal by writing at the same moment: removals are merged by the referee, which checks each request (a cup in
+  the grid, still there, owned as the hitter saw it).
+- **Still possible, as upstream:** every synced field is public space state (portkit README, "Trust"), as VRChat's
+  synced variables are to a modified client: a modified page can claim any behaviour and write racks, scores, settings
+  and the ball's state directly; report contacts its physics never had (a hit from anywhere), or send removal requests
+  for any cup that exists (the referee cannot tell a real hit from a claimed one: the hit is the thrower's physics,
+  which only the thrower's page sees). There is no game over, no stake and nothing saved per player, so nothing
+  outlives the session.
+- **Unlike upstream:** a modified page that becomes referee (no server decides who is referee; portkit README) could
+  ignore removal requests; everyone sees the cup stay, and the next referee carries on.
+
+### 0.10 Known issues left (with reasons)
+
+- **Team-mates scoring at the same moment** (several balls with teams on: King of the Hill or Mayhem, 4 sides): the
+  scorer writes both team-mates' sides, as upstream, and a team-mate's own throw at that moment writes its side too:
+  one of the two writes is dropped by the ownership rules. Upstream has the same race. Not moved to the referee: a
+  command can reach the referee before the thrower's own claim of its side (commands carry no write mark, unlike
+  network events), and the referee's write was then dropped in the fake room (kit gap, report). Rare; left.
+- **Rack edits at the moment of a hit** (a re-rack or reset from a panel while a removal request is on its way): the
+  request may meet a rack that changed, and is then ignored (cup replaced) or applied to the new rack (same owner at
+  that grid place). Upstream loses one of the two writes as well.
+- **UI images of unstated origin** (`circle`, `circle_border`, `triangle`, `VolumeHighIcon`, `logo`, `GoodJob`): kept as
+  part of the UdonPrefabs repository (MIT); the review did not question them.
 
 ---
 
@@ -372,7 +447,7 @@ port (reason in section 10), **X** left out (reason in section 10).
 90. **C** Quirk: after a Size change the other panels refresh their Aim Assist sliders instead of their Size sliders (`Game.cs:119` passes the wrong name).
 91. **K** Volume: a speaker button opens a slider 0 to 1 (shown at 0.5) that sets the volume of all ball sounds for the local player only (`Game.cs:62`, `68-77`). Quirk: the sources start at 1.0 until the slider is first moved.
 92. **C** Language: labels come from `beerpong_localization.csv` (37 rows: 29 labels and two 4-entry lists; English and German; one German value is empty). The start language follows the VRChat client language; a flag menu on each panel switches it locally (`UI/Localization.cs:65-94`, `96-120`, `UI/LocalizationMenu.cs:15-23`).
-93. **X** Every UI action plays a click sound at the control and, in VR, a haptic pulse (`UI/SimpleUIInput.cs:176-182`, `UI/ClickSound.cs:26-42`); sliders skip the haptic (`UI/SimpleUISlider.cs:37`).
+93. **C** Every UI action plays a click sound at the control and, in VR, a haptic pulse (`UI/SimpleUIInput.cs:176-182`, `UI/ClickSound.cs:26-42`); sliders skip the haptic (`UI/SimpleUISlider.cs:37`).
 
 ### N. Network behaviour and edge cases
 
@@ -1039,9 +1114,12 @@ page mid-flight and mid-game; one page closes while holding the ball and while i
 
 ### 10.1 Changed
 
+Written before the work, as planned changes; where section 0 says otherwise, section 0 is what was built. Superseded
+rows are marked.
+
 | Item | Change | Reason |
 |---|---|---|
-| 25, 26, 34, 38, 95 | One flight path, computed once by the thrower and replayed by all against the synced clock; no PhysX phase; ball parked at the cup centre when in | The page has no frame-synchronous contact callbacks and only an asynchronous bridge; upstream's result depends on the owner's frame rate and differs between clients anyway |
+| 25, 26, 34, 38, 95 | **Superseded (0.1):** the ball is a real rigidbody of the thrower's client, transform-synced; no replayed flight path. (Planned: one flight path, computed once by the thrower and replayed by all against the synced clock) | The coordinator's decision after the analysis |
 | 28 | Only the kit's own geometry is tested; world walls and props are not | The script cannot know the host world's colliders |
 | 14 | Held ball shown to others by platform transform sync | Remote hands cannot be read |
 | 19 | VR release velocity measured by a graph (same rule), with fallbacks | Hand poses reach the page at most 30 times a second |
@@ -1050,9 +1128,11 @@ page mid-flight and mid-game; one page closes while holding the ball and while i
 | 60 | Cups appear and disappear at once | The staggering only spreads Udon's instantiate cost; it delays a removed cup by up to 242 frames |
 | 85, 98 | AI turns are driven by the referee | Survives the previous thrower leaving |
 | 96, 97, 99, 100 | `counted` is part of the ball's state; orphaned balls are respawned by the referee; a ball reset takes ownership first; the hit ring index is guarded | Upstream faults that would be worse here, where ownership is logical |
-| 4 | Teleport only if the platform call is available; otherwise the changer stays put | Not in the README runtime |
+| 4 | Teleport kept (`this.Input.TeleportTo`), only on a side-count change from the panel, never when a fresh table starts | The runtime has it now; at start-up it would move a player who only opened the world (review finding 3) |
 | 90 | The Size slider refreshes the Size sliders | Upstream passes the wrong variable name (`Game.cs:119`) |
-| 92 | Language from the browser; menu kept as text buttons | VRChat language API; flag images of unknown origin |
+| 92 | **Superseded:** English labels only, no language menu (0.4) | Flag images of unknown origin |
+| 93 | The click is a CC0 click (Kenney), the haptic pulse `scene.SendHapticImpulse` on the inferred hand | The upstream click has no known source |
+| Table and cup art | **Replaced** by the port's own models (0.8) | No verifiable licence |
 | Reflection probe | removed | A snippet runs in other people's worlds |
 | Sounds | replaced unless their source is established | Section 6 |
 
@@ -1065,10 +1145,14 @@ page mid-flight and mid-game; one page closes while holding the ball and while i
 | 18 Index trigger release | VRChat input-method specific |
 | 77 Adaptive aim assist | Has no effect upstream; the toggle is kept visible only if the checklist reviewer wants a literal panel |
 | 78 Developer cheat | Names hard-coded to the upstream author |
-| 93 Click haptics | Optional; the plan and the SDK docs disagree on haptics |
 | Clap detection in `HandCollider.cs:75-110` | Belongs to another prefab (Clapper) |
 
 ### 10.3 Open risks and questions, ranked
+
+Written before the work. Status since: 1 superseded (no solver: the owner's physics, 0.1); 2 done (the ball graph's
+`bpRelease`, its members on the allow list; a real hand is unverified); 3 done in the editor (spawn / despawn and
+`cupPlace`; Quest cost unmeasured); 4 done (CC0 sounds); 5 done (the art is replaced, 0.8); 6 done (`uiToggle` /
+`uiSlider` events); 9 done (the convex collider of the outline, as upstream; 0.8); the others stand.
 
 1. **The flight solver is new code, not a translation, and decides every score.** It replaces PhysX with rules of the port's own for cup-edge and side contacts. The plan's spike "beer pong replay versus synced rigidbody" is listed under wave 2 while this game is in wave 1; it should run before `Ball.ts` is written.
 2. **Release velocity in VR.** Needs a per-frame graph using transform reads, `Time.deltaTime` and a list; none of these members has been checked against the allow-list, and the app enforces the list where Play mode does not. If it fails, throws are built from 30 Hz poses and will feel different from upstream.
