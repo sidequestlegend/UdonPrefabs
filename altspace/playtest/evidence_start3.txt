@@ -1,0 +1,26 @@
+local relay room cleared (1 saved rooms)
+armed 'bp-start3': 3 elements, test server http://localhost:43900 (running), page port 43800
+2026-11-25T02:38:15.7132799+04:00 play -> entering play mode
+local: script and bundles from the test server http://localhost:43900
+[main] INFO main in Play, page port 43800
+[main] CMD b1 probe - head
+[main] REPLY b1 0.000 1.600 0.000
+[main] PASS the kit loads from a hand-written bs-snippet and the instance starts:
+[main] CMD b2 probe pk1:beer-pong:0 exists .
+[main] REPLY b2 True
+[main] PASS the kit is in the scene: holder True
+[main] CMD b3 probe - head
+[main] REPLY b3 0.000 1.600 0.000
+[main] CMD b4 probe pk1:beer-pong:0 active BeerPong/table/[ThryBP]3Players
+[main] REPLY b4 True
+[main] PASS a fresh table takes players="3": three sides, the 3-side table shown: players 3, table3 active True
+[main] PASS the player who starts a 3-side table is not teleported (the first side count is not a change): head before 0.000 1.600 0.000, after 0.000 1.600 0.000, moved 0.000 m
+[main] CMD b5 bpcups pk1:beer-pong:0
+[main] REPLY b5 15 15 15 0 0
+[main] PASS the third side's rack is made in Unity too: 3 sides: page 15,15,15,0, Unity 15,15,15,0,0
+[main] INFO page result 5 passed, 0 failed
+[main] DONE
+served: /web/pk-beer-pong.js x1, /web/playtest/bp-playtest.js x1, HEAD /kits/windows/beer-pong x1
+console (main editor): 0 error lines
+RESULT 5 passed, 0 failed
+DONE

@@ -1,3 +1,7 @@
+local relay room cleared (1 saved rooms)
+deactivated Multiplayer players left running: deactivate player 2: ok 
+armed 'bp-single': 3 elements, test server http://localhost:43900 (running), page port 43800
+2026-11-25T02:43:37.8488860+04:00 play -> entering play mode
 local: script and bundles from the test server http://localhost:43900
 [main] INFO main in Play, page port 43800
 [main] PASS the kit loads from a hand-written bs-snippet and the instance starts:
@@ -12,171 +16,170 @@ local: script and bundles from the test server http://localhost:43900
 [main] REPLY b3 0.745 0.000 0.218
 [main] PASS a cup of side 1 has side 1's colour on its LOD renderers (cupPlace): [ThryBP]Cup 1 7 0.745 0.000 0.218
 [main] CMD b4 bpball pk1:beer-pong:0 0
-[main] REPLY b4 True 0.000 0.000 0.000 0.552 0.852 0.339
-[main] PASS the ball rests kinematic at side 0's spawn: True 0.000 0.000 0.000 0.552 0.852 0.339
-[main] CMD b5 probe pk1:beer-pong:0 pos BeerPong/Ball
-[main] REPLY b5 0.552 0.852 0.339
-[main] CMD b6 look 0.552 0.852 0.339
-[main] REPLY b6 ok camera at 0.00,1.60,0.00
-[main] CMD b7 press 0.552 0.852 0.339
-[main] REPLY b7 ok screen 642,421 of 1285x842
-[main] CMD b8 wait 30
-[main] REPLY b8 ok
-[main] CMD b9 release
-[main] REPLY b9 ok
+[main] REPLY b4 True 0.000 0.000 0.000 0.552 0.853 0.339
+[main] PASS the ball rests kinematic at side 0's spawn: True 0.000 0.000 0.000 0.552 0.853 0.339
+[main] CMD b5 bpmesh pk1:beer-pong:0 BeerPong/table
+[main] REPLY b5 bp_table2,bp_divider2_rail,bp_divider2_pane,bp_table3,bp_divider3_rail,bp_divider3_pane,bp_table4,bp_divider4_rail,bp_divider4_pane | bp_table2_collider,bp_table3_collider,bp_table4_collider
+[main] CMD b6 bpmesh pk1:beer-pong:0 BeerPong/Players/Player/Fixture%20UI
+[main] REPLY b6 bp_fixture,bp_fixture_slider,bp_fixture_panel,bp_settings_button |
+[main] CMD b7 bpmesh pk1:beer-pong:0 BeerPong/Players/Player%20(1)/[GamemodeNormal]Cups%20Anchor/[ThryBP]Cup%201%207
+[main] REPLY b7 bp_cup_lod0,bp_cup_lod1,bp_cup_lod2,bp_liquid_lod0,bp_liquid_lod1,bp_liquid_lod2 | bp_cup_collider
+[main] PASS the table, the panel fittings and the cups draw and collide with the generated models: table bp_table2,bp_divider2_rail,bp_divider2_pane,bp_table3,bp_divider3_rail,bp_divider3_pane,bp_table4,bp_divider4_rail,bp_divider4_pane | bp_table2_collider,bp_table3_collider,bp_table4_collider; fittings bp_fixture,bp_fixture_slider,bp_fixture_panel,bp_settings_button | ; cup bp_cup_lod0,bp_cup_lod1,bp_cup_lod2,bp_liquid_lod0,bp_liquid_lod1,bp_liquid_lod2 | bp_cup_collider
+[main] CMD b8 probe pk1:beer-pong:0 pos BeerPong/Ball
+[main] REPLY b8 0.552 0.853 0.339
+[main] CMD b9 look 0.552 0.853 0.339
+[main] REPLY b9 ok camera at 0.00,1.60,0.00
+[main] CMD b10 press 0.552 0.853 0.339
+[main] REPLY b10 ok screen 642,421 of 1285x842
+[main] CMD b11 wait 30
+[main] REPLY b11 ok
+[main] CMD b12 release
+[main] REPLY b12 ok
 [main] INFO warm-up grab: held (no first-grab let-go this run)
 [main] INFO the warm-up drop ended: states Flying>Idle, flying true, now Idle for side 1, cups 15,15,0,0, scores 0,0,0,0
 [main] INFO a dropped ball (passes the turn) ended: states Flying>Idle, flying true, now Idle for side 0, cups 15,15,0,0, scores 0,0,0,0
-[main] CMD b10 probe pk1:beer-pong:0 pos BeerPong/Ball
-[main] REPLY b10 0.552 0.995 0.339
-[main] CMD b11 look 0.552 0.995 0.339
-[main] REPLY b11 ok camera at 0.00,1.60,0.00
-[main] CMD b12 bpcupnames pk1:beer-pong:0 0
-[main] REPLY b12 [ThryBP]Cup 0 7,[ThryBP]Cup 0 9,[ThryBP]Cup 0 11,[ThryBP]Cup 0 13,[ThryBP]Cup 0 15,[ThryBP]Cup 0 30,[ThryBP]Cup 0 32,[ThryBP]Cup 0 34,[ThryBP]Cup 0 36,[ThryBP]Cup 0 53,[ThryBP]Cup 0 55,[ThryBP]Cup 0 57,[ThryBP]Cup 0 76,[ThryBP]Cup 0 78,[ThryBP]Cup 0 99
-[main] CMD b13 bpcupnames pk1:beer-pong:0 1
-[main] REPLY b13 [ThryBP]Cup 1 7,[ThryBP]Cup 1 9,[ThryBP]Cup 1 11,[ThryBP]Cup 1 13,[ThryBP]Cup 1 15,[ThryBP]Cup 1 30,[ThryBP]Cup 1 32,[ThryBP]Cup 1 34,[ThryBP]Cup 1 36,[ThryBP]Cup 1 53,[ThryBP]Cup 1 55,[ThryBP]Cup 1 57,[ThryBP]Cup 1 76,[ThryBP]Cup 1 78,[ThryBP]Cup 1 99
-[main] CMD b14 bpray 0.552 0.995 0.339
-[main] REPLY b14 from (0.00, 1.60, 0.00): Ball L20 0.86; [ThryBP]2Players L0 1.14; Floor L0 2.34
-[main] INFO ray to the ball before the key throw's grab: from (0.00, 1.60, 0.00): Ball L20 0.86; [ThryBP]2Players L0 1.14; Floor L0 2.34
-[main] CMD b15 press 0.552 0.995 0.339
-[main] REPLY b15 ok screen 642,421 of 1285x842
+[main] CMD b13 probe pk1:beer-pong:0 pos BeerPong/Ball
+[main] REPLY b13 0.552 0.996 0.339
+[main] CMD b14 look 0.552 0.996 0.339
+[main] REPLY b14 ok camera at 0.00,1.60,0.00
+[main] CMD b15 bpcupnames pk1:beer-pong:0 0
+[main] REPLY b15 [ThryBP]Cup 0 7,[ThryBP]Cup 0 9,[ThryBP]Cup 0 11,[ThryBP]Cup 0 13,[ThryBP]Cup 0 15,[ThryBP]Cup 0 30,[ThryBP]Cup 0 32,[ThryBP]Cup 0 34,[ThryBP]Cup 0 36,[ThryBP]Cup 0 53,[ThryBP]Cup 0 55,[ThryBP]Cup 0 57,[ThryBP]Cup 0 76,[ThryBP]Cup 0 78,[ThryBP]Cup 0 99
+[main] CMD b16 bpcupnames pk1:beer-pong:0 1
+[main] REPLY b16 [ThryBP]Cup 1 7,[ThryBP]Cup 1 9,[ThryBP]Cup 1 11,[ThryBP]Cup 1 13,[ThryBP]Cup 1 15,[ThryBP]Cup 1 30,[ThryBP]Cup 1 32,[ThryBP]Cup 1 34,[ThryBP]Cup 1 36,[ThryBP]Cup 1 53,[ThryBP]Cup 1 55,[ThryBP]Cup 1 57,[ThryBP]Cup 1 76,[ThryBP]Cup 1 78,[ThryBP]Cup 1 99
+[main] CMD b17 bpray 0.552 0.996 0.339
+[main] REPLY b17 from (0.00, 1.60, 0.00): Ball L20 0.86; [ThryBP]2Players L0 1.14; Floor L0 2.35
+[main] INFO ray to the ball before the key throw's grab: from (0.00, 1.60, 0.00): Ball L20 0.86; [ThryBP]2Players L0 1.14; Floor L0 2.35
+[main] CMD b18 press 0.552 0.996 0.339
+[main] REPLY b18 ok screen 642,421 of 1285x842
 [main] INFO grab for the key throw: ok screen 642,421 of 1285x842; held true
-[main] CMD b16 key F down
-[main] REPLY b16 ok
-[main] CMD b17 wait 40
-[main] REPLY b17 ok
-[main] CMD b18 probe pk1:beer-pong:0 matfloat BeerPong/Ball/StrengthBar _Cutoff
-[main] REPLY b18 0.362
-[main] CMD b19 key F up
+[main] CMD b19 key F down
 [main] REPLY b19 ok
-[main] CMD b20 bpball pk1:beer-pong:0 0
-[main] REPLY b20 False -0.807 -1.373 3.232 0.455 0.914 0.728
-[main] PASS the desktop key throw: grab the ball, hold F to charge (the bar fills), let go of F: the ball is thrown by its owner's physics: held true, state Flying, charge bar cutoff while charging 0.362, body False -0.807 -1.373 3.232 0.455 0.914 0.728
-[main] CMD b21 release
-[main] REPLY b21 ok
-[main] INFO the key throw ended: states Flying>Idle, flying true, now Idle for side 1, cups 15,15,0,0, scores 0,0,0,0
-[main] INFO the ball graph's reports during the key throw: 4: bpRelease 0|0 ; collisionEnter ball0|[ThryBP]2Players ; collisionEnter ball0|[ThryBP]Cup 1 99 ; bpStill 0
-[main] INFO transform reports during the key throw: 689 in 2341.699999988079 ms, longest gap 32.69999998807907 ms
-[main] PASS the key throw ends (a hit, or a miss that passes the turn): a miss
-[main] CMD b22 bpcupnames pk1:beer-pong:0 0
-[main] REPLY b22 [ThryBP]Cup 0 7,[ThryBP]Cup 0 9,[ThryBP]Cup 0 11,[ThryBP]Cup 0 13,[ThryBP]Cup 0 15,[ThryBP]Cup 0 30,[ThryBP]Cup 0 32,[ThryBP]Cup 0 34,[ThryBP]Cup 0 36,[ThryBP]Cup 0 53,[ThryBP]Cup 0 55,[ThryBP]Cup 0 57,[ThryBP]Cup 0 76,[ThryBP]Cup 0 78,[ThryBP]Cup 0 99
-[main] INFO the AI's aim: the ball to side 1's AI spawn point: (-1.8945285982809553e-16, 1.22, 3.197)
-[main] INFO aimed throw from side 1: velocity (3.95516952522712e-16, 1.8517284472097937, -5.11094060727542)
+[main] CMD b20 wait 40
+[main] REPLY b20 ok
+[main] CMD b21 probe pk1:beer-pong:0 matfloat BeerPong/Ball/StrengthBar _Cutoff
+[main] REPLY b21 0.378
+[main] CMD b22 key F up
+[main] REPLY b22 ok
 [main] CMD b23 bpball pk1:beer-pong:0 0
-[main] REPLY b23 False 0.000 0.675 -5.111 0.000 1.361 2.590
-[main] CMD b24 bpvar pk1:beer-pong:0 BeerPong/Ball BpLaunch BpLaunchPending
-[main] REPLY b24 BpLaunch=(0.00, 1.85, -5.11), BpLaunchPending=False
-[main] INFO the thrower's ball 150 ms later: False 0.000 0.675 -5.111 0.000 1.361 2.590; BpLaunch=(0.00, 1.85, -5.11), BpLaunchPending=False
-[main] INFO an aimed throw ended: states Flying>Idle, flying true, now Idle for side 0, cups 15,15,0,0, scores 0,0,0,0
-[main] INFO the ball graph's reports: 2: collisionEnter ball0|[ThryBP]Cup 0 99 ; collisionEnter ball0|[ThryBP]2Players
-[main] INFO cup contacts as the thrower judged them: [ThryBP]Cup 1 99: ball y 0.853 top 0.952 d 1.44 ; [ThryBP]Cup 0 99: ball y 0.974 top 0.952 d 1.29
-[main] INFO transform reports of the ball while it flew: 585 in 1997.1000000238419 ms, longest gap 7.399999976158142 ms
-[main] CMD b25 bpcupnames pk1:beer-pong:0 1
-[main] REPLY b25 [ThryBP]Cup 1 7,[ThryBP]Cup 1 9,[ThryBP]Cup 1 11,[ThryBP]Cup 1 13,[ThryBP]Cup 1 15,[ThryBP]Cup 1 30,[ThryBP]Cup 1 32,[ThryBP]Cup 1 34,[ThryBP]Cup 1 36,[ThryBP]Cup 1 53,[ThryBP]Cup 1 55,[ThryBP]Cup 1 57,[ThryBP]Cup 1 76,[ThryBP]Cup 1 78,[ThryBP]Cup 1 99
-[main] INFO the AI's aim: the ball to side 0's AI spawn point: (0, 1.22, 0.10299999999999998)
-[main] INFO aimed throw from side 0: velocity (-1.243822116831457, 2.470833210330663, 4.981686103496797)
+[main] REPLY b23 False -0.785 -0.981 3.142 0.481 0.942 0.625
+[main] PASS the desktop key throw: grab the ball, hold F to charge (the bar fills), let go of F: the ball is thrown by its owner's physics: held true, state Flying, charge bar cutoff while charging 0.378, body False -0.785 -0.981 3.142 0.481 0.942 0.625
+[main] CMD b24 release
+[main] REPLY b24 ok
+[main] INFO the key throw ended: states Flying>Idle, flying true, now Idle for side 1, cups 15,15,0,0, scores 0,0,0,0
+[main] INFO the ball graph's reports during the key throw: 3: bpRelease 0|0 ; collisionEnter ball0|[ThryBP]2Players ; collisionEnter ball0|[ThryBP]Cup 1 99
+[main] INFO transform reports during the key throw: 835 in 2380.699999988079 ms, longest gap 32.69999998807907 ms
+[main] PASS the key throw ends (a hit, or a miss that passes the turn): a miss
+[main] CMD b25 bpcupnames pk1:beer-pong:0 0
+[main] REPLY b25 [ThryBP]Cup 0 7,[ThryBP]Cup 0 9,[ThryBP]Cup 0 11,[ThryBP]Cup 0 13,[ThryBP]Cup 0 15,[ThryBP]Cup 0 30,[ThryBP]Cup 0 32,[ThryBP]Cup 0 34,[ThryBP]Cup 0 36,[ThryBP]Cup 0 53,[ThryBP]Cup 0 55,[ThryBP]Cup 0 57,[ThryBP]Cup 0 76,[ThryBP]Cup 0 78,[ThryBP]Cup 0 99
+[main] INFO the AI's aim: the ball to side 1's AI spawn point: (-1.8945285982809553e-16, 1.22, 3.197)
+[main] INFO aimed throw from side 1: velocity (3.885780586188048e-16, 1.8547807163853907, -5.105112860207853)
 [main] CMD b26 bpball pk1:beer-pong:0 0
-[main] REPLY b26 False -1.244 1.097 4.982 0.397 1.073 0.961
-[main] CMD b27 bpvar pk1:beer-pong:0 BeerPong/Ball BpLaunch BpLaunchPending
-[main] REPLY b27 BpLaunch=(-1.24, 2.47, 4.98), BpLaunchPending=False
-[main] INFO the thrower's ball 150 ms later: False -1.244 1.097 4.982 0.397 1.073 0.961; BpLaunch=(-1.24, 2.47, 4.98), BpLaunchPending=False
+[main] REPLY b26 False 0.000 0.678 -5.105 0.000 1.343 2.686
+[main] INFO the thrower's ball 150 ms later: False 0.000 0.678 -5.105 0.000 1.343 2.686
+[main] PASS a throw is the kit's rbLaunch: 150 ms later the body is dynamic with the throw's horizontal velocity: thrown 0.000,1.855,-5.105, body False 0.000 0.678 -5.105 0.000 1.343 2.686, off by 0.000 m/s
+[main] INFO an aimed throw ended: states Flying>Idle, flying true, now Idle for side 0, cups 15,15,0,0, scores 0,0,0,0
+[main] INFO the ball graph's reports: 9: collisionEnter ball0|[ThryBP]Cup 0 99 ; collisionEnter ball0|[ThryBP]2Players ; collisionEnter ball0|[ThryBP]2Players ; collisionEnter ball0|[ThryBP]2Players ; collisionEnter ball0|[ThryBP]Cup 1 76 ; collisionEnter ball0|[ThryBP]Cup 1 78
+[main] INFO cup contacts as the thrower judged them: [ThryBP]Cup 1 99: ball y 0.853 top 0.952 d 1.42 ; [ThryBP]Cup 0 99: ball y 0.971 top 0.952 d 1.37
+[main] INFO transform reports of the ball while it flew: 1164 in 3339.7999999523163 ms, longest gap 12 ms
+[main] CMD b27 bpcupnames pk1:beer-pong:0 1
+[main] REPLY b27 [ThryBP]Cup 1 7,[ThryBP]Cup 1 9,[ThryBP]Cup 1 11,[ThryBP]Cup 1 13,[ThryBP]Cup 1 15,[ThryBP]Cup 1 30,[ThryBP]Cup 1 32,[ThryBP]Cup 1 34,[ThryBP]Cup 1 36,[ThryBP]Cup 1 53,[ThryBP]Cup 1 55,[ThryBP]Cup 1 57,[ThryBP]Cup 1 76,[ThryBP]Cup 1 78,[ThryBP]Cup 1 99
+[main] INFO the AI's aim: the ball to side 0's AI spawn point: (0, 1.22, 0.10299999999999998)
+[main] INFO aimed throw from side 0: velocity (-0.000021328313874718896, 1.8625034899180963, 5.096027136423793)
+[main] CMD b28 bpball pk1:beer-pong:0 0
+[main] REPLY b28 False 0.000 1.078 5.096 0.000 1.316 0.493
+[main] INFO the thrower's ball 150 ms later: False 0.000 1.078 5.096 0.000 1.316 0.493
 [main] INFO an aimed throw ended: states Flying>Idle, flying true, now Idle for side 1, cups 15,15,0,0, scores 0,0,0,0
-[main] INFO the ball graph's reports: 12: collisionEnter ball0|[ThryBP]2Players ; collisionEnter ball0|[ThryBP]Cup 1 99 ; collisionEnter ball0|[ThryBP]2Players ; collisionEnter ball0|[ThryBP]2Players ; collisionEnter ball0|[ThryBP]Cup 0 55 ; collisionEnter ball0|[ThryBP]Cup 0 57
-[main] INFO cup contacts as the thrower judged them: [ThryBP]Cup 1 99: ball y 0.853 top 0.952 d 1.44 ; [ThryBP]Cup 0 99: ball y 0.974 top 0.952 d 1.29 ; [ThryBP]Cup 1 99: ball y 0.967 top 0.952 d 1.39
-[main] INFO transform reports of the ball while it flew: 785 in 2602.599999964237 ms, longest gap 10.300000011920929 ms
-[main] CMD b28 bpcupnames pk1:beer-pong:0 0
-[main] REPLY b28 [ThryBP]Cup 0 7,[ThryBP]Cup 0 9,[ThryBP]Cup 0 11,[ThryBP]Cup 0 13,[ThryBP]Cup 0 15,[ThryBP]Cup 0 30,[ThryBP]Cup 0 32,[ThryBP]Cup 0 34,[ThryBP]Cup 0 36,[ThryBP]Cup 0 53,[ThryBP]Cup 0 55,[ThryBP]Cup 0 57,[ThryBP]Cup 0 76,[ThryBP]Cup 0 78,[ThryBP]Cup 0 99
-[main] CMD b29 bpball pk1:beer-pong:0 0
-[main] REPLY b29 True 0.000 0.000 0.000 -0.552 0.852 2.961
+[main] INFO the ball graph's reports: 16: collisionEnter ball0|[ThryBP]Cup 1 99 ; collisionEnter ball0|[ThryBP]2Players ; collisionEnter ball0|[ThryBP]2Players ; collisionEnter ball0|[ThryBP]Cup 0 76 ; collisionEnter ball0|[ThryBP]Cup 0 99 ; collisionEnter ball0|[ThryBP]Cup 0 78
+[main] INFO cup contacts as the thrower judged them: [ThryBP]Cup 1 99: ball y 0.853 top 0.952 d 1.42 ; [ThryBP]Cup 0 99: ball y 0.971 top 0.952 d 1.37 ; [ThryBP]Cup 1 99: ball y 0.968 top 0.952 d 1.43
+[main] INFO transform reports of the ball while it flew: 1169 in 3778 ms, longest gap 38 ms
+[main] CMD b29 bpcupnames pk1:beer-pong:0 0
+[main] REPLY b29 [ThryBP]Cup 0 7,[ThryBP]Cup 0 9,[ThryBP]Cup 0 11,[ThryBP]Cup 0 13,[ThryBP]Cup 0 15,[ThryBP]Cup 0 30,[ThryBP]Cup 0 32,[ThryBP]Cup 0 34,[ThryBP]Cup 0 36,[ThryBP]Cup 0 53,[ThryBP]Cup 0 55,[ThryBP]Cup 0 57,[ThryBP]Cup 0 76,[ThryBP]Cup 0 78,[ThryBP]Cup 0 99
 [main] CMD b30 bpball pk1:beer-pong:0 0
 [main] REPLY b30 True 0.000 0.000 0.000 0.000 1.150 0.750
 [main] INFO the ball held above a cup of side 0: [ThryBP]Cup 0 99
 [main] INFO let fall, side 1: velocity 0,0,0
 [main] CMD b31 bpball pk1:beer-pong:0 0
-[main] REPLY b31 False 0.000 -1.373 0.000 0.000 1.068 0.750
-[main] CMD b32 bpvar pk1:beer-pong:0 BeerPong/Ball BpLaunch BpLaunchPending
-[main] REPLY b32 BpLaunch=(0.00, 0.00, 0.00), BpLaunchPending=False
-[main] INFO the thrower's ball 150 ms later: False 0.000 -1.373 0.000 0.000 1.068 0.750; BpLaunch=(0.00, 0.00, 0.00), BpLaunchPending=False
+[main] REPLY b31 False 0.000 -0.981 0.000 0.000 1.089 0.750
+[main] INFO the thrower's ball 150 ms later: False 0.000 -0.981 0.000 0.000 1.089 0.750
 [main] INFO an aimed throw ended: states Flying>InCup>Idle, flying true, now Idle for side 1, cups 14,15,0,0, scores 0,1,0,0
-[main] INFO the ball graph's reports: 12: collisionEnter ball0|[ThryBP]Cup 0 99 ; collisionEnter ball0|[ThryBP] Collider 2 ; collisionEnter ball0|[ThryBP] Collider 1 ; collisionEnter ball0|[ThryBP] Collider 4 ; collisionEnter ball0|[ThryBP] Collider 3 ; collisionEnter ball0|[ThryBP]InsideCollider
-[main] INFO cup contacts as the thrower judged them: [ThryBP]Cup 1 99: ball y 0.853 top 0.952 d 1.44 ; [ThryBP]Cup 0 99: ball y 0.974 top 0.952 d 1.29 ; [ThryBP]Cup 1 99: ball y 0.967 top 0.952 d 1.39 ; [ThryBP]Cup 0 99: ball y 0.981 top 0.952 d 0.00
-[main] INFO transform reports of the ball while it flew: 275 in 2264.899999976158 ms, longest gap 1269.5 ms
-[main] CMD b33 bpcupnames pk1:beer-pong:0 0
-[main] REPLY b33 [ThryBP]Cup 0 7,[ThryBP]Cup 0 9,[ThryBP]Cup 0 11,[ThryBP]Cup 0 13,[ThryBP]Cup 0 15,[ThryBP]Cup 0 30,[ThryBP]Cup 0 32,[ThryBP]Cup 0 34,[ThryBP]Cup 0 36,[ThryBP]Cup 0 53,[ThryBP]Cup 0 55,[ThryBP]Cup 0 57,[ThryBP]Cup 0 76,[ThryBP]Cup 0 78
-[main] CMD b34 bpcups pk1:beer-pong:0
-[main] REPLY b34 14 15 0 0 0
+[main] INFO the ball graph's reports: 12: collisionEnter ball0|[ThryBP]Cup 0 99 ; collisionEnter ball0|[ThryBP] Collider 4 ; collisionEnter ball0|[ThryBP] Collider 2 ; collisionEnter ball0|[ThryBP] Collider 3 ; collisionEnter ball0|[ThryBP] Collider 1 ; collisionEnter ball0|[ThryBP]InsideCollider
+[main] INFO cup contacts as the thrower judged them: [ThryBP]Cup 1 99: ball y 0.853 top 0.952 d 1.42 ; [ThryBP]Cup 0 99: ball y 0.971 top 0.952 d 1.37 ; [ThryBP]Cup 1 99: ball y 0.968 top 0.952 d 1.43 ; [ThryBP]Cup 0 99: ball y 0.979 top 0.952 d 0.00
+[main] INFO transform reports of the ball while it flew: 337 in 2315.100000023842 ms, longest gap 1269.800000011921 ms
+[main] CMD b32 bpcupnames pk1:beer-pong:0 0
+[main] REPLY b32 [ThryBP]Cup 0 7,[ThryBP]Cup 0 9,[ThryBP]Cup 0 11,[ThryBP]Cup 0 13,[ThryBP]Cup 0 15,[ThryBP]Cup 0 30,[ThryBP]Cup 0 32,[ThryBP]Cup 0 34,[ThryBP]Cup 0 36,[ThryBP]Cup 0 53,[ThryBP]Cup 0 55,[ThryBP]Cup 0 57,[ThryBP]Cup 0 76,[ThryBP]Cup 0 78
+[main] CMD b33 bpcups pk1:beer-pong:0
+[main] REPLY b33 14 15 0 0 0
 [main] PASS a hit in a cup (the thrower's physics; the contact reported by the ball graph) removes that cup, in the page and in Unity: the ball let fall onto a cup: side 0: 15 -> 14 cups; Unity lost [ThryBP]Cup 0 99; scores 0,1,0,0
-[main] CMD b35 probe pk1:beer-pong:0 text BeerPong/Players/Player%20(1)/ScoreTable/Points
-[main] REPLY b35 0001
+[main] CMD b34 probe pk1:beer-pong:0 text BeerPong/Players/Player%20(1)/ScoreTable/Points
+[main] REPLY b34 0001
 [main] PASS the thrower's side scores, and its score plate shows it in Unity: scores 0,1,0,0, plate 0001
-[main] CMD b36 probe pk1:beer-pong:0 pos BeerPong/Players/Player/Fixture%20UI/Button%20Open%20Settings
-[main] REPLY b36 -0.553 0.821 0.339
-[main] CMD b37 look -0.553 0.821 0.339
-[main] REPLY b37 ok camera at 0.00,1.60,0.00
-[main] CMD b38 click -0.553 0.821 0.339
-[main] REPLY b38 ok screen 643,421 of 1285x842
+[main] CMD b35 probe pk1:beer-pong:0 pos BeerPong/Players/Player/Fixture%20UI/Button%20Open%20Settings
+[main] REPLY b35 -0.553 0.821 0.339
+[main] CMD b36 look -0.553 0.821 0.339
+[main] REPLY b36 ok camera at 0.00,1.60,0.00
+[main] CMD b37 click -0.553 0.821 0.339
+[main] REPLY b37 ok screen 643,421 of 1285x842
 [main] INFO click Open Settings of side 0: -0.553 0.821 0.339 ok screen 643,421 of 1285x842
 [main] PASS the table-edge button opens the side's settings panel (click on the UI layer): [true,false,false,false]
-[main] CMD b39 probe pk1:beer-pong:0 pos BeerPong/Players/Player/Fixture%20UI/Slider/Panel/UI/NavBar/Player
-[main] REPLY b39 -0.094 0.786 0.104
-[main] CMD b40 look -0.094 0.786 0.104
-[main] REPLY b40 ok camera at 0.00,1.60,-0.70
-[main] CMD b41 click -0.094 0.786 0.104
-[main] REPLY b41 ok screen 643,421 of 1285x842
+[main] CMD b38 probe pk1:beer-pong:0 pos BeerPong/Players/Player/Fixture%20UI/Slider/Panel/UI/NavBar/Player
+[main] REPLY b38 -0.094 0.786 0.104
+[main] CMD b39 look -0.094 0.786 0.104
+[main] REPLY b39 ok camera at 0.00,1.60,-0.70
+[main] CMD b40 click -0.094 0.786 0.104
+[main] REPLY b40 ok screen 643,421 of 1285x842
 [main] INFO click the Player tab: -0.094 0.786 0.104 ok screen 643,421 of 1285x842
-[main] CMD b42 probe pk1:beer-pong:0 active BeerPong/Players/Player/Fixture%20UI/Slider/Panel/UI/Main/Player
-[main] REPLY b42 True
+[main] CMD b41 probe pk1:beer-pong:0 active BeerPong/Players/Player/Fixture%20UI/Slider/Panel/UI/Main/Player
+[main] REPLY b41 True
 [main] PASS the Player tab opens (uGUI toggle through the relay graph; the page switches the content): tab 2, content True
 [main] INFO a second cup removed (grid index 7): true
-[main] CMD b43 bpcupnames pk1:beer-pong:0 0
-[main] REPLY b43 [ThryBP]Cup 0 9,[ThryBP]Cup 0 11,[ThryBP]Cup 0 13,[ThryBP]Cup 0 15,[ThryBP]Cup 0 30,[ThryBP]Cup 0 32,[ThryBP]Cup 0 34,[ThryBP]Cup 0 36,[ThryBP]Cup 0 53,[ThryBP]Cup 0 55,[ThryBP]Cup 0 57,[ThryBP]Cup 0 76,[ThryBP]Cup 0 78
-[main] CMD b44 probe pk1:beer-pong:0 pos BeerPong/Players/Player/Fixture%20UI/Slider/Panel/UI/Main/Player/Options/Buttons/Rerack
-[main] REPLY b44 0.092 0.608 -0.046
-[main] CMD b45 look 0.092 0.608 -0.046
-[main] REPLY b45 ok camera at 0.00,1.60,-0.70
-[main] CMD b46 click 0.092 0.608 -0.046
-[main] REPLY b46 ok screen 643,421 of 1285x842
+[main] CMD b42 bpcupnames pk1:beer-pong:0 0
+[main] REPLY b42 [ThryBP]Cup 0 9,[ThryBP]Cup 0 11,[ThryBP]Cup 0 13,[ThryBP]Cup 0 15,[ThryBP]Cup 0 30,[ThryBP]Cup 0 32,[ThryBP]Cup 0 34,[ThryBP]Cup 0 36,[ThryBP]Cup 0 53,[ThryBP]Cup 0 55,[ThryBP]Cup 0 57,[ThryBP]Cup 0 76,[ThryBP]Cup 0 78
+[main] CMD b43 probe pk1:beer-pong:0 pos BeerPong/Players/Player/Fixture%20UI/Slider/Panel/UI/Main/Player/Options/Buttons/Rerack
+[main] REPLY b43 0.092 0.608 -0.046
+[main] CMD b44 look 0.092 0.608 -0.046
+[main] REPLY b44 ok camera at 0.00,1.60,-0.70
+[main] CMD b45 click 0.092 0.608 -0.046
+[main] REPLY b45 ok screen 643,421 of 1285x842
 [main] INFO click Rerack: 0.092 0.608 -0.046 ok screen 643,421 of 1285x842
-[main] CMD b47 bpcupnames pk1:beer-pong:0 0
-[main] REPLY b47 [ThryBP]Cup 0 9,[ThryBP]Cup 0 11,[ThryBP]Cup 0 13,[ThryBP]Cup 0 15,[ThryBP]Cup 0 30,[ThryBP]Cup 0 32,[ThryBP]Cup 0 34,[ThryBP]Cup 0 36,[ThryBP]Cup 0 53,[ThryBP]Cup 0 55,[ThryBP]Cup 0 57,[ThryBP]Cup 0 76,[ThryBP]Cup 0 7
-[main] CMD b48 bpcups pk1:beer-pong:0
-[main] REPLY b48 13 15 0 0 0
+[main] CMD b46 bpcupnames pk1:beer-pong:0 0
+[main] REPLY b46 [ThryBP]Cup 0 9,[ThryBP]Cup 0 11,[ThryBP]Cup 0 13,[ThryBP]Cup 0 15,[ThryBP]Cup 0 30,[ThryBP]Cup 0 32,[ThryBP]Cup 0 34,[ThryBP]Cup 0 36,[ThryBP]Cup 0 53,[ThryBP]Cup 0 55,[ThryBP]Cup 0 57,[ThryBP]Cup 0 76,[ThryBP]Cup 0 7
+[main] CMD b47 bpcups pk1:beer-pong:0
+[main] REPLY b47 13 15 0 0 0
 [main] PASS Rerack from the panel re-lays the side's remaining cups (Unity's copies follow): after the re-rack: page 13,15,0,0, Unity 13,15,0,0,0; 13 cups, layout changed
-[main] CMD b49 probe pk1:beer-pong:0 pos BeerPong/Players/Player/Fixture%20UI/Slider/Panel/UI/Main/Player/Options/Rows
-[main] REPLY b49 0.000 0.738 0.063
+[main] CMD b48 probe pk1:beer-pong:0 pos BeerPong/Players/Player/Fixture%20UI/Slider/Panel/UI/Main/Player/Options/Rows
+[main] REPLY b48 0.000 0.738 0.063
 [main] INFO rows slider at: 0 0.738 0.063
-[main] CMD b50 look 0 0.738 0.063
-[main] REPLY b50 ok camera at 0.00,1.60,-0.70
-[main] CMD b51 bpright pk1:beer-pong:0 BeerPong/Players/Player/Fixture%20UI/Slider/Panel/UI/Main/Player/Options/Rows 0.35
-[main] REPLY b51 0.0980 0.7381 0.0627
-[main] CMD b52 click 0.0980 0.7381 0.0627
-[main] REPLY b52 ok screen 705,421 of 1285x842
-[main] CMD b53 bpcups pk1:beer-pong:0
-[main] REPLY b53 55 15 0 0 0
+[main] CMD b49 look 0 0.738 0.063
+[main] REPLY b49 ok camera at 0.00,1.60,-0.70
+[main] CMD b50 bpright pk1:beer-pong:0 BeerPong/Players/Player/Fixture%20UI/Slider/Panel/UI/Main/Player/Options/Rows 0.35
+[main] REPLY b50 0.0980 0.7381 0.0627
+[main] CMD b51 click 0.0980 0.7381 0.0627
+[main] REPLY b51 ok screen 705,421 of 1285x842
+[main] CMD b52 bpcups pk1:beer-pong:0
+[main] REPLY b52 55 15 0 0 0
 [main] PASS a setting changed on the panel (Rows slider) reaches the rules and the kit: rows 5 -> 10 (ok screen 705,421 of 1285x842); after the rows change: page 55,15,0,0, Unity 55,15,0,0,0
-[main] CMD b54 probe pk1:beer-pong:0 pos BeerPong/Players/Player/Fixture%20UI/Slider/Panel/UI/NavBar/Game
-[main] REPLY b54 -0.496 0.786 0.104
-[main] CMD b55 look -0.496 0.786 0.104
-[main] REPLY b55 ok camera at 0.00,1.60,-0.70
-[main] CMD b56 click -0.496 0.786 0.104
-[main] REPLY b56 ok screen 643,421 of 1285x842
+[main] CMD b53 probe pk1:beer-pong:0 pos BeerPong/Players/Player/Fixture%20UI/Slider/Panel/UI/NavBar/Game
+[main] REPLY b53 -0.496 0.786 0.104
+[main] CMD b54 look -0.496 0.786 0.104
+[main] REPLY b54 ok camera at 0.00,1.60,-0.70
+[main] CMD b55 click -0.496 0.786 0.104
+[main] REPLY b55 ok screen 643,421 of 1285x842
 [main] INFO click the Game tab: -0.496 0.786 0.104 ok screen 643,421 of 1285x842
-[main] CMD b57 probe pk1:beer-pong:0 pos BeerPong/Players/Player/Fixture%20UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Barrier
-[main] REPLY b57 0.220 0.620 -0.038
-[main] CMD b58 look 0.220 0.620 -0.038
-[main] REPLY b58 ok camera at 0.00,1.60,-0.70
-[main] CMD b59 click 0.220 0.620 -0.038
-[main] REPLY b59 ok screen 642,421 of 1285x842
+[main] CMD b56 probe pk1:beer-pong:0 pos BeerPong/Players/Player/Fixture%20UI/Slider/Panel/UI/Main/Game/TeamsBarrier/Barrier
+[main] REPLY b56 0.220 0.620 -0.038
+[main] CMD b57 look 0.220 0.620 -0.038
+[main] REPLY b57 ok camera at 0.00,1.60,-0.70
+[main] CMD b58 click 0.220 0.620 -0.038
+[main] REPLY b58 ok screen 642,421 of 1285x842
 [main] INFO click Barrier: 0.220 0.620 -0.038 ok screen 642,421 of 1285x842
-[main] CMD b60 probe pk1:beer-pong:0 active BeerPong/table/[ThryBP]2Players/2Divider/Collider
-[main] REPLY b60 True
+[main] CMD b59 probe pk1:beer-pong:0 active BeerPong/table/[ThryBP]2Players/2Divider/Collider
+[main] REPLY b59 True
 [main] PASS Barrier on the panel raises the divider (synced setting, animator in Unity): barrier true, divider collider active True
-[main] CMD b61 shot table 0 1.7 -1.1 0 0.8 1.6 60
-[main] REPLY b61 Library/PortKit/shots/bp-single_table.jpg
-[main] INFO page result 15 passed, 0 failed
+[main] CMD b60 shot table 0 1.7 -1.1 0 0.8 1.6 60
+[main] REPLY b60 Library/PortKit/shots/bp-single_table.jpg
+[main] INFO page result 17 passed, 0 failed
 [main] DONE
-served: /kits/windows/beer-pong x1, /web/pk-beer-pong.js x1, /web/playtest/bp-playtest.js x1, HEAD /kits/windows/beer-pong x1
-console (main editor): 1 error lines
-   [Exception] ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection. | System.Collections.Generic.List`1[T].get_Item (System.Int32 index) (at <41d29b352f6a475ab1bf7c6628b82790>:0)
-RESULT 15 passed, 0 failed
+served: /web/pk-beer-pong.js x1, /web/playtest/bp-playtest.js x1, HEAD /kits/windows/beer-pong x1
+console (main editor): 0 error lines
+RESULT 17 passed, 0 failed
 DONE

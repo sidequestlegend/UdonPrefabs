@@ -36,6 +36,11 @@ An independent review (`REVIEW-FINDINGS.md`, beer-pong) found nine problems; the
 | 8 | Kit copy behind; `rbLaunch` is standard | Re-synced; the game op `bpLaunch` and the ball graph's own launch are gone, a throw is `this.Host.rbLaunch`. The kit keeps one pending launch per kit, so `Game.Launch` sends one at a time, 0.15 s apart (an AI driving several balls) | `review.test.ts` 15; Play mode: the aimed throw's body has the throw's velocity 150 ms after `rbLaunch` |
 | 9 | Dosis is an OFL Reserved Font Name | The atlas is `PongDisplay SDF` (family name `PongDisplay`); the notices name both copyright lines and the reserved name | rung 2 bundle listing |
 
+Re-verified in the editor after the pass (TESTS.md): rung 2 PASS (the build reports no replaced upstream art), rung 3
+17/17 three runs in a row and the 3-side start 5/5 twice, rung 4 19/19 twice in a row (one earlier run failed 17/19 on
+the test's own timing: a hit's cup now goes one round trip after the ball is back when the thrower is not the referee;
+the driver waits for it now).
+
 Also from the brief: full licence texts in `Assets/Kit/Licenses/` (UdonPrefabs MIT, Dosis OFL, Material Icons
 Apache-2.0, CC0 1.0; the kit adds Liberation Sans's OFL); the script's banner is UdonPrefabs' MIT notice, then
 portkit's; Play-mode digests are compared at equal `version()`.
@@ -133,8 +138,9 @@ while charging, which only a desktop throw does).
   is not portable) is a small URP Unlit bar above each ball, alpha-clipped by `_Cutoff`. The splash: one burst of 20
   (Ball.cs:186-189), particles living 1 s instead of 2 (they are under the table by then; the kit's bounds stay tight).
 - Removed from the kit: the reflection probe, the throw indicator, localisation objects, the screen-space strength bar.
-- **Bundles**: Android 4,462 KiB, Windows 5,165 KiB, both PASS the app's kit check; graphs use 51 (relay) and 28 (ball)
-  members, all on the allow list.
+- **Bundles**: Android 2,309 KiB, Windows 3,089 KiB (4,462 and 5,165 KiB with upstream's table art and its 2048 px wood
+  maps, before the review pass), both PASS the app's kit check, each with the notices and the licence texts; graphs use
+  51 (relay) and 27 (ball) members, all on the allow list. Footprint 1.51 x 1.14 x 2.96 m.
 
 ### 0.4 Checklist status (101 items of section 2)
 

@@ -116,6 +116,11 @@
       states.add(ballState());
       return ballState() === "Idle";
     }, ms || 20000, 50);
+    // a hit's cup goes when the referee's removal arrives (a request to the referee: a round trip when the thrower is
+    // not the referee), which can be just after the ball is back
+    if (states.has("InCup") || states.has("Rimming")) {
+      await until(() => table().cups[0] + table().cups[1] < beforeCups[0] + beforeCups[1], 4000, 100);
+    }
     const t = table();
     const hit = t.cups[0] + t.cups[1] < beforeCups[0] + beforeCups[1];
     say("INFO", what + " ended", `states ${[...states].join(">")}, flying ${!!flying}, now ${ballState()} for side ${t.balls[0].side}, cups ${t.cups.join(",")}, scores ${t.scores.join(",")}`);
@@ -278,7 +283,13 @@
       say("INFO", "transform reports of the ball while it flew", `${rate.count} in ${rate.last - rate.first} ms, longest gap ${rate.longestGapMs} ms`);
       if (aimed.hit) {
         t = table();
-        const afterNames = (await cupNames(target)).split(",").filter(Boolean);
+        // probes run ahead of the relay: ask Unity again until its copies match the page's count (up to 3 s)
+        let afterNames = [];
+        for (let k = 0; k < 15; k++) {
+          afterNames = (await cupNames(target)).split(",").filter(Boolean);
+          if (afterNames.length === t.cups[target]) break;
+          await sleep(200);
+        }
         hitSide = target;
         hitHow = how === "aimed" ? "the AI's aimed throw" : "the ball let fall onto a cup";
         hitDetail = `side ${target}: ${beforeCups[target]} -> ${t.cups[target]} cups; Unity lost ${beforeNames.filter((n) => afterNames.indexOf(n) < 0).join(",")}; scores ${t.scores.join(",")}`;
@@ -430,7 +441,13 @@
           r = await settleThrow("round " + round + " (fall " + (fall + 1) + ")", t.cups.slice(), 20000);
           if (!r.hit) say("INFO", "round " + round + ": the fall did not count; cup contacts", debug().contactTrace(0).slice(-3).join(" ; ") + "; body " + (await ballInUnity(0)).text);
         }
-        const afterNames = (await cupNames(target)).split(",").filter(Boolean);
+        // probes run ahead of the relay: ask Unity again until its copies match the page's count (up to 3 s)
+        let afterNames = [];
+        for (let k = 0; k < 15; k++) {
+          afterNames = (await cupNames(target)).split(",").filter(Boolean);
+          if (afterNames.length === table().cups[target]) break;
+          await sleep(200);
+        }
         const gone = beforeNames.filter((n) => afterNames.indexOf(n) < 0);
         check(r.hit && gone.length === 1, `round ${round}: the thrower's throw removes one cup of side ${target}`, gone.join(","));
         send({ kind: "result", round, target, gone: gone.join(","), cups: table().cups.join(","), stamp: debug().stamp() });
