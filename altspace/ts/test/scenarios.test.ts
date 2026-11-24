@@ -453,13 +453,11 @@ test("desktop: holding the throw key charges the throw, letting go throws along 
   // charge ~0.6 s of 1 s -> speed min(5, 0.6 * 5) * 1 = 3 m/s (Ball.cs:552-563), then aim assist (strength 0.3) may bend it
   const v = ball._start_velocity;
   assert.ok(v.magnitude > 1 && v.magnitude < 8, `speed ${v.magnitude}`);
-  const launch = ann.graph(SLUG).records.filter((r) => r.op === "rbKinematic" && r.args[0] === "0");
-  assert.equal(launch.length, 1, "the thrower's page makes the ball dynamic once");
-  const velocities = ann.graph(SLUG).records.filter((r) => r.op === "rbVelocity" && r.args.some((a) => Number(a) !== 0));
-  assert.equal(velocities.length, 1, "and gives it the throw's velocity once");
-  assert.deepEqual(velocities[0]!.args.map(Number).map((n) => n.toFixed(3)), [v.x, v.y, v.z].map((n) => n.toFixed(3)));
-  const bobs = bob.graph(SLUG).records.filter((r) => r.target === bindings.refs.indexOf("ball0").toString() && r.op.startsWith("rb"));
-  assert.ok(bobs.length > 0 && bobs.every((r) => r.op === "rbVelocity" ? r.args.every((a) => Number(a) === 0) : r.args[0] === "1"),
+  const launch = ann.graph(SLUG).records.filter((r) => r.op === "bpLaunch");
+  assert.equal(launch.length, 1, "the thrower's page launches the ball once (game op bpLaunch)");
+  assert.deepEqual(launch[0]!.args.map(Number).map((n) => n.toFixed(3)), [v.x, v.y, v.z].map((n) => n.toFixed(3)), "with the throw's velocity");
+  const bobs = bob.graph(SLUG).records.filter((r) => r.target === bindings.refs.indexOf("ball0").toString() && (r.op.startsWith("rb") || r.op === "bpLaunch"));
+  assert.ok(bobs.length > 0 && bobs.every((r) => r.op === "rbVelocity" ? r.args.every((a) => Number(a) === 0) : r.op === "rbKinematic" && r.args[0] === "1"),
     "other pages only ever keep the ball kinematic");
   assert.equal(ann.graph(SLUG).floats.get("ball0Bar/_Cutoff"), "1.01", "the charge bar is cleared");
   assert.deepEqual(problems(world), []);
@@ -484,7 +482,7 @@ test("AI against AI: turns pass, AI throws and hits are not counted, nothing sta
     assert.equal(P(world, c, 1)._numberOfThrows, 0);
     assert.ok(P(world, c, 0)._lastAimAssistStrength > 0, "the AI publishes its skill as the last assist");
   }
-  assert.ok(ann.graph(SLUG).records.some((r) => r.op === "rbKinematic" && r.args[0] === "0"), "the AI launched balls");
+  assert.ok(ann.graph(SLUG).records.some((r) => r.op === "bpLaunch"), "the AI launched balls");
   assert.ok(world.agree());
   assert.deepEqual(problems(world), []);
 });

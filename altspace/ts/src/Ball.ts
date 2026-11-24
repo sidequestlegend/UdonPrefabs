@@ -59,7 +59,7 @@ import {
 import type { Cup } from "./Cup.ts";
 import { GameMode, type Game } from "./Game.ts";
 import { CastInt } from "./CSharp.ts";
-import { CupInside } from "./PortOps.ts";
+import { BallLaunch, CupInside } from "./PortOps.ts";
 
 /** Ball.cs:11-19 */
 export const BallState = { Idle: 0, InHand: 1, Locked: 2, Flying: 3, Rimming: 4, InCup: 5 } as const;
@@ -112,6 +112,8 @@ export class Ball extends Behaviour {
   _holder = -1;
 
   // ---- local ----
+  /** The cup contacts the owner judged (for Play-mode tests). */
+  readonly contactTrace: string[] = [];
   _localState = 0;
   private _stateStartTime = 0;
   private _rimming = 0;
@@ -455,14 +457,14 @@ export class Ball extends Behaviour {
   OnGraphStill(ball: string): void {
     if (Number(ball) !== this.index || !this.Networking.IsOwner(this) || this._localState !== BallState.Flying) return;
     if (this.Time.time - this._stateStartTime <= 1.0) return;
-    this.Debug.Log("[ThryBP] Ball idle for more than 1 second. Respawning for other team.");
+    this.Debug.Log("[ThryBP] Ball idle for more than 1 second. Respawning for other team. (ball graph)");
     this.Miss();
   }
 
   /** The graph saw the dynamic ball below the respawn height (:267-272). */
   OnGraphLow(ball: string): void {
     if (Number(ball) !== this.index || !this.Networking.IsOwner(this) || this._localState !== BallState.Flying) return;
-    this.Debug.Log("[ThryBP] Ball below respawn point. Respawning for other team.");
+    this.Debug.Log("[ThryBP] Ball below respawn point. Respawning for other team. (ball graph)");
     this.Miss();
   }
 
@@ -533,11 +535,14 @@ export class Ball extends Behaviour {
     this.RequestSerialization();
   }
 
-  /** Hands the throw to the owner's physics: the body goes dynamic at `position` with `velocity`. */
-  private Launch(position: Vector3, velocity: Vector3): void {
-    this.transform.position = position;
-    this.Host.op("rbKinematic", this.gameObject.key, [false]);
-    this.Host.rbVelocity(this.gameObject.key, velocity);
+  /**
+   * Hands the throw to the owner's physics: the game op `bpLaunch` makes the body dynamic, and the ball graph gives it
+   * `velocity` in the next physics step. (Seen in Play mode: the standard rbVelocity, sent with rbKinematic 0 in one
+   * batch, is lost when the body leaves kinematic in the same frame: the body falls from rest. PORT.md 0.6.) It starts
+   * where it is: every caller launches from the ball's current position.
+   */
+  private Launch(_position: Vector3, velocity: Vector3): void {
+    BallLaunch(this.Host, this.gameObject.key, velocity);
   }
 
   // ========= Prediction ========== (:643-877)
@@ -747,10 +752,12 @@ export class Ball extends Behaviour {
   /** :931-980, on what the graph reported. */
   private BallGlassCollision(ballPos: Vector3, cupPos: Vector3, cupTop: number, hitGlass: Cup): void {
     const isCollisionOnTop = cupTop < ballPos.y;
-    if (!isCollisionOnTop) return;
     const p1 = new Vector3(ballPos.x, 0, ballPos.z);
     const p2 = new Vector3(cupPos.x, 0, cupPos.z);
     const distanceFromCenter = Vector3.Distance(p1, p2) / hitGlass.GlobalRadius;
+    this.contactTrace.push(`${hitGlass.name}: ball y ${ballPos.y.toFixed(3)} top ${cupTop.toFixed(3)} d ${distanceFromCenter.toFixed(2)}`);
+    if (this.contactTrace.length > 20) this.contactTrace.shift();
+    if (!isCollisionOnTop) return;
     if (distanceFromCenter >= COLLISION_MAXIMUM_DISTANCE_FROM_CENTER) return;
 
     const angle = Vector3.Angle(this._contactVelocity, Vector3.down);

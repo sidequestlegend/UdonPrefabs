@@ -131,6 +131,8 @@ namespace BeerPong
             players.localRotation = Quaternion.identity;
             players.localScale = Vector3.one;
 
+            foreach (var c in bp.GetComponentsInChildren<Collider>(true).Where(c => !c.enabled))
+                stage.Report.AppendLine($"   collider off in the prefab: {KitStage.KitPath(c.transform, stage.Root.transform)} {c.GetType().Name}");
             Materials();
             Labels();
             TextureSizes();
@@ -161,7 +163,12 @@ namespace BeerPong
             var glass = new JObject { ["boundsExtents"] = V3(lod0.bounds.extents), ["lossyScale"] = V3(cupTemplateSource.transform.lossyScale) };
             stage.Report.AppendLine($"   cup template: Glass_LOD0 bounds extents {lod0.bounds.extents:F4}, lossy scale {cupTemplateSource.transform.lossyScale:F4}");
 
-            // ---- the four sides ----
+            // ---- the four sides (the ball's rest height needs the table's top and the ball's radius) ----
+            var hull = F(table.transform, "[ThryBP]2Players").GetComponent<MeshCollider>();
+            tableTop = hull != null ? hull.bounds.max.y - root.position.y : 0.82f;
+            var firstBall = F(root, BallNames[0]).GetComponent<Renderer>();
+            ballRadius = (firstBall.bounds.extents.x + firstBall.bounds.extents.y + firstBall.bounds.extents.z) / 3f;
+            stage.Report.AppendLine($"   table top {tableTop:F3}, ball radius {ballRadius:F4}");
             for (int side = 0; side < 4; side++) Side(side, glass, cupTemplateSource);
 
             // the cup template at the table centre (King of the Hill, Big Pong); the original goes
@@ -179,8 +186,6 @@ namespace BeerPong
                 ["yaw"] = Round((Quaternion.Inverse(root.rotation) * team.rotation).eulerAngles.y),
             };
             JArray Poses(int n) => new JArray(Enumerable.Range(1, n).Select(k => (JToken)Pose(F(table.transform, $"[ThryBP]{n}Players/Team{k}"))));
-            var ballRenderer = F(root, BallNames[0]).GetComponent<Renderer>();
-            float ballRadius = (ballRenderer.bounds.extents.x + ballRenderer.bounds.extents.y + ballRenderer.bounds.extents.z) / 3f;
             var g = fields["game"];
             g["_initialPlayerColors"] = new JArray(colours.Select(c => (JToken)new JObject { ["$color"] = new JArray(Round(c.r), Round(c.g), Round(c.b), 1.0) }));
             g["_allowAvatarThemeColorUsage"] = true;
@@ -208,6 +213,8 @@ namespace BeerPong
         }
 
         // ------------------------------------------------------------------ one side
+
+        float tableTop, ballRadius;
 
         void Side(int s, JObject glass, GameObject cupTemplateSource)
         {
@@ -261,7 +268,11 @@ namespace BeerPong
             p["_aiSettings"] = Obj(K("aiSettings"));
             p["_aimAssistSettings"] = Obj(K("aimAssistSettings"));
             p["_adaptiveAimToggle"] = Obj(K("adaptiveAim"));
-            p["BallSpawnLocal"] = V3(player.InverseTransformPoint(F(player, "BallSpawnPoint").position));
+            // the ball rests on the table: upstream's spawn point (0.01 above the table's base, kinematic) is inside the
+            // table's convex collider, which a physics ball would fall through and a desktop pointer cannot reach
+            var spawnPoint = player.InverseTransformPoint(F(player, "BallSpawnPoint").position);
+            spawnPoint.y = Mathf.Max(spawnPoint.y, tableTop - player.localPosition.y + ballRadius + 0.003f);
+            p["BallSpawnLocal"] = V3(spawnPoint);
             p["AiBallSpawnLocal"] = V3(player.InverseTransformPoint(F(player, "AI_SpawnPoint").position));
             p["CupsAnchorLocal"] = V3(player.InverseTransformPoint(anchor.position));
             p["CupsAnchorPath"] = KitStage.KitPath(anchor, stage.Root.transform);
@@ -421,6 +432,10 @@ namespace BeerPong
             if (body == null) body = ball.AddComponent<Rigidbody>();
             // the owner's physics flies the ball (PORT.md 0.1); at rest and on other clients it is kinematic (set by the page)
             body.isKinematic = true;
+            // upstream's collider is off in the prefab and switched on by Ball.cs at run time (Init): on here
+            foreach (var c in ball.GetComponents<Collider>()) c.enabled = true;
+            var at = ball.transform.localPosition;
+            ball.transform.localPosition = new Vector3(at.x, Mathf.Max(at.y, tableTop + ballRadius + 0.003f), at.z);
             body.useGravity = true;
             body.mass = 1f;
             body.linearDamping = 0f;
@@ -461,10 +476,14 @@ namespace BeerPong
             var variables = ball.GetComponent<Variables>();
             if (variables == null) variables = ball.AddComponent<Variables>();
             variables.declarations.Set(RespawnVariable, F(bp.transform, "RespawnHeight").gameObject);
-            stage.AddGraph(ball, "ball", BallGraph.Build(i, key));
+            variables.declarations.Set(LaunchVariable, Vector3.zero);
+            variables.declarations.Set(LaunchPendingVariable, false);
+            stage.AddGraph(ball, "ball" + i, BallGraph.Build(i, key));          // one asset per ball: the graph knows its index
         }
 
         public const string RespawnVariable = "BpRespawn";
+        public const string LaunchVariable = "BpLaunch";
+        public const string LaunchPendingVariable = "BpLaunchPending";
 
         static AudioClip LoadClip(string file) =>
             AssetDatabase.LoadAssetAtPath<AudioClip>($"{SoundFolder}/{file}") ?? throw new Exception($"no sound {SoundFolder}/{file}");
@@ -531,6 +550,15 @@ namespace BeerPong
                         g.IfNotNull(r, () => g.Do(typeof(Material), "SetColor", new[] { typeof(string), typeof(Color) }, g.Get(typeof(Renderer), "material", r), "_BaseColor", colour));
                     }));
             });
+            // bpLaunch | <ball> | vx | vy | vz: the body leaves kinematic; its ball graph sets the velocity in the next physics
+            // step (a velocity set in the frame the body leaves kinematic is lost: seen in Play mode)
+            ops.Add("bpLaunch", () => ops.With(typeof(Rigidbody), rb =>
+            {
+                var velocity = g.Keep(g.V3(ops.Number(0), ops.Number(1), ops.Number(2)));
+                g.Set(typeof(Rigidbody), "isKinematic", rb, false);
+                g.SetObjVar(LaunchVariable, velocity, ops.Target, typeof(Vector3));
+                g.SetObjVar(LaunchPendingVariable, true, ops.Target, typeof(bool));
+            }));
             // cupInside | @<cup> | 1/0: the throw collider off and the inner colliders on, or the other way round
             ops.Add("cupInside", () =>
             {

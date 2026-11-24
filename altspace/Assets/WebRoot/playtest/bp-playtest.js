@@ -74,8 +74,24 @@
     return r.startsWith("ok");
   }
 
+  /** Every graph-to-page event this page gets, by name (the ball graph's reports among them). */
+  const graphSeen = [];
+  function watchGraph() {
+    const registry = window.__pk1;
+    if (!registry || registry.__bpWatched) return;
+    registry.__bpWatched = true;
+    const original = registry.event;
+    registry.event = function (key, name, args) {
+      graphSeen.push({ t: Date.now(), name: name, args: String(args) });
+      if (graphSeen.length > 400) graphSeen.splice(0, 200);
+      return original.apply(this, arguments);
+    };
+  }
+  const graphSince = (t, names) => graphSeen.filter((e) => e.t >= t && (!names || names.indexOf(e.name) >= 0));
+
   async function waitStarted(reload) {
     const ok = await until(() => debug() && debug().table, 120000, 250);
+    watchGraph();
     check(!!ok, "the kit loads from a hand-written bs-snippet and the instance starts", ok ? "" : "no debug hooks after 120 s");
     if (!ok) return false;
     const exists = await probe("exists", ".");
@@ -105,6 +121,17 @@
     return { ended: !!ended, hit, states };
   }
 
+  /** A throw with no velocity from the AI spawn point misses (still for 1 s) and passes the turn, until `side` has it. */
+  async function passTo(side) {
+    for (let i = 0; i < 3 && table().balls[0].side !== side; i++) {
+      const b = table().cups.slice();
+      debug().aimPlace(0);
+      await sleep(800);
+      debug().dropThrow(0);
+      await settleThrow("a dropped ball (passes the turn)", b, 10000);
+    }
+  }
+
   // ---- one page ------------------------------------------------------------------------------------------------
   async function single() {
     if (!(await waitStarted())) return;
@@ -132,42 +159,27 @@
     say("INFO", "warm-up grab", heldAfterWarmup ? "held (no first-grab let-go this run)" : "let go at once, as the first grab of a session does");
     await settleThrow("the warm-up drop", before0, 20000);
 
-    // ---- a cup hit by the owner's physics: the AI's aimed throw (skill 1) from whichever side has the ball ----
-    t = table();
-    const thrower = t.balls[0].side;
-    const target = 1 - thrower;
-    const beforeNames = (await cupNames(target)).split(",").filter(Boolean);
-    const beforeCups = t.cups.slice();
-    const since = debug().now();
-    const v = debug().aimedThrow(0);
-    say("INFO", "aimed throw from side " + thrower, "velocity " + v);
-    await sleep(150);
-    ball = await ballInUnity(0);
-    check(!ball.kinematic && Math.hypot(...ball.v) > 0.5, "the throw makes the thrower's ball a dynamic body with the throw's velocity (rbKinematic, rbVelocity)", ball.text);
-    const aimed = await settleThrow("the aimed throw", beforeCups, 20000);
-    const rate = debug().reports(0, since);
-    say("INFO", "transform reports of the ball while it flew", `${rate.count} in ${rate.last - rate.first} ms, longest gap ${rate.longestGapMs} ms`);
-    t = table();
-    const afterNames = (await cupNames(target)).split(",").filter(Boolean);
-    const gone = beforeNames.filter((n) => afterNames.indexOf(n) < 0);
-    check(aimed.hit && t.cups[target] === beforeCups[target] - 1 && gone.length === 1 && afterNames.length === t.cups[target],
-      "a hit in a cup (the physics ball's contact, reported by the ball graph) removes that cup, in the page and in Unity",
-      `side ${target}: ${beforeCups[target]} -> ${t.cups[target]} cups; Unity lost ${gone.join(",")}; states ${[...aimed.states].join(">")}`);
-    check(t.scores[thrower] >= 1, "the thrower's side scores", t.scores.join(","));
-
-    // ---- the desktop key throw (hold F), from side 0 ----
-    // the ball must be at side 0: a throw with no velocity from wherever it is misses (still for 1 s) and passes the turn
-    for (let i = 0; i < 3 && table().balls[0].side !== 0; i++) {
-      const b = table().cups.slice();
-      debug().dropThrow(0);
-      await settleThrow("a dropped ball (passes the turn)", b, 10000);
-    }
+    // ---- the desktop key throw (hold F), from side 0 (aim assist 1 steers it, as upstream's assist does) ----
+    await passTo(0);
     const spawn0 = await probe("pos", debug().pathOf("ball0"));
     await cmd("look " + spawn0);
     const keyBefore = table().cups.slice();
+    const keyNames = [(await cupNames(0)).split(","), (await cupNames(1)).split(",")];
     const keySince = debug().now();
-    const grabbed = await cmd("press " + spawn0);
-    const held = await until(() => ballState() === "InHand", 3000, 50);
+    const keySinceWall = Date.now();
+    say("INFO", "ray to the ball before the key throw's grab", await cmd("bpray " + spawn0));
+    let grabbed = await cmd("press " + spawn0);
+    let held = await until(() => ballState() === "InHand", 3000, 50);
+    if (!held) {
+      // the first grab of a Play session can let go at once (spikes/RESULTS.md S6): once more
+      await cmd("release");
+      await sleep(500);
+      const again = await probe("pos", debug().pathOf("ball0"));
+      await cmd("look " + again);
+      say("INFO", "the grab did not hold; ray now", await cmd("bpray " + again) + "; state " + ballState());
+      grabbed = await cmd("press " + again);
+      held = await until(() => ballState() === "InHand", 3000, 50);
+    }
     say("INFO", "grab for the key throw", grabbed + "; held " + !!held);
     await cmd("key F down");
     await cmd("wait 40");
@@ -177,25 +189,92 @@
     const launched = await until(() => ballState() === "Flying" || ballState() === "Rimming" || ballState() === "InCup", 3000, 20);
     await sleep(100);
     ball = await ballInUnity(0);
-    check(!!held && !!launched && !ball.kinematic, "the desktop key throw: grab the ball, hold F to charge, let go of F: the ball is thrown by its owner's physics",
+    check(!!held && !!launched && !ball.kinematic && Number(bar) < 1, "the desktop key throw: grab the ball, hold F to charge (the bar fills), let go of F: the ball is thrown by its owner's physics",
       `held ${!!held}, state ${ballState()}, charge bar cutoff while charging ${bar}, body ${ball.text}`);
     await cmd("release");
     const keyThrow = await settleThrow("the key throw", keyBefore, 20000);
+    const keyReports = graphSince(keySinceWall, ["collisionEnter", "bpStill", "bpLow", "bpRelease"]);
+    say("INFO", "the ball graph's reports during the key throw", keyReports.length + ": " + keyReports.slice(0, 10).map((e) => e.name + " " + e.args.split("|").slice(0, 2).join("|")).join(" ; "));
     const keyRate = debug().reports(0, keySince);
     say("INFO", "transform reports during the key throw", `${keyRate.count} in ${keyRate.last - keyRate.first} ms, longest gap ${keyRate.longestGapMs} ms`);
     check(keyThrow.ended, "the key throw ends (a hit, or a miss that passes the turn)", keyThrow.hit ? "it hit" : "a miss");
 
-    // ---- the panel of side 0: open it (table-edge button), Player tab, Rerack, Rows ----
-    const side0before = table().cups[0] + table().cups[1];
-    const removedSide = table().cups[0] < 15 ? 0 : 1;
+    // ---- a hit: the key throw's, else the AI's aimed throw (skill 1, Player.AI_Aim / AI_Shoot) until one lands ----
+    let hitSide = -1;
+    let hitHow = "";
+    let hitDetail = "";
+    if (keyThrow.hit) {
+      t = table();
+      hitSide = t.cups[0] < keyBefore[0] ? 0 : 1;
+      const now = (await cupNames(hitSide)).split(",");
+      hitHow = "the desktop key throw";
+      hitDetail = `side ${hitSide}: ${keyBefore[hitSide]} -> ${t.cups[hitSide]} cups; Unity lost ${keyNames[hitSide].filter((n) => now.indexOf(n) < 0).join(",")}; scores ${t.scores.join(",")}`;
+    }
+    for (let attempt = 0; attempt < 3 && hitSide < 0; attempt++) {
+      t = table();
+      const thrower = t.balls[0].side;
+      const target = 1 - thrower;
+      const beforeNames = (await cupNames(target)).split(",").filter(Boolean);
+      const beforeCups = t.cups.slice();
+      // attempts 0 and 1: the AI's own aimed throw; then the ball let fall onto a cup from above (no aim involved: the
+      // contact, the hit rule and the removal are what is tested)
+      const how = attempt < 2 ? "aimed" : "fall";
+      if (how === "aimed") say("INFO", "the AI's aim: the ball to side " + thrower + "'s AI spawn point", debug().aimPlace(0));
+      else say("INFO", "the ball held above a cup of side " + target, debug().placeAbove(0));
+      await sleep(1000);
+      const since = debug().now();
+      const aimedAt = Date.now();
+      const v = how === "aimed" ? debug().aimShoot(0) : (debug().dropThrow(0), "0,0,0");
+      say("INFO", (how === "aimed" ? "aimed throw from side " : "let fall, side ") + thrower, "velocity " + v);
+      await sleep(150);
+      ball = await ballInUnity(0);
+      say("INFO", "the thrower's ball 150 ms later", ball.text + "; " + await cmd("bpvar " + HOLDER + " " + enc(debug().pathOf("ball0")) + " BpLaunch BpLaunchPending"));
+      const aimed = await settleThrow("an aimed throw", beforeCups, 20000);
+      const reports = graphSince(aimedAt - 200, ["collisionEnter", "bpStill", "bpLow"]);
+      say("INFO", "the ball graph's reports", reports.length + ": " + reports.slice(0, 6).map((e) => e.name + " " + e.args.split("|").slice(0, 2).join("|")).join(" ; "));
+      say("INFO", "cup contacts as the thrower judged them", debug().contactTrace(0).slice(-4).join(" ; "));
+      const rate = debug().reports(0, since);
+      say("INFO", "transform reports of the ball while it flew", `${rate.count} in ${rate.last - rate.first} ms, longest gap ${rate.longestGapMs} ms`);
+      if (aimed.hit) {
+        t = table();
+        const afterNames = (await cupNames(target)).split(",").filter(Boolean);
+        hitSide = target;
+        hitHow = how === "aimed" ? "the AI's aimed throw" : "the ball let fall onto a cup";
+        hitDetail = `side ${target}: ${beforeCups[target]} -> ${t.cups[target]} cups; Unity lost ${beforeNames.filter((n) => afterNames.indexOf(n) < 0).join(",")}; scores ${t.scores.join(",")}`;
+      }
+    }
+    t = table();
+    const agreeHit = await cupsAgree("after the hit");
+    check(hitSide >= 0 && agreeHit.ok, "a hit in a cup (the thrower's physics; the contact reported by the ball graph) removes that cup, in the page and in Unity", `${hitHow}: ${hitDetail}`);
+    const scorer = 1 - Math.max(hitSide, 0);
+    const plate = await probe("text", debug().pathOf("p" + scorer + "score"));
+    check(t.scores[scorer] >= 1 && plate === ("000" + t.scores[scorer]).slice(-4), "the thrower's side scores, and its score plate shows it in Unity", `scores ${t.scores.join(",")}, plate ${plate}`);
+
+    // ---- the panel of the side that lost a cup: open it (table-edge button), Player tab, Rerack, Rows, Barrier ----
+    const removedSide = Math.max(hitSide, 0);
+    const scene = window.BS.Scene.GetInstance();
+    // stand at that side's end (the table's centre is 1.65 m ahead of the start; side 1's end mirrors side 0's)
+    if (removedSide === 1) {
+      scene.TeleportTo(new window.BS.Vector3(0, 0, 3.3), 180, true);
+      await sleep(1500);
+    }
     await clickAt("p" + removedSide + "uiButton", "Open Settings of side " + removedSide);
     const open = await until(() => table().settingsOpen[removedSide], 3000, 100);
     check(!!open, "the table-edge button opens the side's settings panel (click on the UI layer)", JSON.stringify(table().settingsOpen));
     await sleep(1500); // the panel slides out and tilts up (1 s)
+    // the open panel reaches back past the table's end, where this test's player stands: step back 0.7 m to use it
+    scene.TeleportTo(new window.BS.Vector3(0, 0, removedSide === 1 ? 4.0 : -0.7), removedSide === 1 ? 180 : 0, true);
+    await sleep(1500);
     await clickAt("p" + removedSide + "tabPlayer", "the Player tab");
     const tab = await until(() => table().tab[removedSide] === 2, 3000, 100);
+    await sleep(700);
     const content = await probe("active", debug().pathOf("p" + removedSide + "contentPlayer"));
     check(!!tab && content === "True", "the Player tab opens (uGUI toggle through the relay graph; the page switches the content)", `tab ${table().tab[removedSide]}, content ${content}`);
+    // a back-row cup goes too (as a second hit would take it), so that the re-rack has something to move: the hit above
+    // took the rack's front cup, the highest grid index, which a re-rack leaves empty anyway
+    const backCup = Number(debug().cups(removedSide)[0].name.split(" ").pop());
+    say("INFO", "a second cup removed (grid index " + backCup + ")", String(debug().removeCup(removedSide, backCup)));
+    await sleep(1500);
     const rackBefore = (await cupNames(removedSide)).split(",").sort().join(",");
     await clickAt("p" + removedSide + "_rerack", "Rerack");
     await sleep(1500);
@@ -224,7 +303,7 @@
     await sleep(1500);
     const divider = await probe("active", "BeerPong/table/[ThryBP]2Players/2Divider/Collider");
     check(!!barrier && divider === "True", "Barrier on the panel raises the divider (synced setting, animator in Unity)", `barrier ${table().barrier}, divider collider active ${divider}`);
-    await cmd("shot table 0 1.6 -0.4 0 0.8 1.6 60");
+    await cmd("shot table " + (removedSide === 1 ? "0 1.7 4.4 0 0.8 1.6" : "0 1.7 -1.1 0 0.8 1.6") + " 60");
   }
 
   // ---- two players -------------------------------------------------------------------------------------------
@@ -291,7 +370,9 @@
         const target = 1 - side;
         const beforeNames = (await cupNames(target)).split(",").filter(Boolean);
         send({ kind: "throw", round, target, at: Date.now() });
-        const v = debug().aimedThrow(0);
+        debug().aimPlace(0);
+        await sleep(1000);
+        const v = debug().aimShoot(0);
         say("INFO", "round " + round + ": aimed throw from side " + side, v);
         const r = await settleThrow("round " + round, t.cups.slice(), 20000);
         const afterNames = (await cupNames(target)).split(",").filter(Boolean);
@@ -365,9 +446,58 @@
     scene.OneShot(JSON.stringify({ bpTest: 1, kind: "hello" }));
   }
 
+  // ---- diagnostics ----------------------------------------------------------------------------------------------
+  async function poke() {
+    if (!(await waitStarted())) return;
+    await sleep(3000);
+    const c = debug().cups(0)[0];
+    say("INFO", "cup 0 of side 0 (page)", JSON.stringify(c));
+    say("INFO", "cup in Unity", await probe("pos", c.path));
+    say("INFO", "cup active", await probe("active", c.path));
+    say("INFO", "cup LOD0 pos", await probe("pos", c.path + "/Glass_LOD0"));
+    say("INFO", "anchor pos", await probe("pos", "BeerPong/Players/Player/[GamemodeNormal]Cups Anchor"));
+    say("INFO", "player pos", await probe("pos", "BeerPong/Players/Player"));
+    say("INFO", "template pos", await probe("pos", "BeerPong/Players/Player/[GamemodeNormal]Cups Anchor/CupTemplate"));
+    say("INFO", "ball", (await ballInUnity(0)).text);
+    say("INFO", "ball layer", await probe("layer", debug().pathOf("ball0")));
+    const raw = [];
+    const scene = window.BS.Scene.GetInstance();
+    const go = Object.values(scene.objects).find((o) => o.name === "Ball" && !o.destroyed);
+    say("INFO", "page knows the ball", go ? "yes, layer " + go.layer : "no");
+    if (go) for (const kind of ["grab", "drop", "click"]) go.On(kind, () => raw.push(kind));
+    const pos = await probe("pos", debug().pathOf("ball0"));
+    say("INFO", "look", await cmd("look " + pos));
+    say("INFO", "ray to the ball", await cmd("bpray " + pos));
+    // the relay alone: kinematic off, then a velocity, then read the body
+    debug().aimPlace(0);
+    await sleep(1000);
+    debug().rawRelay("rbKinematic|" + debug().refOf("ball0") + "|0^rbVelocity|" + debug().refOf("ball0") + "|0|3|1");
+    await sleep(100);
+    say("INFO", "body 100 ms after rbKinematic 0 + rbVelocity 0,3,1", (await ballInUnity(0)).text);
+    await sleep(1500);
+    debug().aimPlace(0);
+    await sleep(1000);
+    debug().rawRelay("rbKinematic|" + debug().refOf("ball0") + "|0");
+    await sleep(300);
+    debug().rawRelay("rbVelocity|" + debug().refOf("ball0") + "|0|3|1");
+    await sleep(60);
+    say("INFO", "body 60 ms after rbVelocity 0,3,1 sent 300 ms after rbKinematic 0", (await ballInUnity(0)).text);
+    await sleep(1500);
+    for (let i = 0; i < 3; i++) {
+      say("INFO", "press " + i, await cmd("press " + pos));
+      await cmd("wait 40");
+      say("INFO", "state while pressed", ballState() + " raw " + raw.join(","));
+      await cmd("release");
+      await sleep(1500);
+      say("INFO", "after release", ballState() + " raw " + raw.join(","));
+    }
+    await cmd("shot poke 0.6 1.3 0 0.3 0.8 1.2 60");
+  }
+
   window.__bpRun = async function (plan) {
     try {
       if (plan === "single") await single();
+      else if (plan === "poke") await poke();
       else if (plan === "multi") {
         hello();
         await multi();

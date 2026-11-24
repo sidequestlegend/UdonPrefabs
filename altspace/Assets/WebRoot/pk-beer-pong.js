@@ -4,7 +4,7 @@
  * Port source: https://github.com/sidequestlegend/UdonPrefabs (branch altspace). Includes the portkit runtime (MIT).
  * Third-party notices: altspace/THIRD-PARTY-NOTICES.md in the port source.
  */
-/* pk-beer-pong.js: portkit runtime with the rules of 'beer-pong' (protocol pk1, bindings 431a1a7ebf73dfb4205af14fca2dc543f1894dba). Built file: do not edit. */
+/* pk-beer-pong.js: portkit runtime with the rules of 'beer-pong' (protocol pk1, bindings b0ffe6c7f5ea1a226b458559a7d4477228174cea). Built file: do not edit. */
 (() => {
   var __defProp = Object.defineProperty;
   var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
@@ -5607,6 +5607,9 @@ ${label}`)));
 
   // src/PortOps.ts
   var CUP_TEMPLATE = "CupTemplate";
+  function BallLaunch(host, ball, velocity) {
+    host.op("bpLaunch", ball, [velocity.x, velocity.y, velocity.z]);
+  }
   function CupPlace(host, path, local, scale, color) {
     host.op("cupPlace", path, [local.x, local.y, local.z, scale, color.r, color.g, color.b], "place");
   }
@@ -6945,6 +6948,8 @@ ${label}`)));
       /** Player id of whoever holds or threw the ball; -1 when nobody (respawned). */
       __publicField(this, "_holder", -1);
       // ---- local ----
+      /** The cup contacts the owner judged (for Play-mode tests). */
+      __publicField(this, "contactTrace", []);
       __publicField(this, "_localState", 0);
       __publicField(this, "_stateStartTime", 0);
       __publicField(this, "_rimming", 0);
@@ -7249,13 +7254,13 @@ ${label}`)));
     OnGraphStill(ball) {
       if (Number(ball) !== this.index || !this.Networking.IsOwner(this) || this._localState !== BallState.Flying) return;
       if (this.Time.time - this._stateStartTime <= 1) return;
-      this.Debug.Log("[ThryBP] Ball idle for more than 1 second. Respawning for other team.");
+      this.Debug.Log("[ThryBP] Ball idle for more than 1 second. Respawning for other team. (ball graph)");
       this.Miss();
     }
     /** The graph saw the dynamic ball below the respawn height (:267-272). */
     OnGraphLow(ball) {
       if (Number(ball) !== this.index || !this.Networking.IsOwner(this) || this._localState !== BallState.Flying) return;
-      this.Debug.Log("[ThryBP] Ball below respawn point. Respawning for other team.");
+      this.Debug.Log("[ThryBP] Ball below respawn point. Respawning for other team. (ball graph)");
       this.Miss();
     }
     /** :511-530 */
@@ -7316,11 +7321,14 @@ ${label}`)));
       this.Launch(this._start_position, this._start_velocity);
       this.RequestSerialization();
     }
-    /** Hands the throw to the owner's physics: the body goes dynamic at `position` with `velocity`. */
-    Launch(position, velocity) {
-      this.transform.position = position;
-      this.Host.op("rbKinematic", this.gameObject.key, [false]);
-      this.Host.rbVelocity(this.gameObject.key, velocity);
+    /**
+     * Hands the throw to the owner's physics: the game op `bpLaunch` makes the body dynamic, and the ball graph gives it
+     * `velocity` in the next physics step. (Seen in Play mode: the standard rbVelocity, sent with rbKinematic 0 in one
+     * batch, is lost when the body leaves kinematic in the same frame: the body falls from rest. PORT.md 0.6.) It starts
+     * where it is: every caller launches from the ball's current position.
+     */
+    Launch(_position, velocity) {
+      BallLaunch(this.Host, this.gameObject.key, velocity);
     }
     // ========= Prediction ========== (:643-877)
     PositionAtTime(start, startVelocity, time) {
@@ -7509,10 +7517,12 @@ ${label}`)));
     /** :931-980, on what the graph reported. */
     BallGlassCollision(ballPos, cupPos, cupTop, hitGlass) {
       const isCollisionOnTop = cupTop < ballPos.y;
-      if (!isCollisionOnTop) return;
       const p1 = new Vector3(ballPos.x, 0, ballPos.z);
       const p2 = new Vector3(cupPos.x, 0, cupPos.z);
       const distanceFromCenter = Vector3.Distance(p1, p2) / hitGlass.GlobalRadius;
+      this.contactTrace.push(`${hitGlass.name}: ball y ${ballPos.y.toFixed(3)} top ${cupTop.toFixed(3)} d ${distanceFromCenter.toFixed(2)}`);
+      if (this.contactTrace.length > 20) this.contactTrace.shift();
+      if (!isCollisionOnTop) return;
       if (distanceFromCenter >= COLLISION_MAXIMUM_DISTANCE_FROM_CENTER) return;
       const angle = Vector3.Angle(this._contactVelocity, Vector3.down);
       const tripOnEdge = distanceFromCenter > this.Random.Range(0.4, 0.7) && angle > this.Random.RangeInt(45, 80);
@@ -8225,6 +8235,9 @@ ${label}`)));
       };
     }
     return {
+      refOf: (key) => instance.bindings.refs.indexOf(key),
+      /** Sends relay records as they are ("<op>|<target>|<args>^..."), for diagnostics. */
+      rawRelay: (records) => instance.platform.relaySend(`beer-pong:${instance.inst}|${records}`),
       pathOf: (key) => instance.bindings.objects[key]?.path ?? "",
       /** The page clock the report times use (ms). */
       now: () => instance.platform.clock.now(),
@@ -8255,28 +8268,78 @@ ${label}`)));
         for (let k = 1; k < list.length; k++) gap = Math.max(gap, list[k].t - list[k - 1].t);
         return { count: list.length, longestGapMs: gap, first: list[0]?.t ?? 0, last: list[list.length - 1]?.t ?? 0 };
       },
+      /** Removes the cup at a grid index of a side's rack, as a counted hit does (Game.RemoveCup -> CupsManager.RemoveCup). */
+      removeCup: (side, index) => {
+        const m = G().Players[side].CupsManager;
+        if (m._cupOwnersAtPositions[index] === 255) return false;
+        m.RemoveCup(Math.trunc(index / m.X_PER_ROW), index % m.X_PER_ROW);
+        return true;
+      },
+      contactTrace: (i = 0) => ball(i).contactTrace.slice(),
       ballPosition: (i) => {
         const p = ball(i).transform.position;
         return [p.x, p.y, p.z];
       },
       /**
-       * The AI's throw with skill 1 (Player.AI_Aim / AI_Shoot, Ball.ShootAI): the aimed velocity into the cup nearest
-       * where the throw would land, from where the ball is now. The ball's own physics and the ball graph's contact
-       * report then decide, as for any throw.
+       * The AI's throw with skill 1, in its two steps (Player.AI_Aim, then a second later AI_Shoot / Ball.ShootAI): the
+       * ball goes to the side's AI spawn point above the table, then flies with the aimed velocity into the cup nearest
+       * where the throw would land. The ball's own physics and the ball graph's contact report decide, as for any throw.
        */
-      aimedThrow: (i = 0) => {
+      aimPlace: (i = 0) => {
         const b = ball(i);
         b.OnPickupAI();
+        const spawn = G().Players[b.CurrentPlayer].AiBallSpawnWorld();
+        b.SetPositionRotation(spawn.position, spawn.rotation);
+        return spawn.position.toString();
+      },
+      /**
+       * As aimShoot, but straight at the opposing cup nearest the ball, on a high arc (Ball.OptimalVectorChangeStrength
+       * into that cup's opening, keeping the launch elevation): the AI's own flatter throw at the cup nearest where it
+       * lands often clips the rim of a cup in front of it, which the physics ball then bounces off.
+       */
+      aimShootNearest: (i = 0) => {
+        const b = ball(i);
+        const g = G();
+        const from = b.transform.position;
+        let best = null;
+        for (const p of g.Players) {
+          if (p.PlayerIndex === b.CurrentPlayer) continue;
+          for (const cup of p.CupsManager.List) {
+            const d = Vector3.Distance(cup.position, from);
+            if (!best || d < best.d) best = { cup, d };
+          }
+        }
+        if (!best) return "no cup";
+        const toCup = best.cup.position.sub(from);
+        toCup.y = 0;
+        const base = toCup.normalized.add(Vector3.up.scale(2)).normalized.scale(5);
+        b._start_velocity = b.OptimalVectorChangeStrength(base, from, best.cup);
+        b._start_position = from;
+        b.BeginFlight();
+        return `${best.cup.name} ${b._start_velocity.toString()}`;
+      },
+      /** The ball, held kinematic 0.35 m above an opposing cup (the front one by default), to be let fall (dropThrow). */
+      placeAbove: (i = 0, index = -1) => {
+        const b = ball(i);
+        const g = G();
+        const target = g.Players[1 - b.CurrentPlayer].CupsManager.List;
+        const cup = index >= 0 ? target.find((c) => c.index === index) : target.reduce((a, c) => c.index > a.index ? c : a, target[0]);
+        if (!cup) return "no cup";
+        b.OnPickupAI();
+        b.SetPositionRotation(cup.position.add(Vector3.up.scale(0.35)), b.transform.rotation);
+        return cup.name;
+      },
+      aimShoot: (i = 0) => {
+        const b = ball(i);
         b.ShootAI(1);
         return b._start_velocity.toString();
       },
       /**
-       * A throw with no velocity from where the ball is (the desktop drop of an uncharged ball): it lies still, the
-       * miss rule passes the turn. Used to bring the ball to the other side.
+       * A throw with no velocity from where the ball is (the desktop drop of an uncharged ball): it lies still (or
+       * falls), a miss rule passes the turn. Used to bring the ball to the other side; call aimPlace first.
        */
       dropThrow: (i = 0) => {
         const b = ball(i);
-        b.OnPickupAI();
         b._start_position = b.transform.position;
         b._start_velocity = Vector3.zero;
         b.BeginFlight();
@@ -8436,7 +8499,7 @@ ${label}`)));
             $v3: [0, 0.42, -1.547]
           },
           BallSpawnLocal: {
-            $v3: [0.55215, 0.01, -1.311]
+            $v3: [0.55215, 0.0517, -1.311]
           },
           CupsAnchorLocal: {
             $v3: [0, 0, -1.317]
@@ -9030,7 +9093,7 @@ ${label}`)));
             $v3: [0, 0.42, -1.547]
           },
           BallSpawnLocal: {
-            $v3: [0.55215, 0.01, -1.311]
+            $v3: [0.55215, 0.0517, -1.311]
           },
           CupsAnchorLocal: {
             $v3: [0, 0, -1.317]
@@ -9624,7 +9687,7 @@ ${label}`)));
             $v3: [0, 0.42, -1.547]
           },
           BallSpawnLocal: {
-            $v3: [0.55215, 0.01, -1.311]
+            $v3: [0.55215, 0.0517, -1.311]
           },
           CupsAnchorLocal: {
             $v3: [0, 0, -1.317]
@@ -10218,7 +10281,7 @@ ${label}`)));
             $v3: [0, 0.42, -1.547]
           },
           BallSpawnLocal: {
-            $v3: [0.55215, 0.01, -1.311]
+            $v3: [0.55215, 0.0517, -1.311]
           },
           CupsAnchorLocal: {
             $v3: [0, 0, -1.317]
@@ -11721,7 +11784,7 @@ ${label}`)));
         object: "ball3"
       }
     ],
-    hash: "431a1a7ebf73dfb4205af14fca2dc543f1894dba",
+    hash: "b0ffe6c7f5ea1a226b458559a7d4477228174cea",
     objects: {
       ball0: {
         click: false,

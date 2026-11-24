@@ -52,6 +52,9 @@ function debugHooks(instance: GameInstance): Record<string, unknown> {
     };
   }
   return {
+    refOf: (key: string) => instance.bindings.refs.indexOf(key),
+    /** Sends relay records as they are ("<op>|<target>|<args>^..."), for diagnostics. */
+    rawRelay: (records: string) => instance.platform.relaySend(`beer-pong:${instance.inst}|${records}`),
     pathOf: (key: string) => instance.bindings.objects[key]?.path ?? "",
     /** The page clock the report times use (ms). */
     now: () => instance.platform.clock.now(),
@@ -82,28 +85,79 @@ function debugHooks(instance: GameInstance): Record<string, unknown> {
       for (let k = 1; k < list.length; k++) gap = Math.max(gap, list[k]!.t - list[k - 1]!.t);
       return { count: list.length, longestGapMs: gap, first: list[0]?.t ?? 0, last: list[list.length - 1]?.t ?? 0 };
     },
+    /** Removes the cup at a grid index of a side's rack, as a counted hit does (Game.RemoveCup -> CupsManager.RemoveCup). */
+    removeCup: (side: number, index: number) => {
+      const m = G().Players[side]!.CupsManager;
+      if (m._cupOwnersAtPositions[index] === 255) return false;
+      m.RemoveCup(Math.trunc(index / m.X_PER_ROW), index % m.X_PER_ROW);
+      return true;
+    },
+    contactTrace: (i = 0) => ball(i).contactTrace.slice(),
     ballPosition: (i: number) => {
       const p = ball(i).transform.position;
       return [p.x, p.y, p.z];
     },
     /**
-     * The AI's throw with skill 1 (Player.AI_Aim / AI_Shoot, Ball.ShootAI): the aimed velocity into the cup nearest
-     * where the throw would land, from where the ball is now. The ball's own physics and the ball graph's contact
-     * report then decide, as for any throw.
+     * The AI's throw with skill 1, in its two steps (Player.AI_Aim, then a second later AI_Shoot / Ball.ShootAI): the
+     * ball goes to the side's AI spawn point above the table, then flies with the aimed velocity into the cup nearest
+     * where the throw would land. The ball's own physics and the ball graph's contact report decide, as for any throw.
      */
-    aimedThrow: (i = 0) => {
+    aimPlace: (i = 0) => {
       const b = ball(i);
       b.OnPickupAI();
+      const spawn = G().Players[b.CurrentPlayer]!.AiBallSpawnWorld();
+      b.SetPositionRotation(spawn.position, spawn.rotation);
+      return spawn.position.toString();
+    },
+    /**
+     * As aimShoot, but straight at the opposing cup nearest the ball, on a high arc (Ball.OptimalVectorChangeStrength
+     * into that cup's opening, keeping the launch elevation): the AI's own flatter throw at the cup nearest where it
+     * lands often clips the rim of a cup in front of it, which the physics ball then bounces off.
+     */
+    aimShootNearest: (i = 0) => {
+      const b = ball(i);
+      const g = G();
+      const from = b.transform.position;
+      let best: { cup: import("./Cup.ts").Cup; d: number } | null = null;
+      for (const p of g.Players) {
+        if (p.PlayerIndex === b.CurrentPlayer) continue;
+        for (const cup of p.CupsManager.List) {
+          const d = Vector3.Distance(cup.position, from);
+          if (!best || d < best.d) best = { cup, d };
+        }
+      }
+      if (!best) return "no cup";
+      // a high arc (as the AI's Big Pong throw, Game.cs:398-414), so the ball comes down into the opening
+      const toCup = best.cup.position.sub(from);
+      toCup.y = 0;
+      const base = toCup.normalized.add(Vector3.up.scale(2)).normalized.scale(5);
+      b._start_velocity = b.OptimalVectorChangeStrength(base, from, best.cup);
+      b._start_position = from;
+      (b as unknown as { BeginFlight(): void }).BeginFlight();
+      return `${best.cup.name} ${b._start_velocity.toString()}`;
+    },
+    /** The ball, held kinematic 0.35 m above an opposing cup (the front one by default), to be let fall (dropThrow). */
+    placeAbove: (i = 0, index = -1) => {
+      const b = ball(i);
+      const g = G();
+      const target = g.Players[1 - b.CurrentPlayer]!.CupsManager.List;
+      const cup = index >= 0 ? target.find((c) => c.index === index) : target.reduce((a, c) => (c.index > a.index ? c : a), target[0]!);
+      if (!cup) return "no cup";
+      b.OnPickupAI();
+      b.SetPositionRotation(cup.position.add(Vector3.up.scale(0.35)), b.transform.rotation);
+      return cup.name;
+    },
+    aimShoot: (i = 0) => {
+      const b = ball(i);
       b.ShootAI(1);
       return b._start_velocity.toString();
     },
     /**
-     * A throw with no velocity from where the ball is (the desktop drop of an uncharged ball): it lies still, the
-     * miss rule passes the turn. Used to bring the ball to the other side.
+     * A throw with no velocity from where the ball is (the desktop drop of an uncharged ball): it lies still (or
+     * falls), a miss rule passes the turn. Used to bring the ball to the other side; call aimPlace first.
      */
     dropThrow: (i = 0) => {
       const b = ball(i);
-      b.OnPickupAI();
       b._start_position = b.transform.position;
       b._start_velocity = Vector3.zero;
       (b as unknown as { BeginFlight(): void }).BeginFlight();

@@ -40,6 +40,25 @@ namespace BeerPong
                 reply(string.Format(CultureInfo.InvariantCulture, "{0:F4} {1:F4} {2:F4}", p.x, p.y, p.z));
                 return null;
             };
+            KitPlayTest.Commands["bpray"] = (a, reply) =>
+            {
+                var cam = Camera.main;
+                if (cam == null) { reply("error: no camera"); return null; }
+                var target = new Vector3(float.Parse(a[0], CultureInfo.InvariantCulture), float.Parse(a[1], CultureInfo.InvariantCulture), float.Parse(a[2], CultureInfo.InvariantCulture));
+                var from = cam.transform.position;
+                var hits = Physics.RaycastAll(from, (target - from).normalized, 5f, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Collide);
+                reply($"from {from:F2}: " + string.Join("; ", hits.OrderBy(h => h.distance).Select(h =>
+                    $"{h.collider.name} L{h.collider.gameObject.layer} {(h.collider.isTrigger ? "trigger " : "")}{h.distance:F2}")));
+                return null;
+            };
+            KitPlayTest.Commands["bpvar"] = (a, reply) =>
+            {
+                var t = KitProbe.Find(a[0], a[1]);
+                if (t == null) { reply("error: not found"); return null; }
+                var vars = Unity.VisualScripting.Variables.Object(t.gameObject);
+                reply(string.Join(", ", a.Skip(2).Select(n => n + "=" + (vars.IsDefined(n) ? Convert.ToString(vars.Get(n), CultureInfo.InvariantCulture) : "undefined"))));
+                return null;
+            };
             KitPlayTest.Commands["bpcupcolor"] = (a, reply) =>
             {
                 var anchor = Anchor(a[0], int.Parse(a[1], CultureInfo.InvariantCulture));
