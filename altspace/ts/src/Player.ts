@@ -9,6 +9,9 @@
 //   - Bug fixed: King of the Hill cups could keep side colours on other clients (see DoRandomColor).
 //   - AI_Aim does nothing when the ball is no longer waiting (a person picked it up during the 2 s), instead of
 //     pulling it out of their hand.
+//   - The counts a turn changes on a side (throws, hits, score, the last aim assist, the AI's adaptive skill) are
+//     requests to the referee, their one writer during play (networkCallable); upstream the scorer wrote its
+//     team-mate's side and lost the race with that team-mate's own throw (PORT.md 0.10).
 //   - Where a side stands is kept as a kit-relative pose (set by Game.ChangePlayerTransform); world positions of its
 //     spawn points come from that pose and the table's frame.
 
@@ -21,8 +24,12 @@ import { SimpleUISetterExtension } from "./SimpleUISetterExtension.ts";
 import { FormatD4, FormatF0 } from "./CSharp.ts";
 
 export class Player extends SimpleUISetterExtension {
-  /** Nothing here is run by another client: every change travels as synced state (upstream has no network events). */
-  static override networkCallable: readonly string[] = [];
+  /**
+   * Run only on the referee, as commands: the counts a turn changes on a side (throws, hits, score, the last aim
+   * assist, the AI's adaptive skill). The referee is their one writer during play, so a scorer adding to a team-mate's
+   * side and that team-mate's own throw at the same moment no longer race for the side's ownership (PORT.md 0.10).
+   */
+  static override networkCallable: readonly string[] = ["ThrowCommand", "HitCommand", "ScoreCommand", "AimAssistCommand", "AiSkillCommand"];
   static override synced = [
     "_lastAimAssistStrength",
     "_numberOfThrows",
@@ -183,10 +190,9 @@ export class Player extends SimpleUISetterExtension {
   get LastAimAssistStrength(): number {
     return this._lastAimAssistStrength;
   }
+  /** A request to the referee (AimAssistCommand), see networkCallable. */
   set LastAimAssistStrength(value: number) {
-    this.Networking.SetOwner(this.Networking.LocalPlayer, this);
-    this._lastAimAssistStrength = value;
-    this.RequestSerialization();
+    this.AskReferee("AimAssistCommand", value);
   }
 
   /** :153-175 */
@@ -243,18 +249,62 @@ export class Player extends SimpleUISetterExtension {
     if (this.LastAimAssitDisplay) this.LastAimAssitDisplay.text = FormatF0(value * 100) + "%";
   }
 
-  /** :213-218 */
+  /** :213-218, a request to the referee (ThrowCommand). */
   AddThrow(): void {
-    this.Networking.SetOwner(this.Networking.LocalPlayer, this);
-    this._numberOfThrows++;
+    this.AskReferee("ThrowCommand");
+  }
+
+  /** :220-225, a request to the referee (HitCommand). */
+  AddHit(): void {
+    this.AskReferee("HitCommand");
+  }
+
+  // ---- the referee's side of the requests (anyone may ask, as anyone could write these upstream: PORT.md 0.9) ----
+
+  /**
+   * The referee runs its own request at once, in the turn that made it (as upstream's owner wrote at once: its throw
+   * counts even if it leaves a moment later); anyone else sends it (SendCommand). The counts only add up, so a request
+   * of the referee's that overtakes one of its own still queued from before it became referee changes nothing.
+   */
+  private AskReferee(name: "ThrowCommand" | "HitCommand" | "ScoreCommand" | "AimAssistCommand" | "AiSkillCommand", ...args: unknown[]): void {
+    if (this.Networking.IsReferee) (this[name] as (...a: unknown[]) => void).apply(this, args);
+    else this.SendCommand(name, ...args);
+  }
+
+  /** The referee writes this side: it owns it from here on (a panel change may take it back meanwhile). */
+  private RefereeWrite(change: () => void): void {
+    if (!this.Networking.IsReferee) return;
+    if (!this.Networking.IsOwner(this)) this.Networking.SetOwner(this.Networking.LocalPlayer, this);
+    change();
     this.RequestSerialization();
   }
 
-  /** :220-225 */
-  AddHit(): void {
-    this.Networking.SetOwner(this.Networking.LocalPlayer, this);
-    this._numberOfHits++;
-    this.RequestSerialization();
+  ThrowCommand(): void {
+    this.RefereeWrite(() => this._numberOfThrows++);
+  }
+
+  HitCommand(): void {
+    this.RefereeWrite(() => this._numberOfHits++);
+  }
+
+  /** A score change is one of Game.AddToScore's: -3, -1, 1 or 2 (0 is never sent). */
+  ScoreCommand(a: unknown): void {
+    if (typeof a !== "number" || !Number.isInteger(a) || a === 0 || Math.abs(a) > 3) return;
+    this.RefereeWrite(() => (this.Score += a));
+  }
+
+  AimAssistCommand(value: unknown): void {
+    if (typeof value !== "number" || !(value >= 0 && value <= 1)) return;
+    this.RefereeWrite(() => (this._lastAimAssistStrength = value));
+  }
+
+  /** AI_Shoot's adaptive skill (Player.cs:258-259): the skill and the last aim assist shown. */
+  AiSkillCommand(skill: unknown, adaptive: unknown): void {
+    if (typeof skill !== "number" || !(skill >= 0 && skill <= 1)) return;
+    this.RefereeWrite(() => {
+      if (adaptive === true) this.AiSkill = skill;
+      this._lastAimAssistStrength = skill;
+    });
   }
 
   /** :227-232 */
@@ -295,16 +345,14 @@ export class Player extends SimpleUISetterExtension {
     this.aiTurnPending = false;
     const ball = this.currentBall;
     if (!ball || !this.Networking.IsOwner(ball)) return;
-    this.Networking.SetOwner(this.Networking.LocalPlayer, this);
 
-    // Update and Publish Skill
-    if (this.UseAdaptiveAISkill) this.AiSkill = this.GameManager.GetAdaptiveAIStrength(this.PlayerIndex);
-    this.GameManager.SetLastAimAssist(this.AiSkill);
-    this.LastAimAssistStrength = this.AiSkill;
+    // Update and Publish Skill (the side's part as a request to the referee, AiSkillCommand)
+    const adaptive = this.UseAdaptiveAISkill;
+    const skill = adaptive ? this.GameManager.GetAdaptiveAIStrength(this.PlayerIndex) : this.AiSkill;
+    this.GameManager.SetLastAimAssist(skill);
+    this.AskReferee("AiSkillCommand", skill, adaptive);
 
-    this.RequestSerialization();
-
-    ball.ShootAI(this.AiSkill);
+    ball.ShootAI(skill);
   }
 
   /** :266-278 */
@@ -346,12 +394,10 @@ export class Player extends SimpleUISetterExtension {
     this.UpdateUI();
   }
 
-  /** :315-322 */
+  /** :315-322, a request to the referee (ScoreCommand). */
   AddToScore(a: number): void {
     if (a === 0) return;
-    this.Networking.SetOwner(this.Networking.LocalPlayer, this);
-    this.Score += a;
-    this.RequestSerialization();
+    this.AskReferee("ScoreCommand", a);
   }
 
   /** :324-330 */

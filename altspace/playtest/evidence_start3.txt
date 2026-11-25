@@ -1,6 +1,7 @@
+play.1 already held by beer-pong
 local relay room cleared (1 saved rooms)
 armed 'bp-start3': 3 elements, test server http://localhost:43900 (running), page port 43800
-2026-11-25T02:38:15.7132799+04:00 play -> entering play mode
+2026-11-25T04:33:53.1085992+04:00 play -> entering play mode
 local: script and bundles from the test server http://localhost:43900
 [main] INFO main in Play, page port 43800
 [main] CMD b1 probe - head
@@ -24,3 +25,4 @@ served: /web/pk-beer-pong.js x1, /web/playtest/bp-playtest.js x1, HEAD /kits/win
 console (main editor): 0 error lines
 RESULT 5 passed, 0 failed
 DONE
+keeping the Play slot for beer-pong (--keep-play): release it with editor_slot.sh release beer-pong play

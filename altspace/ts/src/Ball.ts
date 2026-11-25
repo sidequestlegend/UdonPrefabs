@@ -542,8 +542,7 @@ export class Ball extends Behaviour {
   /**
    * Hands the throw to the owner's physics: the kit's `rbLaunch` makes the body dynamic and gives it `velocity` on the
    * second physics step (seen in Play mode: a velocity set in the step the body leaves kinematic is lost to the SDK's
-   * synced-object handoff, PORT.md 0.6). Game.Launch sends one launch at a time, since the kit keeps one pending launch
-   * per kit. It starts where it is: every caller launches from the ball's current position.
+   * synced-object handoff, PORT.md 0.6). Game.Launch sends one launch at a time (see there). It starts where it is: every caller launches from the ball's current position.
    */
   private Launch(_position: Vector3, velocity: Vector3): void {
     this._gameManager.Launch(this, velocity);

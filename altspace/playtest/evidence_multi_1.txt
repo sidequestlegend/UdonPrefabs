@@ -1,0 +1,223 @@
+play.1 already held by beer-pong
+local relay room cleared (1 saved rooms)
+Player 2: Launched (Clone)
+armed 'bp-multi': 3 elements, test server http://localhost:43900 (running), page port 43800
+2026-11-25T04:34:37.0910173+04:00 play -> entering play mode
+local: script and bundles from the test server http://localhost:43900
+[main] INFO main in Play, page port 43800
+[main] PASS the kit loads from a hand-written bs-snippet and the instance starts:
+[main] CMD b1 probe pk1:beer-pong:0 exists .
+[main] REPLY b1 True
+[main] PASS the kit is in the scene: holder True
+[main] PASS two players in the room: [{"id":1,"name":"Main Editor","sid":"rsess_e332c69e-1978-4cff-b9f9-532abf744eb9"},{"id":2,"name":"Player 2","sid":"rsess_45167714-2691-42a5-8ae5-cfe34a333443"}]
+[main] INFO watcher is Main Editor
+[main] INFO the referee is this page (Main Editor)
+[main] CMD b2 bpcupnames pk1:beer-pong:0 1
+[main] REPLY b2 [ThryBP]Cup 1 7,[ThryBP]Cup 1 9,[ThryBP]Cup 1 11,[ThryBP]Cup 1 13,[ThryBP]Cup 1 15,[ThryBP]Cup 1 30,[ThryBP]Cup 1 32,[ThryBP]Cup 1 34,[ThryBP]Cup 1 36,[ThryBP]Cup 1 53,[ThryBP]Cup 1 55,[ThryBP]Cup 1 57,[ThryBP]Cup 1 76,[ThryBP]Cup 1 78,[ThryBP]Cup 1 99
+[main] CMD b3 bpball pk1:beer-pong:0 0
+[main] REPLY b3 True 0.000 0.000 0.000 0.223 1.072 0.198
+[main] CMD b4 bpball pk1:beer-pong:0 0
+[main] REPLY b4 True 0.000 0.000 0.000 0.289 1.028 0.227
+[main] CMD b5 bpball pk1:beer-pong:0 0
+[main] REPLY b5 True 0.000 0.000 0.000 0.552 0.853 0.339
+[main] CMD b6 bpball pk1:beer-pong:0 0
+[main] REPLY b6 True 0.000 0.000 0.000 0.552 0.853 0.339
+[main] CMD b7 bpball pk1:beer-pong:0 0
+[main] REPLY b7 True 0.000 0.000 0.000 0.552 0.853 0.339
+[main] CMD b8 bpball pk1:beer-pong:0 0
+[main] REPLY b8 True 0.000 0.000 0.000 0.552 0.853 0.339
+[main] CMD b9 bpball pk1:beer-pong:0 0
+[main] REPLY b9 True 0.000 0.000 0.000 0.552 0.853 0.339
+[main] CMD b10 bpball pk1:beer-pong:0 0
+[main] REPLY b10 True 0.000 0.000 0.000 0.552 0.853 0.339
+[main] CMD b11 bpball pk1:beer-pong:0 0
+[main] REPLY b11 True 0.000 0.000 0.000 0.552 0.853 0.339
+[main] CMD b12 bpball pk1:beer-pong:0 0
+[main] REPLY b12 True 0.000 0.000 0.000 0.552 0.853 0.339
+[main] CMD b13 bpball pk1:beer-pong:0 0
+[main] REPLY b13 True 0.000 0.000 0.000 0.552 0.853 0.339
+[main] CMD b14 bpball pk1:beer-pong:0 0
+[main] REPLY b14 True 0.000 0.000 0.000 0.552 0.853 0.339
+[main] CMD b15 bpball pk1:beer-pong:0 0
+[main] REPLY b15 True 0.000 0.000 0.000 0.552 0.853 0.339
+[main] CMD b16 bpball pk1:beer-pong:0 0
+[main] REPLY b16 True 0.000 0.000 0.000 0.552 0.853 0.339
+[main] CMD b17 bpball pk1:beer-pong:0 0
+[main] REPLY b17 True 0.000 0.000 0.000 0.552 0.853 0.339
+[main] CMD b18 bpball pk1:beer-pong:0 0
+[main] REPLY b18 True 0.000 0.000 0.000 0.552 0.853 0.339
+[main] CMD b19 bpball pk1:beer-pong:0 0
+[main] REPLY b19 True 0.000 0.000 0.000 0.482 0.968 0.621
+[main] CMD b20 bpball pk1:beer-pong:0 0
+[main] REPLY b20 True 0.000 0.000 0.000 0.395 1.070 0.967
+[main] CMD b21 bpball pk1:beer-pong:0 0
+[main] REPLY b21 True 0.000 0.000 0.000 0.313 1.123 1.296
+[main] CMD b22 bpball pk1:beer-pong:0 0
+[main] REPLY b22 True 0.000 0.000 0.000 0.229 1.133 1.633
+[main] CMD b23 bpball pk1:beer-pong:0 0
+[main] REPLY b23 True 0.000 0.000 0.000 0.142 1.097 1.982
+[main] CMD b24 bpball pk1:beer-pong:0 0
+[main] REPLY b24 True 0.000 0.000 0.000 0.056 1.013 2.327
+[main] CMD b25 bpball pk1:beer-pong:0 0
+[main] REPLY b25 True 0.000 0.000 0.000 0.041 1.005 2.419
+[main] CMD b26 bpball pk1:beer-pong:0 0
+[main] REPLY b26 True 0.000 0.000 0.000 0.098 1.077 2.278
+[main] CMD b27 bpball pk1:beer-pong:0 0
+[main] REPLY b27 True 0.000 0.000 0.000 0.154 1.101 2.137
+[main] CMD b28 bpball pk1:beer-pong:0 0
+[main] REPLY b28 True 0.000 0.000 0.000 0.212 1.077 1.994
+[main] CMD b29 bpball pk1:beer-pong:0 0
+[main] REPLY b29 True 0.000 0.000 0.000 0.266 1.008 1.858
+[main] CMD b30 bpball pk1:beer-pong:0 0
+[main] REPLY b30 True 0.000 0.000 0.000 0.322 0.891 1.720
+[main] CMD b31 bpball pk1:beer-pong:0 0
+[main] REPLY b31 True 0.000 0.000 0.000 0.367 0.921 1.606
+[main] CMD b32 bpball pk1:beer-pong:0 0
+[main] REPLY b32 True 0.000 0.000 0.000 0.407 1.013 1.508
+[main] CMD b33 bpball pk1:beer-pong:0 0
+[main] REPLY b33 True 0.000 0.000 0.000 0.447 1.060 1.408
+[main] CMD b34 bpball pk1:beer-pong:0 0
+[main] REPLY b34 True 0.000 0.000 0.000 0.487 1.060 1.308
+[main] CMD b35 bpball pk1:beer-pong:0 0
+[main] REPLY b35 True 0.000 0.000 0.000 0.526 1.014 1.211
+[main] CMD b36 bpball pk1:beer-pong:0 0
+[main] REPLY b36 True 0.000 0.000 0.000 0.566 0.920 1.111
+[main] CMD b37 bpball pk1:beer-pong:0 0
+[main] REPLY b37 True 0.000 0.000 0.000 0.604 0.922 1.016
+[main] CMD b38 bpcupnames pk1:beer-pong:0 1
+[main] REPLY b38 [ThryBP]Cup 1 7,[ThryBP]Cup 1 9,[ThryBP]Cup 1 11,[ThryBP]Cup 1 13,[ThryBP]Cup 1 15,[ThryBP]Cup 1 30,[ThryBP]Cup 1 32,[ThryBP]Cup 1 34,[ThryBP]Cup 1 36,[ThryBP]Cup 1 53,[ThryBP]Cup 1 55,[ThryBP]Cup 1 57,[ThryBP]Cup 1 76,[ThryBP]Cup 1 78
+[main] PASS round 0: the watcher sees the ball fly (its synced transform in this page's Unity): 35 samples, 22 distinct positions, height 0.85..1.13, 0.90 m across
+[main] PASS round 0: the same cup is removed on the watcher's page and in its Unity: here [ThryBP]Cup 1 99 / thrower [ThryBP]Cup 1 99; cups 15,14,0,0
+[main] CMD b39 bpcupnames pk1:beer-pong:0 1
+[main] REPLY b39 [ThryBP]Cup 1 7,[ThryBP]Cup 1 9,[ThryBP]Cup 1 11,[ThryBP]Cup 1 13,[ThryBP]Cup 1 15,[ThryBP]Cup 1 30,[ThryBP]Cup 1 32,[ThryBP]Cup 1 34,[ThryBP]Cup 1 36,[ThryBP]Cup 1 53,[ThryBP]Cup 1 55,[ThryBP]Cup 1 57,[ThryBP]Cup 1 76,[ThryBP]Cup 1 78
+[main] CMD b40 bpball pk1:beer-pong:0 0
+[main] REPLY b40 True 0.000 0.000 0.000 0.058 1.181 0.128
+[main] CMD b41 bpball pk1:beer-pong:0 0
+[main] REPLY b41 True 0.000 0.000 0.000 0.011 1.213 0.108
+[main] CMD b42 bpball pk1:beer-pong:0 0
+[main] REPLY b42 True 0.000 0.000 0.000 0.000 1.220 0.103
+[main] CMD b43 bpball pk1:beer-pong:0 0
+[main] REPLY b43 True 0.000 0.000 0.000 0.000 1.220 0.103
+[main] CMD b44 bpball pk1:beer-pong:0 0
+[main] REPLY b44 True 0.000 0.000 0.000 0.000 1.220 0.103
+[main] CMD b45 bpball pk1:beer-pong:0 0
+[main] REPLY b45 True 0.000 0.000 0.000 0.000 1.220 0.103
+[main] CMD b46 bpball pk1:beer-pong:0 0
+[main] REPLY b46 True 0.000 0.000 0.000 0.000 1.220 0.103
+[main] CMD b47 bpball pk1:beer-pong:0 0
+[main] REPLY b47 True 0.000 0.000 0.000 0.000 1.220 0.103
+[main] CMD b48 bpball pk1:beer-pong:0 0
+[main] REPLY b48 True 0.000 0.000 0.000 0.000 1.220 0.103
+[main] CMD b49 bpball pk1:beer-pong:0 0
+[main] REPLY b49 True 0.000 0.000 0.000 0.000 1.220 0.103
+[main] CMD b50 bpball pk1:beer-pong:0 0
+[main] REPLY b50 True 0.000 0.000 0.000 0.000 1.220 0.103
+[main] CMD b51 bpball pk1:beer-pong:0 0
+[main] REPLY b51 True 0.000 0.000 0.000 0.000 1.220 0.103
+[main] CMD b52 bpball pk1:beer-pong:0 0
+[main] REPLY b52 True 0.000 0.000 0.000 0.000 1.220 0.103
+[main] CMD b53 bpball pk1:beer-pong:0 0
+[main] REPLY b53 True 0.000 0.000 0.000 0.000 1.220 0.103
+[main] CMD b54 bpball pk1:beer-pong:0 0
+[main] REPLY b54 True 0.000 0.000 0.000 0.000 1.220 0.103
+[main] CMD b55 bpball pk1:beer-pong:0 0
+[main] REPLY b55 True 0.000 0.000 0.000 0.000 1.220 0.103
+[main] CMD b56 bpball pk1:beer-pong:0 0
+[main] REPLY b56 True 0.000 0.000 0.000 -0.002 1.248 0.207
+[main] CMD b57 bpball pk1:beer-pong:0 0
+[main] REPLY b57 True 0.000 0.000 0.000 -0.009 1.333 0.566
+[main] CMD b58 bpball pk1:beer-pong:0 0
+[main] REPLY b58 True 0.000 0.000 0.000 -0.017 1.373 0.929
+[main] CMD b59 bpball pk1:beer-pong:0 0
+[main] REPLY b59 True 0.000 0.000 0.000 -0.024 1.368 1.288
+[main] CMD b60 bpball pk1:beer-pong:0 0
+[main] REPLY b60 True 0.000 0.000 0.000 -0.032 1.313 1.663
+[main] CMD b61 bpball pk1:beer-pong:0 0
+[main] REPLY b61 True 0.000 0.000 0.000 -0.039 1.214 2.021
+[main] CMD b62 bpball pk1:beer-pong:0 0
+[main] REPLY b62 True 0.000 0.000 0.000 -0.046 1.072 2.377
+[main] CMD b63 bpball pk1:beer-pong:0 0
+[main] REPLY b63 True 0.000 0.000 0.000 -0.045 1.023 2.559
+[main] CMD b64 bpball pk1:beer-pong:0 0
+[main] REPLY b64 True 0.000 0.000 0.000 -0.023 1.197 2.495
+[main] CMD b65 bpball pk1:beer-pong:0 0
+[main] REPLY b65 True 0.000 0.000 0.000 -0.001 1.320 2.428
+[main] CMD b66 bpball pk1:beer-pong:0 0
+[main] REPLY b66 True 0.000 0.000 0.000 0.021 1.400 2.361
+[main] CMD b67 bpball pk1:beer-pong:0 0
+[main] REPLY b67 True 0.000 0.000 0.000 0.042 1.435 2.294
+[main] CMD b68 bpball pk1:beer-pong:0 0
+[main] REPLY b68 True 0.000 0.000 0.000 0.064 1.425 2.226
+[main] CMD b69 bpball pk1:beer-pong:0 0
+[main] REPLY b69 True 0.000 0.000 0.000 0.086 1.371 2.159
+[main] CMD b70 bpball pk1:beer-pong:0 0
+[main] REPLY b70 True 0.000 0.000 0.000 0.107 1.273 2.092
+[main] CMD b71 bpball pk1:beer-pong:0 0
+[main] REPLY b71 True 0.000 0.000 0.000 0.129 1.124 2.023
+[main] CMD b72 bpball pk1:beer-pong:0 0
+[main] REPLY b72 True 0.000 0.000 0.000 0.151 0.934 1.956
+[main] CMD b73 bpball pk1:beer-pong:0 0
+[main] REPLY b73 True 0.000 0.000 0.000 0.169 0.941 1.899
+[main] CMD b74 bpball pk1:beer-pong:0 0
+[main] REPLY b74 True 0.000 0.000 0.000 0.185 1.107 1.851
+[main] CMD b75 bpball pk1:beer-pong:0 0
+[main] REPLY b75 True 0.000 0.000 0.000 0.201 1.229 1.801
+[main] CMD b76 bpcupnames pk1:beer-pong:0 1
+[main] REPLY b76 [ThryBP]Cup 1 7,[ThryBP]Cup 1 9,[ThryBP]Cup 1 11,[ThryBP]Cup 1 13,[ThryBP]Cup 1 15,[ThryBP]Cup 1 30,[ThryBP]Cup 1 32,[ThryBP]Cup 1 34,[ThryBP]Cup 1 36,[ThryBP]Cup 1 53,[ThryBP]Cup 1 55,[ThryBP]Cup 1 57,[ThryBP]Cup 1 76
+[main] PASS round 1: the watcher sees the ball fly (its synced transform in this page's Unity): 36 samples, 23 distinct positions, height 0.93..1.44, 1.68 m across
+[main] PASS round 1: the same cup is removed on the watcher's page and in its Unity: here [ThryBP]Cup 1 78 / thrower [ThryBP]Cup 1 78; cups 15,13,0,0
+[main] INFO the watcher reloads its page
+[main] PASS the kit loads from a hand-written bs-snippet and the instance starts:
+[main] CMD b1 probe pk1:beer-pong:0 exists .
+[main] REPLY b1 True
+[main] PASS the kit is in the scene again: holder True
+[main] PASS two players in the room: [{"id":2,"name":"Player 2","sid":"rsess_45167714-2691-42a5-8ae5-cfe34a333443"},{"id":3,"name":"Main Editor","sid":"rsess_c6f374ac-ca0f-46a5-ab58-c684af57c384"}]
+[main] INFO watcher is Main Editor (back after a reload)
+[main] INFO the referee is the other page
+[main] CMD b2 bpcups pk1:beer-pong:0
+[main] REPLY b2 15 13 0 0 0
+[main] PASS after reloading its page the watcher sees the remaining cups and the scores (late join), in the page and in Unity: after the reload: page 15,13,0,0, Unity 15,13,0,0,0; scores 2,0,0,0; thrower said cups 15,13,0,0, scores 2,0,0,0
+[main] PASS the reloaded page holds the same state as the thrower's (digest at the same version): 34:dc1842af 37deff4f / 34:dc1842af 37deff4f
+[main] INFO page result 5 passed, 0 failed
+[main] DONE
+[vp-mppm6b34aa6d] INFO vp-mppm6b34aa6d in Play, page port 43800
+[vp-mppm6b34aa6d] PASS the kit loads from a hand-written bs-snippet and the instance starts:
+[vp-mppm6b34aa6d] CMD b1 probe pk1:beer-pong:0 exists .
+[vp-mppm6b34aa6d] REPLY b1 True
+[vp-mppm6b34aa6d] PASS the kit is in the scene: holder True
+[vp-mppm6b34aa6d] PASS two players in the room: [{"id":1,"name":"Main Editor","sid":"rsess_e332c69e-1978-4cff-b9f9-532abf744eb9"},{"id":2,"name":"Player 2","sid":"rsess_45167714-2691-42a5-8ae5-cfe34a333443"}]
+[vp-mppm6b34aa6d] INFO thrower is Player 2
+[vp-mppm6b34aa6d] INFO the referee is the other page
+[vp-mppm6b34aa6d] CMD b2 bpcupnames pk1:beer-pong:0 1
+[vp-mppm6b34aa6d] REPLY b2 [ThryBP]Cup 1 7,[ThryBP]Cup 1 9,[ThryBP]Cup 1 11,[ThryBP]Cup 1 13,[ThryBP]Cup 1 15,[ThryBP]Cup 1 30,[ThryBP]Cup 1 32,[ThryBP]Cup 1 34,[ThryBP]Cup 1 36,[ThryBP]Cup 1 53,[ThryBP]Cup 1 55,[ThryBP]Cup 1 57,[ThryBP]Cup 1 76,[ThryBP]Cup 1 78,[ThryBP]Cup 1 99
+[vp-mppm6b34aa6d] INFO round 0: the AI's aimed throw from side 0: (-1.2448455056412322, 2.467120240493889, 4.985243832425775)
+[vp-mppm6b34aa6d] INFO round 0 ended: states Flying>Idle, flying true, now Idle for side 1, cups 15,15,0,0, scores 0,0,0,0
+[vp-mppm6b34aa6d] INFO a dropped ball (passes the turn) ended: states Flying>Idle, flying true, now Idle for side 0, cups 15,15,0,0, scores 0,0,0,0
+[vp-mppm6b34aa6d] CMD b3 bpball pk1:beer-pong:0 0
+[vp-mppm6b34aa6d] REPLY b3 True 0.000 0.000 0.000 0.000 1.150 2.550
+[vp-mppm6b34aa6d] INFO round 0: the ball held above a cup and let fall: [ThryBP]Cup 1 99
+[vp-mppm6b34aa6d] INFO round 0 (fall 1) ended: states Flying>InCup>Idle, flying true, now Idle for side 0, cups 15,14,0,0, scores 1,0,0,0
+[vp-mppm6b34aa6d] CMD b4 bpcupnames pk1:beer-pong:0 1
+[vp-mppm6b34aa6d] REPLY b4 [ThryBP]Cup 1 7,[ThryBP]Cup 1 9,[ThryBP]Cup 1 11,[ThryBP]Cup 1 13,[ThryBP]Cup 1 15,[ThryBP]Cup 1 30,[ThryBP]Cup 1 32,[ThryBP]Cup 1 34,[ThryBP]Cup 1 36,[ThryBP]Cup 1 53,[ThryBP]Cup 1 55,[ThryBP]Cup 1 57,[ThryBP]Cup 1 76,[ThryBP]Cup 1 78
+[vp-mppm6b34aa6d] PASS round 0: the thrower's throw removes one cup of side 1: [ThryBP]Cup 1 99
+[vp-mppm6b34aa6d] CMD b5 bpcupnames pk1:beer-pong:0 1
+[vp-mppm6b34aa6d] REPLY b5 [ThryBP]Cup 1 7,[ThryBP]Cup 1 9,[ThryBP]Cup 1 11,[ThryBP]Cup 1 13,[ThryBP]Cup 1 15,[ThryBP]Cup 1 30,[ThryBP]Cup 1 32,[ThryBP]Cup 1 34,[ThryBP]Cup 1 36,[ThryBP]Cup 1 53,[ThryBP]Cup 1 55,[ThryBP]Cup 1 57,[ThryBP]Cup 1 76,[ThryBP]Cup 1 78
+[vp-mppm6b34aa6d] INFO round 1: the AI's aimed throw from side 0: (-0.10788213932897185, 1.8759728822082822, 5.283118815430674)
+[vp-mppm6b34aa6d] INFO round 1 ended: states Flying>Idle, flying true, now Idle for side 1, cups 15,14,0,0, scores 1,0,0,0
+[vp-mppm6b34aa6d] INFO a dropped ball (passes the turn) ended: states Flying>Idle, flying true, now Idle for side 0, cups 15,14,0,0, scores 1,0,0,0
+[vp-mppm6b34aa6d] CMD b6 bpball pk1:beer-pong:0 0
+[vp-mppm6b34aa6d] REPLY b6 True 0.000 0.000 0.000 -0.052 1.150 2.654
+[vp-mppm6b34aa6d] INFO round 1: the ball held above a cup and let fall: [ThryBP]Cup 1 78
+[vp-mppm6b34aa6d] INFO round 1 (fall 1) ended: states Flying>InCup>Idle, flying true, now Idle for side 0, cups 15,13,0,0, scores 2,0,0,0
+[vp-mppm6b34aa6d] CMD b7 bpcupnames pk1:beer-pong:0 1
+[vp-mppm6b34aa6d] REPLY b7 [ThryBP]Cup 1 7,[ThryBP]Cup 1 9,[ThryBP]Cup 1 11,[ThryBP]Cup 1 13,[ThryBP]Cup 1 15,[ThryBP]Cup 1 30,[ThryBP]Cup 1 32,[ThryBP]Cup 1 34,[ThryBP]Cup 1 36,[ThryBP]Cup 1 53,[ThryBP]Cup 1 55,[ThryBP]Cup 1 57,[ThryBP]Cup 1 76
+[vp-mppm6b34aa6d] PASS round 1: the thrower's throw removes one cup of side 1: [ThryBP]Cup 1 78
+[vp-mppm6b34aa6d] PASS the watcher reached the same state after each throw (digest at the same version): [[{"version":"22:f29ab522","digest":"201666f6"},{"version":"22:f29ab522","digest":"201666f6"}],[{"version":"34:dc1842af","digest":"37deff4f"},{"version":"34:dc1842af","digest":"37deff4f"}]]
+[vp-mppm6b34aa6d] PASS after the reload both pages hold the same state (digest at the same version): 34:dc1842af 37deff4f / 34:dc1842af 37deff4f
+[vp-mppm6b34aa6d] INFO page result 7 passed, 0 failed
+[vp-mppm6b34aa6d] DONE
+served: /web/pk-beer-pong.js x3, /web/playtest/bp-playtest.js x3, HEAD /kits/windows/beer-pong x3
+console (main editor): 0 error lines
+RESULT 19 passed, 0 failed
+DONE
+keeping the Play slot for beer-pong (--keep-play): release it with editor_slot.sh release beer-pong play

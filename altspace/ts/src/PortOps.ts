@@ -5,7 +5,7 @@
 // `uiSetToggle` / `uiSetSlider` for the panels, `audioVolume`, `particles`, `color`, `animBool`, `text`, `active`.
 // The table's size is the Game object's own transform (a bound object, so the page scales it). A throw is the kit's
 // standard `rbLaunch` (this.Host.rbLaunch: the body leaves kinematic now and gets its velocity on the second physics
-// step, past the SDK's synced-object handoff), sent one at a time by Game.Launch (the kit holds one pending launch).
+// step, past the SDK's synced-object handoff), sent one at a time by Game.Launch.
 //
 // Game ops (BeerPongKitBuilder.RelayOps adds them to the relay graph; tests declare them with room.defineRelayOp):
 //   cupPlace|@<cupPath>|<lx>|<ly>|<lz>|<scale>|<r>|<g>|<b>

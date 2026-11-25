@@ -124,7 +124,7 @@ export class Game extends SimpleUISetterExtension {
   private _ready = false;
   /** True while a fresh table sets itself up (no teleport: the first side count is not a change). */
   private _startingUp = false;
-  /** Launches waiting their turn (Launch): the kit's rbLaunch holds one pending launch per kit. */
+  /** Launches waiting their turn (Launch). */
   private _launchQueue: Array<{ ball: Ball; velocity: Vector3 }> = [];
   private _nextLaunchTime = 0;
 
@@ -275,10 +275,11 @@ export class Game extends SimpleUISetterExtension {
     this.FlushLaunches();
   }
 
-  // ---- launches (port): the kit's rbLaunch keeps one pending launch per kit (graph variables), so a second launch
-  //      within two physics steps of the first would take its place and the first ball would fall with no velocity.
-  //      This page sends one launch, then waits LAUNCH_GAP before the next (only an AI driving several balls, or a
-  //      ball dropping into a cup as another is thrown, ever waits).
+  // ---- launches (port): until portkit f7547fb the kit's rbLaunch kept one pending launch per kit (graph variables),
+  //      so a second launch within two physics steps of the first took its place and the first ball fell with no
+  //      velocity. The kit now keeps one per target; the spacing is kept anyway (it costs at most LAUNCH_GAP, and only
+  //      an AI driving several balls, or a ball dropping into a cup as another is thrown, ever waits): this page sends
+  //      one launch, then waits LAUNCH_GAP before the next.
 
   /** Throws a ball this page owns: dynamic, with `velocity` from the second physics step. */
   Launch(ball: Ball, velocity: Vector3): void {
@@ -444,9 +445,9 @@ export class Game extends SimpleUISetterExtension {
   }
 
   /**
-   * :433-465 (the dead recent-throws ring left out). Run by the thrower's client, which owns the scoring side already
-   * (CountThrow claimed it at the throw); a request to the referee would race that claim (a command can reach the
-   * referee before the claim does, and the referee's write is then dropped).
+   * :433-465 (the dead recent-throws ring left out). Run by the thrower's client; each count it changes (the hit, the
+   * score of every team-mate) is a request to the referee, the one writer of a side's counts during play (Player's
+   * networkCallable): team-mates scoring at the same moment both count (PORT.md 0.10).
    */
   CountCupHit(cupOwner: number, scoreingPlayer: number, scoreType: number): void {
     this.Log(3, `CountCupHit: ${cupOwner} ${scoreingPlayer} ${scoreType} ${this.Players[scoreingPlayer]!._isAI}`);

@@ -9,7 +9,7 @@ import { BallState, type Ball } from "../src/Ball.ts";
 import type { Cup } from "../src/Cup.ts";
 import { GameMode, LAUNCH_GAP } from "../src/Game.ts";
 import {
-  B, bindings, CM, contact, cupIndices, G, game, hit, kitCups, miss, newWorld, P, problems, setSlider, setToggle, settle, SLUG, throwBall,
+  B, bindings, CM, contact, cupIndices, G, game, hit, kitCups, miss, newWorld, P, problems, refIndex, setSlider, setToggle, settle, SLUG, throwBall,
 } from "./helpers.ts";
 
 /** The client whose page owns (simulates) a ball. */
@@ -309,9 +309,9 @@ test("an AI throw that lands scores for its side, and is counted neither as a th
   assert.deepEqual(problems(world), []);
 });
 
-// ---- the kit's rbLaunch holds one launch per kit: launches from one page go one at a time ----
+// ---- launches from one page go one at a time (the kit's rbLaunch held one pending launch per kit until f7547fb) ----
 
-test("launches from one page go out one at a time, LAUNCH_GAP apart (the kit's rbLaunch keeps one pending launch)", async () => {
+test("launches from one page go out one at a time, LAUNCH_GAP apart", async () => {
   const world = newWorld(71);
   const el = [{ mode: "king", players: "4" }];
   const ann = world.join({ name: "Ann", elements: el });
@@ -338,3 +338,80 @@ test("launches from one page go out one at a time, LAUNCH_GAP apart (the kit's r
   assert.equal(g.Gamemode, GameMode.KingOfTheHill);
   assert.equal(kitCups(ann).size > 0, true);
 });
+
+// ---- PORT.md 0.10 (closed): team-mates scoring at the same moment ----
+// Every count a turn changes on a side (throws, hits, score, the last aim assist, the AI's skill) is a request to the
+// referee, the one writer of them during play; before, the scorer wrote its team-mate's side, and a team-mate's own
+// throw at that moment wrote it too: one of the two writes was dropped by the ownership rules.
+
+for (const [seed, referee] of [[81, "Ann"], [82, "Ann"], [83, "Bob"], [84, "Bob"]] as const) {
+  test(`teams, several balls (Mayhem, 4 sides): team-mates who score and throw at the same moment lose nothing (seed ${seed}, ${referee === "Ann" ? "a scorer" : "an opponent"} is the referee)`, async () => {
+    const world = newWorld(seed);
+    const el = [{ mode: "mayhem", players: "4", teams: "true", rows: "3" }];
+    // the first to come is the referee: Ann (one of the scorers: her own counts are written at once) or Bob (every
+    // count of both scorers is a request)
+    const first = world.join({ name: referee, elements: el });
+    const ann = referee === "Ann" ? first : world.join({ name: "Ann", elements: el });
+    const bob = referee === "Bob" ? first : world.join({ name: "Bob", elements: el });
+    const cat = world.join({ name: "Cat", elements: el });
+    await settle(world);
+    assert.equal(world.instance(cat).networking.Master?.displayName, referee);
+    assert.equal(G(world, cat)._doTeams, true);
+    // each page takes its side's ball over first with a throw that misses (Ann side 0, Bob 1, Cat 2: Ann's team-mate)
+    await miss(world, ann, "0", 0);
+    await miss(world, cat, "0", 2);
+    await miss(world, bob, "0", 1);
+    await world.run(2000);
+    const scores = (c: FakeClient) => [0, 1, 2, 3].map((s) => P(world, c, s)._score);
+    const throws = (c: FakeClient) => [0, 1, 2, 3].map((s) => P(world, c, s)._numberOfThrows);
+    const hits = (c: FakeClient) => [0, 1, 2, 3].map((s) => P(world, c, s)._numberOfHits);
+    assert.deepEqual(scores(ann), [0, 0, 0, 0]);
+    const opponents = (side: number) => {
+      const owners = CM(world, ann, side)._cupOwnersAtPositions;
+      return cupIndices(CM(world, ann, side)).filter((i) => owners[i] === 1 || owners[i] === 3);
+    };
+    const on1 = opponents(1);
+    const on3 = opponents(3);
+    assert.ok(on1.length >= 1 && on3.length >= 1, "cups of the other team's colours on sides 1 and 3");
+
+    // 1. Ann (side 0) hits while Cat (side 2) throws: Ann's hit scores for side 2 as Cat's throw counts on side 2
+    await throwBall(world, ann, 0);
+    contact(world, [ann], ann, { ball: 0, side: 1, index: on1[0]! });
+    await throwBall(world, cat, 2);
+    await world.run(3000);
+    for (const c of [ann, bob, cat]) {
+      assert.deepEqual(scores(c), [1, 0, 1, 0], `${c.name}: Ann's hit counts for 0 and 2`);
+      assert.deepEqual(throws(c), [2, 1, 2, 0], `${c.name}: every throw counts (Cat's at the moment of Ann's hit too)`);
+    }
+    contact(world, [cat], cat, { ball: 2, name: "Floor", own: false });
+    await world.run(2000);
+
+    // 2. Ann and Cat both hit at the same moment: each hit scores for both
+    await throwBall(world, ann, 0);
+    await throwBall(world, cat, 2);
+    contact(world, [ann], ann, { ball: 0, side: 1, index: opponents(1)[0]! });
+    contact(world, [cat], cat, { ball: 2, side: 3, index: on3[0]! });
+    await world.run(4000);
+    for (const c of [ann, bob, cat]) {
+      assert.deepEqual(scores(c), [3, 0, 3, 0], `${c.name}: two hits at once, each for both team-mates`);
+      assert.deepEqual(throws(c), [3, 1, 3, 0], `${c.name}: every throw counted`);
+      assert.deepEqual(hits(c), [2, 0, 1, 0], `${c.name}: every hit counted, on the thrower's side`);
+    }
+
+    // 3. Cat moves her side's AI skill slider (her own claim of side 2) in the moment she throws (a request): the
+    // referee runs the request only after it has seen that claim and write (the kit's write mark), so both stay
+    await world.run(1000);
+    assert.ok(cat.grab(SLUG, "0", "ball2"));
+    await world.run(300);
+    cat.graphEvent(SLUG, "0", "uiSlider", `${refIndex("p2_aiSkill")}|0.8`);
+    cat.graphEvent(SLUG, "0", "bpRelease", "2|0|1.5|2.5|0");
+    cat.drop(SLUG, "0", "ball2");
+    await world.run(3000);
+    for (const c of [ann, bob, cat]) {
+      assert.equal(P(world, c, 2)._aiSkill, 0.8, `${c.name}: the slider's value stays`);
+      assert.equal(throws(c)[2], 4, `${c.name}: and the throw counts`);
+    }
+    assert.ok(world.agree());
+    assert.deepEqual(problems(world), []);
+  });
+}

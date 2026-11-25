@@ -14,10 +14,45 @@ Prefab objects are given by hierarchy path inside `BeerPong.prefab` (repo root, 
 
 ---
 
-## 0. Port status (2026-11-25): editor-verified rungs 0-4, after the review fix pass
+## 0. Port status (2026-11-25): editor-verified rungs 0-4 on portkit `c971100`
 
 This section is the state of the port; where it differs from the analysis below (written before the work), it wins.
 Rungs 0-4 pass in the editor (evidence and how to rerun: `TESTS.md`). Nothing has run in the app or on a Quest.
+
+### 0.00 Re-sync to portkit `c971100` (2026-11-25)
+
+The kit copies (`Packages/com.altspacegames.portkit`, `ts/portkit`) mirror portkit `c971100` (`tools/sync.sh`). Nothing
+in the game had to change for it; the game's tests passed on it as they were (34 of 34). Rebuilt: Build Prefabs (bindings
+hash unchanged, `8f35e60a`), the script, Build Bundles, Kit Check, Take Photos, Export Artifacts. What the rebuild
+brought: the relay graph's `pkHead` and `rbLaunch` with one pending launch per target (kit gap 1 of 0.6, closed by the
+kit); a `BSPlayerEvents` with its events made on each ball (the SDK click workaround; the balls are never clicked, so
+nothing here depended on it); `dist/licenses/beer-pong/` with the five licence texts. Bundles: Android 2,323 KiB
+(+14 KiB), Windows 3,105 KiB (+16 KiB), both PASS.
+
+**Workarounds removed:** none was left that the kit now covers. The 0.15 s launch spacing (`Game.Launch`) was the
+workaround for one pending launch per kit; it is kept (harmless, at most 0.15 s for an AI driving several balls) and
+its comments now say the kit no longer needs it.
+
+**Newly fixed (0.10, closed): team-mates scoring at the same moment.** The command race that had kept it open is
+fixed in the kit (`d597913`: a command carries a write mark, and the referee waits for the sender's earlier claims
+and writes). Routing only the team-mate's score through the referee would not have been enough (the referee's write
+and the team-mate's own throw would still race for that side), so every count a turn changes on a side is now a
+request to the referee, their one writer during play: `Player.AddThrow`, `AddHit`, `AddToScore`, the last aim assist
+(`LastAimAssistStrength`) and the AI's adaptive skill (`AI_Shoot`) send `ThrowCommand`, `HitCommand`, `ScoreCommand`,
+`AimAssistCommand`, `AiSkillCommand` (listed in `networkCallable`; the referee checks the values: a score change is
+one of -3, -1, 1, 2; aim and skill in [0, 1]). The referee runs its own requests at once, in the turn that made them,
+as upstream's owner wrote at once (a referee who throws and leaves a moment later still has the throw counted: test
+31). Panel changes (colour, AI settings, resets) are still the changer's own writes, as upstream. Tests
+`review.test.ts` 21-24 (Mayhem, 4 sides, teams; four seeds; the referee one of the scorers or an opponent): a hit
+while a team-mate throws, two team-mates' hits at the same moment, and a team-mate's own slider change in the moment
+she throws. They fail on the old code (scores 2,0,2,0 instead of 3,0,3,0) and, with the new code, on the old kit
+(the slider value or the throw lost: the write mark is what makes the third case work). Play mode: rung 4's first
+run had the thrower not the referee, so every count crossed pages as a request; scores and digests matched after the
+watcher's reload. In-game effect: a remote thrower's score plate changes one round trip later (about 100-300 ms in
+the editor), after the ball has sat in the cup for 2 s.
+
+Verified again: rung 2 PASS, rung 3 17/17 three times and the 3-side start 5/5 three times, rung 4 19/19 twice
+(TESTS.md).
 
 ### 0.0 Review fix pass (2026-11-25)
 
@@ -109,8 +144,9 @@ while charging, which only a desktop throw does).
   until portkit made it standard): the body leaves kinematic at once and gets the velocity on the second physics step,
   because the SDK's synced-object handoff (`SyncedObjectPhysicsHandoff`, in Local Multiplayer a mirror of the app's)
   gives a body leaving kinematic its tracked velocity, zero at rest, in its first physics step (seen in Play mode: the
-  ball fell from rest). The kit keeps one pending launch per kit, so one page sends one launch at a time, 0.15 s apart
-  (`Game.Launch`; a launch still waiting is dropped when its ball is respawned). Unlike `bpLaunch`, the ball is not moved
+  ball fell from rest). One page sends one launch at a time, 0.15 s apart (`Game.Launch`; a launch still waiting is
+  dropped when its ball is respawned): needed while the kit kept one pending launch per kit, and kept although
+  `c971100` keeps one per target. Unlike `bpLaunch`, the ball is not moved
   forward by the first step's flight (it starts 20 ms late, from where it was).
   Collider switched on (upstream does it at run time, Ball.cs:121), gravity on, drag 0, angular drag 0.5,
   interpolated, continuous dynamic collision (speculative contacts fired near cups the ball never touched). It rests on
@@ -138,9 +174,10 @@ while charging, which only a desktop throw does).
   is not portable) is a small URP Unlit bar above each ball, alpha-clipped by `_Cutoff`. The splash: one burst of 20
   (Ball.cs:186-189), particles living 1 s instead of 2 (they are under the table by then; the kit's bounds stay tight).
 - Removed from the kit: the reflection probe, the throw indicator, localisation objects, the screen-space strength bar.
-- **Bundles**: Android 2,309 KiB, Windows 3,089 KiB (4,462 and 5,165 KiB with upstream's table art and its 2048 px wood
-  maps, before the review pass), both PASS the app's kit check, each with the notices and the licence texts; graphs use
-  51 (relay) and 27 (ball) members, all on the allow list. Footprint 1.51 x 1.14 x 2.96 m.
+- **Bundles** (portkit `c971100`): Android 2,323 KiB, Windows 3,105 KiB (2,309 and 3,089 KiB on `812f285`; 4,462 and
+  5,165 KiB with upstream's table art and its 2048 px wood maps, before the review pass), both PASS the app's kit
+  check, each with the notices and the licence texts; graphs use 54 (relay) and 27 (ball) members, all on the allow
+  list. Footprint 1.51 x 1.14 x 2.96 m.
 
 ### 0.4 Checklist status (101 items of section 2)
 
@@ -215,11 +252,10 @@ Kit gaps found (portkit not edited; each worked around here):
 1. **`rbVelocity` is lost on a body that has just left kinematic**, in the same batch as `rbKinematic 0` and also from a
    FixedUpdate in the following frame: the SDK's `SyncedObjectPhysicsHandoff` re-applies its tracked velocity (zero at
    rest) in the first physics step after the flip. Fixed in portkit `f3eaaa1` (standard `rbLaunch`); the game uses it
-   since the re-sync to `812f285`. Left: `rbLaunch` keeps **one pending launch per kit** (graph variables), so two
-   launches within two physics steps lose the first one's velocity; the game spaces its launches 0.15 s apart
-   (`Game.Launch`). Proposed in `portkit/unity/Editor/Graphs/RelayGraph.cs`: keep the pending velocity and step count in
-   Object variables on the target (as the README's `rbLaunch` row already says, `PkLaunch`), and have the FixedUpdate
-   walk the targets with a pending launch.
+   since the re-sync to `812f285`. Left then: `rbLaunch` kept **one pending launch per kit** (graph variables), so two
+   launches within two physics steps lost the first one's velocity; the game spaces its launches 0.15 s apart
+   (`Game.Launch`). Fixed in portkit `f7547fb` (one pending launch per target, `PkLaunchSteps` / `PkLaunchVelocity`
+   on each body; in the kit since the re-sync to `c971100`); the spacing is kept.
 2. **`rbVelocity` and `rbKinematic` were never exercised in Play mode** by the spikes (README/GAPS row says spawn, scale,
    uiSetToggle, uiSetSlider, despawn were); (1) is what that would have found.
 3. **Kit photos and footprints count every renderer of the prefab**, including objects the bindings write
@@ -286,11 +322,10 @@ PhysX decides the hit, `Ball.cs:1000`), and adds what the platform lets a port a
 
 ### 0.10 Known issues left (with reasons)
 
-- **Team-mates scoring at the same moment** (several balls with teams on: King of the Hill or Mayhem, 4 sides): the
-  scorer writes both team-mates' sides, as upstream, and a team-mate's own throw at that moment writes its side too:
-  one of the two writes is dropped by the ownership rules. Upstream has the same race. Not moved to the referee: a
-  command can reach the referee before the thrower's own claim of its side (commands carry no write mark, unlike
-  network events), and the referee's write was then dropped in the fake room (kit gap, report). Rare; left.
+- ~~Team-mates scoring at the same moment~~ **closed** (re-sync to portkit `c971100`, 0.00): every count a turn
+  changes on a side is a request to the referee, its one writer during play. Left: a panel change on a side (its
+  colour, AI settings, a reset) made by someone else in the same moment as the referee's write of a count on that
+  side: the two still race for the side's ownership, and one is dropped (upstream: the same, for any two writers).
 - **Rack edits at the moment of a hit** (a re-rack or reset from a panel while a removal request is on its way): the
   request may meet a rack that changed, and is then ignored (cup replaced) or applied to the new rack (same owner at
   that grid place). Upstream loses one of the two writes as well.
