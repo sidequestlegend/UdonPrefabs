@@ -22,6 +22,14 @@ portkit/tools/playtest.sh altspace altspace/playtest/start3.json beer-pong   run
 portkit/tools/playtest.sh altspace altspace/playtest/multi.json beer-pong    rung 4 (starts Player 2 itself)
 ```
 
+## Page script on portkit 552622c, 2026-11-25 evening
+
+Re-synced `ts/portkit` and the package to portkit `552622c`. That commit includes `425bd55`: the page loads kit
+items one at a time, because overlapping loads lost relay graphs and Variables in the app. It also includes
+`0880bf5`: a referee claimant starts only once its claim has stood for 1.5 s, which fixes the equal-term double
+claim, and user-state flushes go one at a time. The bundles are unchanged from the rebuild below. `npm test`:
+**38 of 38** (0 failed). `npm run build`: 567706 bytes. Export Artifacts -> `dist/`: 10 files (5 licence texts), footprint 1.51 x 1.14 x 2.96 m, bindings 8f35e60a95820777ff417e7fd59ad47c6caa7025.
+
 ## Canvas colliders, 2026-11-25 evening (portkit 16be5ff: 476075d and 425bd55)
 
 In world 9d7311 the SDK's `BSKitItem` gave every world-space canvas without a BoxCollider a solid one when the kit
