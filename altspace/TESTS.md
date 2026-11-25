@@ -26,7 +26,7 @@ portkit/tools/playtest.sh altspace altspace/playtest/multi.json beer-pong    run
 
 In world 9d7311 the SDK's `BSKitItem` gave every world-space canvas without a BoxCollider a solid one when the kit
 loaded: rect x scale, on the canvas's layer. rp-toolkit's head-label canvas then pushed its wearer about (measured in
-the hub's Play mode, portkit GAPS.md "Fourth pass"). Re-synced to portkit `476075d`, whose builder gives every
+the hub's Play mode, portkit GAPS.md "Fourth pass"). Re-synced to portkit `16be5ff`. Its builder (`476075d`) gives every
 world-space canvas a trigger box of its own first, and whose `PortKit/Kit/Check` fails a canvas that would end up
 solid; `425bd55` also makes the page load kit items one at a time (overlapping loads lost relay graphs in the app). Rebuilt:
 
