@@ -70,6 +70,9 @@ namespace PortKit
                 reply($"{PortKitRemote.Dir}/shots/{Name}_{a[0]}.jpg");
                 return null;
             };
+            // Unity's asset import workers load editor assemblies too: they must not start the test server (they took its
+            // port, and the editor's own Hook then threw inside this constructor, which broke the class for the session).
+            if (AssetDatabase.IsAssetImportWorkerProcess()) return;
             if (File.Exists(ArmedPath)) Hook();
         }
 
@@ -80,7 +83,11 @@ namespace PortKit
         {
             try { armed = JObject.Parse(File.ReadAllText(ArmedPath)); }
             catch (Exception) { armed = null; return; }
-            if (!PlayPort.IsClone && !Live) TestServer.Start();
+            if (!PlayPort.IsClone && !Live)
+            {
+                try { TestServer.Start(); }
+                catch (Exception e) { Debug.LogWarning($"[PortKit] the test server could not start (port busy?): {e.Message}"); }
+            }
             if (hooked) return;
             hooked = true;
             EditorApplication.update += Tick;

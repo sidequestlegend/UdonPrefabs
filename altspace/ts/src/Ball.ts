@@ -811,6 +811,11 @@ export class Ball extends Behaviour {
     const hasHitGlass = match !== null;
     const velocity = new Vector3(num(4), num(5), num(6));
     this.PlayAudio(hasHitGlass ? this._audio_collision_glass : this._audio_collision_table, velocity.sqrMagnitude / 10);
+    // Contact log (owner only): what the ball hit and how fast, to compare the app's physics with the editor's (a table
+    // bounce shows as a second table contact shortly after the first).
+    if (this.Networking.IsOwner(this)) {
+      this.Debug.Log(`[ThryBP] contact ${this.index}: ${otherName} v (${velocity.x.toFixed(2)}, ${velocity.y.toFixed(2)}, ${velocity.z.toFixed(2)}) state ${this._state[0]} t ${this.Time.time.toFixed(2)}`);
+    }
     if (!this.Networking.IsOwner(this) || this._state[0] !== BallState.Flying) return;
     this._contactVelocity = velocity;
     const ballPos = [1, 2, 3].every(given) ? new Vector3(num(1), num(2), num(3)) : this.transform.position;

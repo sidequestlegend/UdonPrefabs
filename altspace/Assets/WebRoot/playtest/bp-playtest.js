@@ -570,6 +570,37 @@
     await cmd("shot poke 0.6 1.3 0 0.3 0.8 1.2 60");
   }
 
+
+  // ---- does the ball bounce on the table? (Shane, 2026-11-26) ----------------------------------------------------
+  async function bounce() {
+    if (!(await waitStarted())) return;
+    await sleep(3000);
+    const tableY = 0.82; // the table top (BeerPongKitBuilder.CheckSize: 0.8197 m above the snippet)
+    const center = [0, 0, 1.65]; // the snippet's position in bounce.json
+    say("INFO", "table top (page)", tableY.toFixed(3));
+    for (const [label, vy, vh] of [["mid-table lob", 2.0, 2.84], ["mid-table high", 3.0, 2.2], ["mid-table flat", 1.0, 3.6]]) {
+      debug().aimPlace(0);
+      await sleep(1200);
+      const from = (await ballInUnity(0)).p;
+      const dz = center[2] - from[2], dx = center[0] - from[0], d = Math.hypot(dx, dz) || 1;
+      const ref = debug().refOf("ball0");
+      debug().rawRelay("rbLaunch|" + ref + "|" + (dx / d * vh) + "|" + vy + "|" + (dz / d * vh));
+      const ps = [];
+      for (let i = 0; i < 60; i++) {
+        await sleep(40);
+        ps.push((await ballInUnity(0)).p);
+      }
+      // first time the ball comes down to the table top (within 6 cm), then how high it goes after that
+      const first = ps.findIndex((q, i) => i > 0 && q[1] < tableY + 0.06 && q[1] >= tableY - 0.05);
+      const after = first >= 0 ? ps.slice(first) : [];
+      const rise = after.length ? Math.max(...after.map((q) => q[1])) - ps[first][1] : 0;
+      say(first >= 0 && rise > 0.03 ? "PASS" : "FAIL", "the ball bounces off the table (" + label + ")",
+        "from " + from.map((n) => n.toFixed(2)).join(",") + "; reached the table at sample " + first + ", rose " + rise.toFixed(3) + " m after; y " +
+        ps.map((q) => q[1].toFixed(2)).join(" "));
+    }
+    await cmd("shot bounce 0.6 1.3 0 0.3 0.8 1.2 60");
+  }
+
   // ---- a fresh 3-side table: the player who starts it stays where they are (review finding 3) ----------------
   async function start3() {
     const before = await cmd("probe - head");
@@ -593,6 +624,7 @@
       if (plan === "single") await single();
       else if (plan === "start3") await start3();
       else if (plan === "poke") await poke();
+      else if (plan === "bounce") await bounce();
       else if (plan === "multi") {
         hello();
         await multi();
