@@ -7892,6 +7892,7 @@ ${label}`)));
       this._throwStrengthPercent = 0;
       this._releaseFresh = false;
       this.SetPickupable(false);
+      this.SetKinematic(false);
       this.RequestSerialization();
     }
     /** :444-459 */

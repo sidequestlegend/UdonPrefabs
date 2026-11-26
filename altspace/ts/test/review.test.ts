@@ -415,3 +415,22 @@ for (const [seed, referee] of [[81, "Ann"], [82, "Ann"], [83, "Bob"], [84, "Bob"
     assert.deepEqual(problems(world), []);
   });
 }
+
+// ---- found on the Quest (2026-11-26): the ball stayed kinematic in the hand ----
+
+test("picking the ball up makes it dynamic on the holder's page (the app's hand joint cannot move a kinematic body)", async () => {
+  const world = newWorld(31);
+  const ann = world.join({ name: "Ann" });
+  const bob = world.join({ name: "Bob" });
+  await settle(world);
+  const target = bindings.refs.indexOf("ball0").toString();
+  const before = ann.graph(SLUG).records.length;
+  assert.ok(ann.grab(SLUG, "0", "ball0"));
+  await world.run(300);
+  const after = ann.graph(SLUG).records.slice(before).filter((r) => r.target === target && r.op === "rbKinematic");
+  assert.ok(after.length > 0, "the holder's page sets the ball's kinematic flag on pickup");
+  assert.equal(after[after.length - 1]!.args[0], "0", "and leaves it dynamic while held");
+  const bobs = bob.graph(SLUG).records.filter((r) => r.target === target && r.op === "rbKinematic");
+  assert.ok(bobs.every((r) => r.args[0] === "1"), "other pages keep their copy kinematic (the synced transform moves it)");
+  assert.deepEqual(problems(world), []);
+});

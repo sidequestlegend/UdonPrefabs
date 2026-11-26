@@ -433,6 +433,10 @@ export class Ball extends Behaviour {
     this._throwStrengthPercent = 0;
     this._releaseFresh = false;
     this.SetPickupable(false);
+    // The app holds a grabbed body with a hand joint, which cannot move a kinematic body, and (FB-792) it leaves a
+    // script-kinematic, transform-synced body kinematic when the grab claims it: the ball, parked kinematic between
+    // throws, stayed pinned in the hand on the Quest. VRChat's pickup did this itself; here the holder makes it dynamic.
+    this.SetKinematic(false);
     // upstream serialises the hand-relative pose 2 frames later (:424, :461-491); the state goes now
     this.RequestSerialization();
   }
